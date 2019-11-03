@@ -1,9 +1,7 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
-import '@vaadin/vaadin-login/src/vaadin-login-form-wrapper.js';
-import '@vaadin/vaadin-login/src/vaadin-login-form.js';
 
-class LogIn extends PolymerElement {
+class TestMain extends PolymerElement {
 
     static get template() {
         return html`
@@ -13,15 +11,12 @@ class LogIn extends PolymerElement {
                     height: 100%;
                 }
             </style>
-<vaadin-vertical-layout style="width: 100%; height: 100%;">
- <vaadin-login-form id="vaadinLoginForm"></vaadin-login-form>
-</vaadin-vertical-layout>
-<vaadin-login-form-wrapper></vaadin-login-form-wrapper>
+<vaadin-vertical-layout style="width: 100%; height: 100%;"></vaadin-vertical-layout>
 `;
     }
 
     static get is() {
-        return 'log-in';
+        return 'test-main';
     }
 
     static get properties() {
@@ -31,4 +26,4 @@ class LogIn extends PolymerElement {
     }
 }
 
-customElements.define(LogIn.is, LogIn);
+customElements.define(TestMain.is, TestMain);
