@@ -1,4 +1,4 @@
-package es.uca.iw.ss.spring;
+package es.uca.iw.sss.spring;
 
 import java.io.Serializable;
 import java.time.LocalTime;
