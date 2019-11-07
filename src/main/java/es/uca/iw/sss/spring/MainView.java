@@ -31,12 +31,23 @@ public class MainView extends PolymerTemplate<HeaderFooter.HeaderFooterModel> {
     @Id("login")
     private Button loginbutton;
 
+    @Id("register")
+    private Button registerbutton;
+
     @Id("content")
     private VerticalLayout content;
 
     @Id("footer")
     private HorizontalLayout footer;
     public MainView(@Autowired MessageBean bean) {
+        loginbutton.addClickListener(e -> {
+            loginbutton.getUI().ifPresent(ui ->
+                    ui.navigate("login"));
+        });
+        registerbutton.addClickListener(e -> {
+            registerbutton.getUI().ifPresent(ui ->
+                    ui.navigate("register"));
+        });
         Button button = new Button("Click me",
                 e -> Notification.show(bean.getMessage()));
         content.add(button);
