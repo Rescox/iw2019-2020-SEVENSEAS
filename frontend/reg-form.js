@@ -1,10 +1,11 @@
 import {html, PolymerElement} from '@polymer/polymer/polymer-element.js';
-import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
-import '@polymer/iron-icon/iron-icon.js';
-import '@vaadin/vaadin-button/src/vaadin-button.js';
 import '@vaadin/vaadin-ordered-layout/src/vaadin-vertical-layout.js';
+import '@vaadin/vaadin-button/src/vaadin-button.js';
+import '@vaadin/vaadin-form-layout/src/vaadin-form-item.js';
+import '@vaadin/vaadin-text-field/src/vaadin-text-field.js';
+import '@vaadin/vaadin-ordered-layout/src/vaadin-horizontal-layout.js';
 
-class HeaderFooter extends PolymerElement {
+class RegForm extends PolymerElement {
 
     static get template() {
         return html`
@@ -14,17 +15,10 @@ class HeaderFooter extends PolymerElement {
                     height: 100%;
                 }
             </style>
-<vaadin-vertical-layout style="width: 100%; height: 100%;">
- <vaadin-horizontal-layout class="header" style="width: 100%; min-height: var(--lumo-size-l); background-color: #baf7f7" id="header">
-  <span style="width: 250px">Seven seas software </span>
-  <vaadin-button style="right: -60%;" class="loginbutton" id="login">
-   <iron-icon icon="lumo:user" slot="prefix"></iron-icon>Login 
-  </vaadin-button>
-  <vaadin-button style="right: -60%;" class="registerbutton" id="register">
-   <iron-icon icon="lumo:edit" slot="prefix"></iron-icon>Register 
-  </vaadin-button>
- </vaadin-horizontal-layout>
- <vaadin-vertical-layout style="width: 100%; height: 100%; text-align:center;">
+<vaadin-horizontal-layout style="width: 20%; height: 20%;"></vaadin-horizontal-layout>
+<vaadin-horizontal-layout style="width: 100%; height: 100%;">
+ <vaadin-vertical-layout style="width: 50%; height: 100%;"></vaadin-vertical-layout>
+ <vaadin-vertical-layout id="vaadinVerticalLayout" style="width: 100%; height: 100%; text-align:center;">
   <vaadin-form-item>
    <label slot="label">Username</label>
    <vaadin-text-field class="full-width" value="Jane" required></vaadin-text-field>
@@ -51,17 +45,13 @@ class HeaderFooter extends PolymerElement {
    </vaadin-button>
   </vaadin-form-item>
  </vaadin-vertical-layout>
- <vaadin-horizontal-layout class="footer" style="width: 100%; min-height: var(--lumo-size-l); background-color: #baf7f7" id="footer">
-  <vaadin-button theme="icon" aria-label="Add new">
-   <span style="width: 250px">About us </span>
-  </vaadin-button>
- </vaadin-horizontal-layout>
-</vaadin-vertical-layout>
+ <vaadin-vertical-layout style="width: 50%; height: 100%;"></vaadin-vertical-layout>
+</vaadin-horizontal-layout>
 `;
     }
 
     static get is() {
-        return 'header-footer';
+        return 'reg-form';
     }
 
     static get properties() {
@@ -71,4 +61,4 @@ class HeaderFooter extends PolymerElement {
     }
 }
 
-customElements.define(HeaderFooter.is, HeaderFooter);
+customElements.define(RegForm.is, RegForm);
