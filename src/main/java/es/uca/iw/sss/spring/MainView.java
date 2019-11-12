@@ -54,8 +54,9 @@ public class MainView extends AppLayout {
         getElement().addEventListener("search-focus", e -> {
             getElement().getClassList().add("hide-navbar");
         });
-        setContent(grid);
-        setContent(new Button("Login"));
+        VerticalLayout content = new VerticalLayout();
+        content.add(grid);
+        setContent(content);
         getElement().addEventListener("search-blur", e -> {
             getElement().getClassList().add("hide-navbar");
         });
