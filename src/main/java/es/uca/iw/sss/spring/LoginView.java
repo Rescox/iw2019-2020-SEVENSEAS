@@ -16,7 +16,6 @@ import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.i18n.I18NProvider;
 import com.vaadin.flow.router.*;
 import com.vaadin.flow.templatemodel.TemplateModel;
-import es.uca.iw.sss.spring.SevenSeas.ViewPort;
 import es.uca.iw.sss.spring.utils.SecurityUtils;
 import org.apache.catalina.security.SecurityUtil;
 import org.springframework.security.authentication.AuthenticationManager;
