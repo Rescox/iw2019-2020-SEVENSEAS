@@ -1,5 +1,7 @@
 package es.uca.iw.sss.spring;
 
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
@@ -16,9 +18,11 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.page.Viewport;
 import com.vaadin.flow.component.polymertemplate.Id;
 import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
@@ -33,35 +37,66 @@ import java.util.List;
 
 @Route
 @PageTitle("Welcome")
-
 @PWA(name = "Project Base for Vaadin Flow with Spring", shortName = "Project Base")
 public class MainView extends AppLayout {
 
     private final ConfirmDialog confirmDialog = new ConfirmDialog();
-    private CustomerService service = CustomerService.getInstance();
-    private Grid<Customer> grid = new Grid<>(Customer.class);
+    private UserService service = UserService.getInstance();
+    private Grid<User> grid = new Grid<>(User.class);
+    private final Tabs menu;
 
     public MainView() {
         grid.setColumns("firstName", "lastName", "user");
+        menu = createMenuTabs();
+        addToNavbar(true, menu);
+
         Span appName = new Span("Seven Seas Software");
-        Button tab1 = new Button("Login");
-        tab1.addClickListener(e -> tab1.getUI().ifPresent(ui -> ui.navigate("login")));
-        Button tab2 = new Button("Register");
-        tab2.addClickListener(e -> tab2.getUI().ifPresent(ui -> ui.navigate("registerform")));
-        this.addToNavbar(appName);
-        this.addToNavbar(tab1, tab2);
-        this.getElement().appendChild(confirmDialog.getElement());
+        addToNavbar(appName);
+        addToNavbar(true, menu);
+
+        getElement().appendChild(confirmDialog.getElement());
         getElement().addEventListener("search-focus", e -> {
             getElement().getClassList().add("hide-navbar");
         });
         VerticalLayout content = new VerticalLayout();
         content.add(grid);
         setContent(content);
+        updateList();
         getElement().addEventListener("search-blur", e -> {
             getElement().getClassList().add("hide-navbar");
         });
     }
 
+    private static Tabs createMenuTabs() {
+        final Tabs tabs = new Tabs();
+        tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
+        tabs.add(createTab(VaadinIcon.DOCTOR, "Welcome", MainView.class));
+        tabs.add(createTab(VaadinIcon.EDIT, "Login",
+                LoginView.class));
+        tabs.add(createTab(VaadinIcon.CLOCK, "Register", RegisterForm.class));
+        return tabs;
+    }
+
+    private static Tab createTab(Component content) {
+        final Tab tab = new Tab();
+        tab.addThemeVariants(TabVariant.LUMO_ICON_ON_TOP);
+        tab.add(content);
+        return tab;
+    }
+
+    private static Tab createTab(VaadinIcon icon, String title, Class<? extends Component> viewClass) {
+        return createTab(populateLink(new RouterLink(null, viewClass), icon, title));
+    }
+
+    private static <T extends HasComponents> T populateLink(T a, VaadinIcon icon, String title) {
+        a.add(icon.create());
+        a.add(title);
+        return a;
+    }
+
+    public void updateList() {
+        grid.setItems(service.findAll());
+    }
 
 }
 
