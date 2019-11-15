@@ -3,10 +3,8 @@ package es.uca.iw.sss.spring;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.Collection;
@@ -16,17 +14,19 @@ public class User implements Serializable, Cloneable, UserDetails {
 @Id
 @GeneratedValue(strategy =  GenerationType.AUTO)
     private Long id;
-
+    @NotEmpty(message = "Este campo es obligatorio")
     private String firstName = "";
-
+    @NotEmpty(message = "Este campo es obligatorio")
     private String lastName = "";
-
+    @NotEmpty(message = "Este campo es obligatorio")
+    @Column(unique = true)
     private String email = "";
-
+    @NotEmpty(message = "Este campo es obligatorio")
     private String dni = "";
-
-    private String user = "";
-
+    @NotEmpty(message = "Este campo es obligatorio")
+    @Column(unique = true)
+    private String username = "";
+    @NotEmpty(message = "Este campo es obligatorio")
     private String password = "";
 
     public User(String firstname, String lastName, String email, String dni, String user, String password) {
@@ -34,7 +34,7 @@ public class User implements Serializable, Cloneable, UserDetails {
         this.lastName = lastName;
         this.email = email;
         this.dni = dni;
-        this.user = user;
+        this.username = user;
         this.password = password;
     }
 
@@ -47,11 +47,11 @@ public class User implements Serializable, Cloneable, UserDetails {
     }
 
     public String getUser() {
-        return user;
+        return username;
     }
 
     public void setUser(String user) {
-        this.user = user;
+        this.username = user;
     }
 
     /**
