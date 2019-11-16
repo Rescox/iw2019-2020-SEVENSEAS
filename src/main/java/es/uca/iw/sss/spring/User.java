@@ -29,6 +29,9 @@ public class User implements Serializable, Cloneable, UserDetails {
     @NotEmpty(message = "Este campo es obligatorio")
     private String password = "";
 
+    public User() {
+
+    }
     public User(String firstname, String lastName, String email, String dni, String user, String password) {
         this.firstName = firstname;
         this.lastName = lastName;
@@ -172,31 +175,31 @@ public class User implements Serializable, Cloneable, UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return "asd";
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return username;
     }
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

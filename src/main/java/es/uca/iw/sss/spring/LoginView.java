@@ -78,12 +78,16 @@ public class LoginView extends VerticalLayout {
 
   public boolean authenticate(String user, String password) {
     try {
-     Authentication token =
+     System.out.println(user);
+     System.out.println(password);
+
+        Authentication token =
           auth.authenticate(new UsernamePasswordAuthenticationToken(user, password));
       SecurityContextHolder.getContext().setAuthentication(token);
       return true;
     } catch (AuthenticationException e) {
-      e.printStackTrace();
+
+        e.printStackTrace();
       return false;
     }
   }
