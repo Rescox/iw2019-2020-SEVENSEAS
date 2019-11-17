@@ -110,6 +110,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	 */
 	@Override
 	public void configure(WebSecurity web) throws Exception {
+		web.ignoring().antMatchers("/registerform");
 		web.ignoring().antMatchers(
 				// Vaadin Flow static resources
 				"/VAADIN/**",

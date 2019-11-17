@@ -28,7 +28,7 @@ public class UserService implements UserDetailsService {
     private final HashMap<Long, User> contacts = new HashMap<>();
     private long nextId = 0;
 
-    private UserService(UserRepository repo, PasswordEncoder passwordEncoder) {
+    public UserService(UserRepository repo, PasswordEncoder passwordEncoder) {
         super();
         this.repo = repo;
         this.passwordEncoder = passwordEncoder;

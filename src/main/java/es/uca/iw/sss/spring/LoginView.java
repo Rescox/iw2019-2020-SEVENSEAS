@@ -2,6 +2,8 @@ package es.uca.iw.sss.spring;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
+import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.html.Main;
@@ -56,9 +58,11 @@ public class LoginView extends VerticalLayout {
     I18n.getForm().setTitle("Sign in");
     I18n.getForm().setUsername("User");
     I18n.getForm().setPassword("Password");
+    I18n.getForm().setForgotPassword("Register");
     login.setI18n(I18n);
     login.setForgotPasswordButtonVisible(true);
     login.addLoginListener(e -> loginAction(e));
+    login.addForgotPasswordListener(e -> RegisterForm());
     add(login);
   }
 
@@ -91,4 +95,9 @@ public class LoginView extends VerticalLayout {
       return false;
     }
   }
+
+    public void RegisterForm() {
+        UI.getCurrent().navigate(RegisterForm.class);
+        UI.getCurrent().getPage().reload();
+    }
 }
