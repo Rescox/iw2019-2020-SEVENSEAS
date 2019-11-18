@@ -1,8 +1,10 @@
 package es.uca.iw.sss.spring;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -28,6 +30,7 @@ public class UserService implements UserDetailsService {
     private final HashMap<Long, User> contacts = new HashMap<>();
     private long nextId = 0;
 
+    @Autowired
     public UserService(UserRepository repo, PasswordEncoder passwordEncoder) {
         super();
         this.repo = repo;
@@ -38,10 +41,7 @@ public class UserService implements UserDetailsService {
      * @return a reference to an example facade for Customer objects.
      */
     public static UserService getInstance() {
-        if (instance == null) {
-          //  instance = new UserService();
-            instance.ensureTestData();
-        }
+
         return instance;
     }
 
@@ -129,6 +129,13 @@ public class UserService implements UserDetailsService {
         return contacts.size();
     }
 
+
+
+    public void create(User usuario)
+    {
+        usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+        repo.save(usuario);
+    }
     /**
      * Deletes a customer from a system
      *
@@ -139,48 +146,6 @@ public class UserService implements UserDetailsService {
         contacts.remove(value.getId());
     }
 
-    /**
-     * Persists or updates customer in the system. Also assigns an identifier
-     * for new Customer instances.
-     *
-     * @param entry
-     */
-    public synchronized void save(User entry) {
-        if (entry == null) {
-            LOGGER.log(Level.SEVERE,
-                    "Customer is null. Are you sure you have connected your form to the application as described in tutorial chapter 7?");
-            return;
-        }
-        if (entry.getId() == null) {
-            entry.setId(nextId++);
-        }
-        try {
-            entry = (User) entry.clone();
-        } catch (Exception ex) {
-            throw new RuntimeException(ex);
-        }
-        contacts.put(entry.getId(), entry);
-    }
-
-    /**
-     * Sample data generation
-     */
-    public void ensureTestData() {
-        if (findAll().isEmpty()) {
-            final String[] names = new String[] { "Gabrielle Patel 499902k Resco", "Brian Robinson 123123j lauasd", "Eduardo Haugen 1237808asd asdgaw",
-                    "Koen Johansen asde1e 12fadasd", "Alejandro Macdonald oushd 22323f", "Angel Karlsson asdasd2 adfje3" };
-            Random r = new Random(0);
-            for (String name : names) {
-                String[] split = name.split(" ");
-                User c = new User("asdasd", "aasdasd", "asdasd", "asdasdasd", "asdasd", "asdasd");
-                c.setFirstName(split[0]);
-                c.setLastName(split[1]);
-                c.setDni(split[2]);
-                c.setUser(split[3]);
-                save(c);
-            }
-        }
-    }
 
     @Override
     public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {

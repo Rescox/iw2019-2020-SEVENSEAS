@@ -10,11 +10,10 @@ import java.util.Optional;
 
 public interface UserRepository extends JpaRepository<User,Long> {
     User findById(int id);
+
     User findByUsername(String user);
+
     User findByUsername(User userInstance);
+
     User findByEmail(String email);
-    @Transactional
-    @Modifying
-    @Query(value = "update User u set u.id = :id where u.username like :user")
-    int setId(@Param("id") Long id, @Param("user") String user);
 }
