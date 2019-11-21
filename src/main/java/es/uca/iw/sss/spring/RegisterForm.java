@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 @Route
 @Tag("register")
 @PageTitle("Register")
-@Service
 public class RegisterForm  extends AppLayout {
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");

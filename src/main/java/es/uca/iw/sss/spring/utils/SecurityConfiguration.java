@@ -38,23 +38,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder(11);
 	}
 
-	/**
-
-	 * Constructor
-
-	 */
-
-	@Autowired
-	@Lazy
-	public SecurityConfiguration(UserDetailsService userDetailsService, PasswordEncoder passwordEncoder) {
-
-		this.userDetailsService = userDetailsService;
-
-		this.passwordEncoder = passwordEncoder;
-
-	}
-
-
 	@Bean
 	@Override
 	public AuthenticationManager authenticationManagerBean() throws Exception { // 

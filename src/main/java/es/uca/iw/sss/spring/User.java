@@ -13,6 +13,7 @@ import java.util.Collection;
 public class User implements Serializable, Cloneable, UserDetails {
 @Id
 @GeneratedValue(strategy =  GenerationType.AUTO)
+@Column(name = "id", unique = true, nullable = false)
     private Long id;
     @NotEmpty(message = "Este campo es obligatorio")
     private String firstName = "";
