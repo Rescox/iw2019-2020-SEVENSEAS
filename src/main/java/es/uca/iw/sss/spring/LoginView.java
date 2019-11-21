@@ -37,7 +37,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Route
 @Tag("login")
 @PageTitle("Iniciar Sesión")
-@JsModule("./styles/shared-styles.js")
+@JsModule(".log-in.js")
 public class LoginView extends VerticalLayout {
 
   public static final String ROUTE = "login";
