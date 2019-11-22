@@ -5,12 +5,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.security.web.savedrequest.DefaultSavedRequest;
 import org.springframework.security.web.savedrequest.HttpSessionRequestCache;
-import org.springframework.security.web.savedrequest.SavedRequest;;
+import org.springframework.security.web.savedrequest.SavedRequest;
+import es.uca.iw.sss.spring.LoginView;
 
 import com.vaadin.flow.server.VaadinServletRequest;
 import com.vaadin.flow.server.VaadinServletResponse;
-
-import es.uca.iw.sss.spring.LoginView;
 
 /**
  * HttpSessionRequestCache that avoids saving internal framework requests.

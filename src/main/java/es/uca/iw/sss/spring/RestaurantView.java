@@ -11,6 +11,7 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
@@ -35,10 +36,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-@Route
-@PageTitle("Welcome")
-@PWA(name = "Project Base for Vaadin Flow with Spring", shortName = "Project Base")
-public class MainView extends AppLayout {
+@Route("Restaurants")
+@PageTitle("Restaurants")
+public class RestaurantView extends AppLayout {
 
     private final ConfirmDialog confirmDialog = new ConfirmDialog();
     private UserService service;
@@ -46,9 +46,9 @@ public class MainView extends AppLayout {
     private final Tabs menu;
 
     @Autowired
-    public MainView(UserService userService) {
+    public RestaurantView(UserService userService) {
         service = userService;
-        grid.setColumns("firstName", "lastName", "user");
+        H1 prueba = new H1("Restaurante");
         menu = createMenuTabs();
         addToNavbar(true, menu);
 
@@ -61,7 +61,7 @@ public class MainView extends AppLayout {
             getElement().getClassList().add("hide-navbar");
         });
         VerticalLayout content = new VerticalLayout();
-        content.add(grid);
+        content.add(prueba);
         setContent(content);
         updateList();
         getElement().addEventListener("search-blur", e -> {

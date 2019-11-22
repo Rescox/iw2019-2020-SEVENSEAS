@@ -69,6 +69,6 @@ public final class SecurityUtils {
 		final List<String> allowedRoles = Arrays.asList(secured.value());
 		final Authentication userAuthentication = SecurityContextHolder.getContext().getAuthentication();
 		return userAuthentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
-			.anyMatch(allowedRoles::contains);
+				.anyMatch(allowedRoles::contains);
 	}
 }

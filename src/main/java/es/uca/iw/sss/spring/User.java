@@ -176,7 +176,7 @@ public class User implements Serializable, Cloneable, UserDetails {
 
     @Override
     public String getPassword() {
-        return "asd";
+        return password;
     }
 
     @Override

@@ -11,6 +11,7 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.html.Paragraph;
 import com.vaadin.flow.component.html.Span;
@@ -37,8 +38,7 @@ import java.util.List;
 
 @Route
 @PageTitle("Welcome")
-@PWA(name = "Project Base for Vaadin Flow with Spring", shortName = "Project Base")
-public class MainView extends AppLayout {
+public class AccountView extends AppLayout {
 
     private final ConfirmDialog confirmDialog = new ConfirmDialog();
     private UserService service;
@@ -46,9 +46,12 @@ public class MainView extends AppLayout {
     private final Tabs menu;
 
     @Autowired
-    public MainView(UserService userService) {
+    public AccountView(UserService userService) {
         service = userService;
-        grid.setColumns("firstName", "lastName", "user");
+        H1 DatosPersonales = new H1("DatosPersonales");
+        H1 Gastos = new H1("Gastos");
+        
+        H1 Galeria = new H1("Galeria");
         menu = createMenuTabs();
         addToNavbar(true, menu);
 
@@ -61,7 +64,9 @@ public class MainView extends AppLayout {
             getElement().getClassList().add("hide-navbar");
         });
         VerticalLayout content = new VerticalLayout();
-        content.add(grid);
+        HorizontalLayout HL1 = new HorizontalLayout();
+        HL1.add(DatosPersonales, Gastos, Galeria);
+        content.add(HL1);
         setContent(content);
         updateList();
         getElement().addEventListener("search-blur", e -> {
@@ -75,6 +80,7 @@ public class MainView extends AppLayout {
         tabs.add(createTab(VaadinIcon.DOCTOR, "Welcome", MainView.class));
         tabs.add(createTab(VaadinIcon.DOCTOR, "Restaurants", RestaurantView.class));
         tabs.add(createTab(VaadinIcon.DOCTOR, "Tours", TourView.class));
+        tabs.add(createTab(VaadinIcon.DOCTOR, "Tours", AccountView.class));
         return tabs;
     }
 
