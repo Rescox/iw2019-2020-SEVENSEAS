@@ -49,7 +49,7 @@ public class RestaurantView extends AppLayout {
     public RestaurantView(UserService userService) {
         service = userService;
         H1 prueba = new H1("Restaurante");
-        menu = createMenuTabs();
+        menu = MainView.createMenuTabs();
         addToNavbar(true, menu);
 
         Span appName = new Span("Seven Seas Software");

@@ -50,7 +50,6 @@ public class MainView extends AppLayout {
         service = userService;
         grid.setColumns("firstName", "lastName", "user");
         menu = createMenuTabs();
-        addToNavbar(true, menu);
 
         Span appName = new Span("Seven Seas Software");
         addToNavbar(appName);
@@ -69,28 +68,28 @@ public class MainView extends AppLayout {
         });
     }
 
-    private static Tabs createMenuTabs() {
+    public static Tabs createMenuTabs() {
         final Tabs tabs = new Tabs();
         tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
         tabs.add(createTab(VaadinIcon.DOCTOR, "Welcome", MainView.class));
         tabs.add(createTab(VaadinIcon.DOCTOR, "Restaurants", RestaurantView.class));
         tabs.add(createTab(VaadinIcon.DOCTOR, "Tours", TourView.class));
+        tabs.add(createTab(VaadinIcon.DOCTOR, "MyAccount", AccountView.class));
         return tabs;
     }
 
-    private static Tab createTab(Component content) {
+    public static Tab createTab(Component content) {
         final Tab tab = new Tab();
         tab.addThemeVariants(TabVariant.LUMO_ICON_ON_TOP);
-
         tab.add(content);
         return tab;
     }
 
-    private static Tab createTab(VaadinIcon icon, String title, Class<? extends Component> viewClass) {
+    public static Tab createTab(VaadinIcon icon, String title, Class<? extends Component> viewClass) {
         return createTab(populateLink(new RouterLink(null, viewClass), icon, title));
     }
 
-    private static <T extends HasComponents> T populateLink(T a, VaadinIcon icon, String title) {
+    public static <T extends HasComponents> T populateLink(T a, VaadinIcon icon, String title) {
         a.add(icon.create());
         a.add(title);
         return a;
