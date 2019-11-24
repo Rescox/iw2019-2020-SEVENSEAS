@@ -36,7 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
-@Route("Tours")
+@Route("tours")
 @PageTitle("Tours")
 public class TourView extends AppLayout {
 

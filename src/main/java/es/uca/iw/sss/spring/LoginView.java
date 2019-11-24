@@ -2,29 +2,19 @@ package es.uca.iw.sss.spring;
 
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.html.Main;
 import com.vaadin.flow.component.login.AbstractLogin;
 import com.vaadin.flow.component.login.LoginI18n;
 import com.vaadin.flow.component.login.LoginOverlay;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Viewport;
-import com.vaadin.flow.component.polymertemplate.Id;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
-import com.vaadin.flow.i18n.I18NProvider;
-import com.vaadin.flow.router.*;
-import com.vaadin.flow.templatemodel.TemplateModel;
+import com.vaadin.flow.router.PageTitle;
+import com.vaadin.flow.router.Route;
 import es.uca.iw.sss.spring.utils.SecurityUtils;
-import org.apache.catalina.security.SecurityUtil;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @HtmlImport("frontend://bower_components/iron-form/iron-form.html") //
@@ -37,7 +27,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 @Route
 @Tag("login")
 @PageTitle("Iniciar Sesión")
-@JsModule(".log-in.js")
+@JsModule("./log-in.js")
 public class LoginView extends VerticalLayout {
 
   public static final String ROUTE = "login";
