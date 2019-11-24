@@ -2,6 +2,7 @@ package es.uca.iw.sss.spring;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
+import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
@@ -26,7 +27,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 
 @Route("register")
-@PageTitle("Register")
+@PageTitle("Sign in")
 public class RegisterForm  extends AppLayout {
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
@@ -35,7 +36,6 @@ public class RegisterForm  extends AppLayout {
     private PasswordField password = new PasswordField("Password");
     private TextField username = new TextField("Username");
     private Dialog dialog = new Dialog();
-    private Button delete = new Button("Delete");
     private UserRepository userRepository;
     private UserService userService;
     private final Tabs menu;
@@ -85,14 +85,21 @@ public class RegisterForm  extends AppLayout {
             }
         });
 
-        Button register = new Button("Register",  event -> {
+        Button register = new Button("Sign in",  event -> {
             registerUser();
             dialog.close();
         });
+        Button cancel = new Button("Cancel",  event -> {
+            UI.getCurrent().navigate(LoginView.class);
+            dialog.close();
+        });
+        dialog.add(register, cancel);
         register.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         register.addClickListener(e -> { dialog.open();
         });
-        HorizontalLayout buttons = new HorizontalLayout(register, delete);
+        register.addClickShortcut(Key.ENTER);
+        cancel.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
+        HorizontalLayout buttons = new HorizontalLayout(register, cancel);
         verticalLayout.add(firstName, lastName, DNI, email, username, password, buttons);
         formLayout.add(verticalLayout);
         setContent(formLayout);
@@ -102,7 +109,7 @@ public class RegisterForm  extends AppLayout {
         binder.forField(email)
                 // Explicit validator instance
                 .withValidator(new EmailValidator(
-                        "Invalid format Example: user@XXX.XXX"))
+                        "Invalid format. Example: user@XXX.XXX"))
                 .bind(User::getEmail, User::setEmail);
         if(binder.validate().isOk()) {
             user.setUsername(username.getValue());
@@ -113,7 +120,6 @@ public class RegisterForm  extends AppLayout {
             user.setPassword(password.getValue());
             userService.create(user);
             UI.getCurrent().navigate(LoginView.class);
-            UI.getCurrent().getPage().reload();
             // Faltará luego meter lo del email
         }
 }
@@ -138,7 +144,7 @@ public class RegisterForm  extends AppLayout {
     private static Tabs createMenuTabs() {
         final Tabs tabs = new Tabs();
         tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
-        tabs.add(createTab(VaadinIcon.EDIT, "Register",
+        tabs.add(createTab(VaadinIcon.EDIT, "Sign in",
                 RegisterForm.class));
         return tabs;
     }
