@@ -6,34 +6,35 @@ import org.springframework.security.core.userdetails.UserDetails;
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
+import java.time.LocalDate;
 import java.util.Collection;
 
 @Entity
 public class User implements Serializable, Cloneable, UserDetails {
-    @Id
-    @GeneratedValue(strategy =  GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false)
+@Id
+@GeneratedValue(strategy =  GenerationType.AUTO)
+@Column(name = "id", unique = true, nullable = false)
     private Long id;
-    @NotEmpty(message = "This field is required")
+    @NotEmpty(message = "Este campo es obligatorio")
     private String firstName = "";
-    @NotEmpty(message = "This field is required")
+    @NotEmpty(message = "Este campo es obligatorio")
     private String lastName = "";
-    @NotEmpty(message = "This field is required")
+    @NotEmpty(message = "Este campo es obligatorio")
     @Column(unique = true)
     private String email = "";
-    @NotEmpty(message = "This field is required")
+    @NotEmpty(message = "Este campo es obligatorio")
     private String dni = "";
-    @NotEmpty(message = "This field is required")
+    @NotEmpty(message = "Este campo es obligatorio")
     @Column(unique = true)
     private String username = "";
-    @NotEmpty(message = "This field is required")
+    @NotEmpty(message = "Este campo es obligatorio")
     private String password = "";
 
     public User() {
 
     }
-    public User(String firstName, String lastName, String email, String dni, String user, String password) {
-        this.firstName = firstName;
+    public User(String firstname, String lastName, String email, String dni, String user, String password) {
+        this.firstName = firstname;
         this.lastName = lastName;
         this.email = email;
         this.dni = dni;
@@ -57,35 +58,76 @@ public class User implements Serializable, Cloneable, UserDetails {
         this.username = user;
     }
 
-
+    /**
+     * Get the value of email
+     *
+     * @return the value of email
+     */
     public String getEmail() {
         return email;
     }
 
+    /**
+     * Set the value of email
+     *
+     * @param email new value of email
+     */
     public void setEmail(String email) {
         this.email = email;
     }
 
+    /**
+     * Get the value of status
+     *
+     * @return the value of status
+     */
     public String getDni() {
         return dni;
     }
 
+    /**
+     * Set the value of status
+     *
+     * @param dni new value of DNI
+     */
     public void setDni(String dni) {
         this.dni = dni;
     }
 
+
+
+    /**
+     * Get the value of lastName
+     *
+     * @return the value of lastName
+     */
     public String getLastName() {
         return lastName;
     }
 
+    /**
+     * Set the value of lastName
+     *
+     * @param lastName new value of lastName
+     */
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
 
+    /**
+     * Get the value of firstName
+     *
+     * @return the value of firstName
+     */
     public String getFirstName() {
         return firstName;
     }
 
+    /**
+     * Set the value of firstName
+     *
+     * @param firstName new value of firstName
+     */
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
