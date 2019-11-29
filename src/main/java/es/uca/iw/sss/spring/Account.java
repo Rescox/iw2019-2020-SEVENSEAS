@@ -1,14 +1,11 @@
 package es.uca.iw.sss.spring;
 
-import org.springframework.data.annotation.Id;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 import java.util.ArrayList;
 import java.util.Date;
 
+@Entity
 public class Account {
 
     @Id

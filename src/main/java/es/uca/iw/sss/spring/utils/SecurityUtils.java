@@ -2,11 +2,13 @@ package es.uca.iw.sss.spring.utils;
 
 import com.vaadin.flow.server.ServletHelper.RequestType;
 import com.vaadin.flow.shared.ApplicationConstants;
+import es.uca.iw.sss.spring.User;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 import javax.servlet.http.HttpServletRequest;
@@ -71,4 +73,11 @@ public final class SecurityUtils {
 		return userAuthentication.getAuthorities().stream().map(GrantedAuthority::getAuthority)
 				.anyMatch(allowedRoles::contains);
 	}
+
+	public static User getUser() {
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		return (User) authentication.getPrincipal();
+	}
+
+
 }

@@ -11,10 +11,7 @@ import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.dependency.HtmlImport;
 import com.vaadin.flow.component.dependency.JsModule;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.Main;
-import com.vaadin.flow.component.html.Paragraph;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -37,6 +34,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import java.util.ArrayList;
 import java.util.List;
 
+import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
+
 @PageTitle("Welcome")
 @PWA(name = "Project Base for Vaadin Flow with Spring", shortName = "Project Base")
 public class MainLayout extends AppLayout {
@@ -49,14 +48,15 @@ public class MainLayout extends AppLayout {
     @Autowired
     public MainLayout(UserService userService) {
         service = userService;
-
+        User loggedUser = getUser();
+        H3 nombreapellido = new H3 ("Bienvenido, " + getUser().toString());
         menu = createMenuTabs();
         Button logout = new Button("Logout");
         logout.addClickListener(e -> {logout();});
 
         Span appName = new Span("Seven Seas Software");
         addToNavbar(appName);
-        addToNavbar(true, menu, logout);
+        addToNavbar(true, nombreapellido, menu, logout);
 
 
 
@@ -66,6 +66,8 @@ public class MainLayout extends AppLayout {
     private void logout()
     {
         VaadinSession.getCurrent().getSession().invalidate();
+        UI.getCurrent().getPage().reload();
+
     }
 
     public static Tabs createMenuTabs() {
