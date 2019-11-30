@@ -155,4 +155,10 @@ public class UserService implements UserDetailsService {
         }
         return user;
     }
+
+    public User getEmails(String email) { return repo.findByEmail(email); }
+
+    public User getUsers(User user) { return repo.findByUsername(user); }
+
+    public User getUsers(String instanceUser) { return repo.findByUsername(instanceUser); }
 }
