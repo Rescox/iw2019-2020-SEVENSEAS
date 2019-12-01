@@ -9,7 +9,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -27,7 +26,7 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 
 @Route("register")
-@PageTitle("Sign in")
+@PageTitle("Sign up")
 public class RegisterForm  extends AppLayout {
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
@@ -110,6 +109,7 @@ public class RegisterForm  extends AppLayout {
             user.setPassword(password.getValue());
             userService.create(user);
             UI.getCurrent().navigate(LoginView.class);
+            UI.getCurrent().getPage().reload();
             // Faltará luego meter lo del email
         }
 }

@@ -51,7 +51,7 @@ public class LoginView extends VerticalLayout {
     I18n.getForm().setTitle("Sign in");
     I18n.getForm().setUsername("User");
     I18n.getForm().setPassword("Password");
-    I18n.getForm().setForgotPassword("Register");
+    I18n.getForm().setForgotPassword("Sign up");
     login.setI18n(I18n);
     login.setForgotPasswordButtonVisible(true);
     login.addLoginListener(e -> loginAction(e));

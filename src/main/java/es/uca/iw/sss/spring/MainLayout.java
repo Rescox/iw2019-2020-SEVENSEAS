@@ -57,17 +57,12 @@ public class MainLayout extends AppLayout {
         Span appName = new Span("Seven Seas Software");
         addToNavbar(appName);
         addToNavbar(true, nombreapellido, menu, logout);
-
-
-
-
     }
 
-    private void logout()
-    {
+    private void logout() {
         VaadinSession.getCurrent().getSession().invalidate();
+        UI.getCurrent().navigate(LoginView.class);
         UI.getCurrent().getPage().reload();
-
     }
 
     public static Tabs createMenuTabs() {
@@ -96,8 +91,6 @@ public class MainLayout extends AppLayout {
         a.add(title);
         return a;
     }
-
-
 
 }
 

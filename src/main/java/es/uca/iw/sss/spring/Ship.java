@@ -1,6 +1,8 @@
 package es.uca.iw.sss.spring;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Ship {
@@ -8,10 +10,20 @@ public class Ship {
     @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
-    @Column(unique = true)
+    @Column(unique = true, nullable = false)
     private String licensePlate = "";
+    @Column(nullable = false)
     private String name = "";
+    @Column(nullable = true)
     private String plane = "";
+    @OneToMany(mappedBy = "ship")
+    private Set<User> userSet = new HashSet<>();
+
+
+    public Ship()
+    {
+
+    }
 
     public Ship(String licensePlate, String name, String plane) {
         this.licensePlate = licensePlate;
@@ -49,6 +61,14 @@ public class Ship {
 
     public void setPlane(String plane) {
         this.plane = plane;
+    }
+
+    public Set<User> getUserSet() {
+        return userSet;
+    }
+
+    public void setUserSet(Set<User> userSet) {
+        this.userSet = userSet;
     }
 
     @Override
