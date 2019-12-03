@@ -18,13 +18,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ServicesView extends HorizontalLayout {
 
     public ServicesView() {
-        Image img1=new Image("/frontend/images/beach-photos.jpg","/frontend/images/beach-photos.jpg");
-        img1.setWidth("200px");
-        Image img2=new Image("/frontend/images/water-background-.jpg","/frontend/images/water-background-.jpg");
-        img2.setWidth("200px");
-        Image img3=new Image("/frontend/images/water-background-.jpg","/frontend/images/water-background-.jpg");
-        img3.setWidth("200px");
-        add(img1,img2,img3);
+
+        VerticalLayout servicesLayout = new VerticalLayout();
+        HorizontalLayout buttonsLayout = new HorizontalLayout();
+
+        Image img1=new Image("images/restaurantes .jpeg", "images/restaurantes .jpeg");
+        img1.setWidth("300px");
+        img1.addClickListener(e -> System.out.println("Click"));
+
+        Image img2=new Image("images/shopping.jpg","images/shopping.jpg");
+        img2.setWidth("300px");
+
+        Image img3=new Image("/images/spa.jpg","images/spa.jpg");
+        img3.setWidth("300px");
+
+
+        buttonsLayout.add(img1,img2,img3);
+        servicesLayout.add(buttonsLayout);
+        servicesLayout.setHorizontalComponentAlignment(Alignment.CENTER,buttonsLayout);
+        add(servicesLayout);
 
         }
 
