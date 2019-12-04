@@ -79,5 +79,9 @@ public final class SecurityUtils {
 		return (User) authentication.getPrincipal();
 	}
 
+	public static boolean hasRole(String role) {
+		User user = getUser();
+		return role.equals(user.getRole());
+		}
 
 }
