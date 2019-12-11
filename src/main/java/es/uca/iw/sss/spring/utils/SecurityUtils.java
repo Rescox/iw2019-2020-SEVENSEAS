@@ -82,6 +82,6 @@ public final class SecurityUtils {
 	public static boolean hasRole(String role) {
 		User user = getUser();
 		return role.equals(user.getRole());
-		}
+	}
 
 }

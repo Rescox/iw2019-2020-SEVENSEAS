@@ -15,7 +15,8 @@ $_documentContainer.innerHTML = `<dom-module id="bakery-app-layout-theme" theme-
 
       [part="navbar"] {
         z-index: 200;
-        box-shadow: 0 0 16px 2px var(--lumo-shade-20pct);
+        box-shadow: 0 0 16px 2px var(--lumo-shade-20pct); 
+        background-color: #335cad;
       }
 
       @media (max-height: 600px) {
@@ -59,7 +60,7 @@ $_documentContainer.innerHTML = `<dom-module id="bakery-app-layout-theme" theme-
   <template>
     <style>
       [part="brand"] {
-        background-image: url(frontend/images/water-background-.jpg);
+        background-image: url(images/sea.jpg);
       }
     </style>
   </template>

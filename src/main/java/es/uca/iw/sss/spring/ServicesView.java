@@ -22,14 +22,14 @@ public class ServicesView extends HorizontalLayout {
         VerticalLayout servicesLayout = new VerticalLayout();
         HorizontalLayout buttonsLayout = new HorizontalLayout();
 
-        Image img1=new Image("images/restaurantes .jpeg", "images/restaurantes .jpeg");
+        Image img1=new Image("images/restaurants1.jpg", "images/restaurants1.jpg");
         img1.setWidth("300px");
         img1.addClickListener(e -> System.out.println("Click"));
 
-        Image img2=new Image("images/shopping.jpg","images/shopping.jpg");
+        Image img2=new Image("images/fashion1.jpg","images/fashion1.jpg");
         img2.setWidth("300px");
 
-        Image img3=new Image("/images/spa.jpg","images/spa.jpg");
+        Image img3=new Image("/images/wellness1.jpg","images/wellness1.jpg");
         img3.setWidth("300px");
 
 

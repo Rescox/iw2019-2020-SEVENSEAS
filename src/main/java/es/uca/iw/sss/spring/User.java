@@ -32,9 +32,12 @@ public class User implements Serializable, Cloneable, UserDetails {
     @ManyToOne
     private Ship ship;
 
+    private String role = "";
+
     public User() {
 
     }
+
     public User(String firstName, String lastName, String email, String dni, String user, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
@@ -171,5 +174,13 @@ public class User implements Serializable, Cloneable, UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void  setRole(String role) {
+        this.role = role;
     }
 }
