@@ -17,6 +17,12 @@ public class ShipService {
         repoShip.save(ship);
     }
 
+    public Ship findById(int id) {
+
+        return repoShip.findById(id);
+
+    }
+
     public Ship getLicensePlate(String licensePlate) { return repoShip.findByLicensePlate(licensePlate); }
 
     public void create(Ship ship)

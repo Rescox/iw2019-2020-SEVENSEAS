@@ -31,7 +31,7 @@ public class User implements Serializable, Cloneable, UserDetails {
     private String password = "";
     @ManyToOne
     private Ship ship;
-
+    //Poner la clave foranea hacia account
     private String role = "";
 
     public User() {
@@ -77,6 +77,14 @@ public class User implements Serializable, Cloneable, UserDetails {
 
     public void setDni(String dni) {
         this.dni = dni;
+    }
+
+    public Ship getShip() {
+        return ship;
+    }
+
+    public void setShip(Ship ship) {
+        this.ship = ship;
     }
 
 

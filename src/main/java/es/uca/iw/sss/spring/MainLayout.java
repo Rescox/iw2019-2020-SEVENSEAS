@@ -42,12 +42,14 @@ public class MainLayout extends AppLayout {
 
     private final ConfirmDialog confirmDialog = new ConfirmDialog();
     private UserService service;
+    private ShipService shipService;
 
     private final Tabs menu;
 
     @Autowired
-    public MainLayout(UserService userService) {
+    public MainLayout(UserService userService, ShipService shiipService) {
         service = userService;
+        shipService = shiipService;
         User loggedUser = getUser();
         H3 nombreapellido = new H3 ("Bienvenido, " + getUser().toString());
         menu = createMenuTabs();
