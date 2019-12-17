@@ -5,6 +5,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
+import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H4;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -24,13 +25,12 @@ public class WelcomeView extends HorizontalLayout {
             H1 welcomeMessage = new H1("Bienvenido a su viaje con: ");
             User currentUser = SecurityUtils.getUser();
             Ship currentShip = currentUser.getShip();
+            H2 shipMap = new H2("Map");
             Grid<Ship> grid = new Grid<>(Ship.class);
             grid.setColumns("name", "licensePlate");
             grid.setItems(currentShip);
-
-            Image shipplane = new Image("images/restaurants1.jpg", "images/restaurants1.jpg");
-            shipplane.
-
+            Image shipplane = new Image("images/PlanShip1.png", "images/restaurants1.jpg");
+            verticalLayout1.add(grid, shipMap, shipplane);
             add(verticalLayout1);
         }
         if(SecurityUtils.hasRole("admin")) {

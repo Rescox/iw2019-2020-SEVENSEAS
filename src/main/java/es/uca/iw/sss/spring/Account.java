@@ -13,6 +13,9 @@ public class Account {
     private Long id;
 
     @Column(nullable=false)
+    private String serviceName;
+
+    @Column(nullable=false)
     private Date date;
 
     @Column(nullable=false)
@@ -21,7 +24,8 @@ public class Account {
     @OneToOne
     private User owner;
 
-    public Account(double price, User owner) {
+    public Account(String serviceName, double price, User owner) {
+        this.serviceName = serviceName;
         this.price = price;
         this.owner = owner;
     }
@@ -29,10 +33,17 @@ public class Account {
     public Long getId() { return id; }
     public Double getPrice() { return price; }
     public Date getDate() { return date; }
+    public String getServiceName() {
+        return serviceName;
+    }
 
     //Setters
     public void setPrice(Double price) { this.price = price; }
     public void setOwner(User owner) { this.owner = owner; }
+    public void setDate(Date date) { this.date = date; }
+    public void setServiceName(String serviceName) {
+        this.serviceName = serviceName;
+    }
 
     @Override
     public String toString() {
