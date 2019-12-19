@@ -1,66 +1,18 @@
 package es.uca.iw.sss.spring;
 
-import javax.persistence.*;
+import javax.persistence.ManyToMany;
+import java.util.HashSet;
+import java.util.Set;
 
-@Entity
 public class Restaurant {
-    @Id
-    @GeneratedValue(strategy =  GenerationType.AUTO)
-    @Column(name = "id", unique = true, nullable = false)
-    private Long id;
-    private String name = "";
-    private String date = "";
 
-    public Restaurant(String name, String date) {
-        this.name = name;
-        this.date = date;
-    }
+    private String name;
+    private String description;
 
-    public Long getId() {
-        return id;
-    }
+    @ManyToMany(mappedBy = "restaurant")
+    private Set<Dish> menu = new HashSet<>();
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    private String photo;
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String date) {
-        this.date = date;
-    }
-
-    @Override
-    public boolean equals(Object obj) {
-        if (this == obj) {
-            return true;
-        }
-        if (this.id == null) {
-            return false;
-        }
-
-        if (obj instanceof Restaurant && obj.getClass().equals(getClass())) {
-            return this.id.equals(((Restaurant) obj).id);
-        }
-
-        return false;
-    }
-
-    @Override
-    public String toString() {
-        return "Restaurant{" +
-                " name='" + name + '\'' +
-                ", date='" + date + '\'' +
-                '}';
-    }
 }
