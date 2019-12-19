@@ -29,8 +29,7 @@ public class WelcomeView extends HorizontalLayout {
             Grid<Ship> grid = new Grid<>(Ship.class);
             grid.setColumns("name", "licensePlate");
             grid.setItems(currentShip);
-            Image shipplane = new Image("images/PlanShip1.png", "images/restaurants1.jpg");
-            verticalLayout1.add(grid, shipMap, shipplane);
+            verticalLayout1.add(grid, shipMap);
             add(verticalLayout1);
         }
         if(SecurityUtils.hasRole("admin")) {

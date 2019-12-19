@@ -72,6 +72,7 @@ public class MainLayout extends AppLayout {
         tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
         tabs.add(createTab(VaadinIcon.HANDSHAKE, "Welcome", WelcomeView.class));
         tabs.add(createTab(VaadinIcon.FLAG, "Advices", AdvicesView.class));
+        tabs.add(createTab(VaadinIcon.LIFEBUOY, "Plan", PlanView.class));
         tabs.add(createTab(VaadinIcon.HEART, "Services", ServicesView.class));
         tabs.add(createTab(VaadinIcon.TICKET, "Tours", TourView.class));
         tabs.add(createTab(VaadinIcon.USER, "MyAccount", AccountView.class));
