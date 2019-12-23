@@ -1,13 +1,16 @@
 package es.uca.iw.sss.spring;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import java.io.Serializable;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Entity
 public class User implements Serializable, Cloneable, UserDetails {
@@ -104,6 +107,14 @@ public class User implements Serializable, Cloneable, UserDetails {
         this.firstName = firstName;
     }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> list = new ArrayList<GrantedAuthority>();
+        list.add(new SimpleGrantedAuthority(role));
+        return list;
+
+    }
+
     public boolean isPersisted() {
         return id != null;
     }
@@ -141,10 +152,6 @@ public class User implements Serializable, Cloneable, UserDetails {
         return firstName + " " + lastName;
     }
 
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return null;
-    }
 
     @Override
     public String getPassword() {

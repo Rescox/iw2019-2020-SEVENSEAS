@@ -80,8 +80,9 @@ public final class SecurityUtils {
 	}
 
 	public static boolean hasRole(String role) {
-		User user = getUser();
-		return role.equals(user.getRole());
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+		return authentication != null && authentication.getAuthorities().contains(new SimpleGrantedAuthority(role));
 	}
 
 }
