@@ -16,8 +16,12 @@ public class Ship {
     private String name = "";
     @Column(nullable = true)
     private String plane = "";
+    @Column(nullable = true)
+    private String legend = "";
     @OneToMany(mappedBy = "ship")
     private Set<User> userSet = new HashSet<>();
+    @ManyToMany
+    private Set<Advice> adviceSet = new HashSet<>();
 
 
     public Ship()
@@ -94,5 +98,21 @@ public class Ship {
                 ", name='" + name + '\'' +
                 ", plane='" + plane + '\'' +
                 '}';
+    }
+
+    public Set<Advice> getAdviceSet() {
+        return adviceSet;
+    }
+
+    public void setAdviceSet(Set<Advice> adviceSet) {
+        this.adviceSet = adviceSet;
+    }
+
+    public String getLegend() {
+        return legend;
+    }
+
+    public void setLegend(String legend) {
+        this.legend = legend;
     }
 }
