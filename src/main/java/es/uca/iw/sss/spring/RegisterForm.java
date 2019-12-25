@@ -79,7 +79,7 @@ public class RegisterForm  extends AppLayout {
             dialog.close();
         });
         Button cancel = new Button("Cancel",  event -> {
-            UI.getCurrent().navigate(LoginView.class);
+            UI.getCurrent().navigate(WelcomeView.class);
             dialog.close();
         });
         dialog.add(register, cancel);
@@ -108,9 +108,8 @@ public class RegisterForm  extends AppLayout {
             user.setEmail(email.getValue());
             user.setPassword(password.getValue());
             userService.create(user);
-            UI.getCurrent().navigate(LoginView.class);
+            UI.getCurrent().navigate(WelcomeView.class);
             UI.getCurrent().getPage().reload();
-            // Faltará luego meter lo del email
         }
 }
 

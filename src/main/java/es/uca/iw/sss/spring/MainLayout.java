@@ -2,38 +2,21 @@ package es.uca.iw.sss.spring;
 
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.HasComponents;
-import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.charts.model.Buttons;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
-import com.vaadin.flow.component.dependency.HtmlImport;
-import com.vaadin.flow.component.dependency.JsModule;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
-import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.page.Viewport;
-import com.vaadin.flow.component.polymertemplate.Id;
-import com.vaadin.flow.component.polymertemplate.PolymerTemplate;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.tabs.Tabs;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinSession;
-import com.vaadin.flow.templatemodel.TemplateModel;
+import es.uca.iw.sss.spring.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
 @PageTitle("Welcome")
@@ -71,11 +54,18 @@ public class MainLayout extends AppLayout {
         final Tabs tabs = new Tabs();
         tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
         tabs.add(createTab(VaadinIcon.HANDSHAKE, "Welcome", WelcomeView.class));
-        tabs.add(createTab(VaadinIcon.FLAG, "Advices", AdvicesView.class));
-        tabs.add(createTab(VaadinIcon.LIFEBUOY, "Plan", PlanView.class));
-        tabs.add(createTab(VaadinIcon.HEART, "Services", ServicesView.class));
-        tabs.add(createTab(VaadinIcon.TICKET, "Tours", TourView.class));
-        tabs.add(createTab(VaadinIcon.USER, "MyAccount", AccountView.class));
+        if(SecurityUtils.hasRole("customer")) {
+            tabs.add(createTab(VaadinIcon.FLAG, "Advices", AdvicesView.class));
+            tabs.add(createTab(VaadinIcon.LIFEBUOY, "Plan", PlanView.class));
+            tabs.add(createTab(VaadinIcon.HEART, "Services", ServicesView.class));
+            tabs.add(createTab(VaadinIcon.TICKET, "Tours", TourView.class));
+            tabs.add(createTab(VaadinIcon.USER, "MyAccount", AccountView.class));
+        }
+        if(SecurityUtils.hasRole("admin")) {
+            tabs.add(createTab(VaadinIcon.USER, "User", ManageUserView.class));
+            tabs.add(createTab(VaadinIcon.BOAT, "Ship", ManageShipView.class));
+        }
+
         return tabs;
     }
 
