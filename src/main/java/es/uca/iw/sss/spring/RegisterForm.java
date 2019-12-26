@@ -74,18 +74,16 @@ public class RegisterForm  extends AppLayout {
             }
         });
 
-        Button register = new Button("Sign in",  event -> {
+        Button register = new Button("Register",  event -> {
             registerUser();
             dialog.close();
         });
         Button cancel = new Button("Cancel",  event -> {
-            UI.getCurrent().navigate(WelcomeView.class);
+            UI.getCurrent().navigate(ManageShipView.class);
             dialog.close();
         });
         dialog.add(register, cancel);
         register.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-        register.addClickListener(e -> { dialog.open();
-        });
         register.addClickShortcut(Key.ENTER);
         cancel.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         HorizontalLayout buttons = new HorizontalLayout(register, cancel);
@@ -108,7 +106,7 @@ public class RegisterForm  extends AppLayout {
             user.setEmail(email.getValue());
             user.setPassword(password.getValue());
             userService.create(user);
-            UI.getCurrent().navigate(WelcomeView.class);
+            UI.getCurrent().navigate(ManageShipView.class);
             UI.getCurrent().getPage().reload();
         }
 }
@@ -130,11 +128,4 @@ public class RegisterForm  extends AppLayout {
         return a;
     }
 
-    private static Tabs createMenuTabs() {
-        final Tabs tabs = new Tabs();
-        tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
-        tabs.add(createTab(VaadinIcon.EDIT, "Sign in",
-                RegisterForm.class));
-        return tabs;
-    }
 }

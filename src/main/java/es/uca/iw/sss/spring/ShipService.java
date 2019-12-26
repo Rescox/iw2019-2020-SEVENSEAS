@@ -2,10 +2,8 @@ package es.uca.iw.sss.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+
 
 @Service
 public class ShipService {

@@ -23,41 +23,26 @@ import com.vaadin.flow.router.Route;
 import com.vaadin.flow.router.RouterLink;
 
 
-@Route("shipform")
-@PageTitle("Ship registration")
-public class ShipForm  extends AppLayout {
-    private TextField licensePlate = new TextField("License Plate");
-    private TextField name = new TextField("Name");
-    private TextField plane = new TextField("Plane");
+@Route("adviceform")
+@PageTitle("Advice Registration")
+public class AdviceForm  extends AppLayout {
+    private TextField advices = new TextField("License Plate");
     private Dialog dialog = new Dialog();
-    private ShipRepository shipRepository;
-    private ShipService shipService;
-    private Ship ship = new Ship();
-    private BeanValidationBinder<Ship> binder = new BeanValidationBinder<>(Ship.class);
+    private AdviceRepository adviceRepository;
+    private AdviceService adviceService;
+    private Advice advice = new Advice();
+    private BeanValidationBinder<Advice> binder = new BeanValidationBinder<>(Advice.class);
 
-    public ShipForm(ShipService shipService) {
+    public AdviceForm(AdviceService adviceService) {
 
         FormLayout formLayout = new FormLayout();
-        this.shipService = shipService;
+        this.adviceService = adviceService;
         VerticalLayout verticalLayout = new VerticalLayout();
-        licensePlate.setRequiredIndicatorVisible(true);
-        name.setRequiredIndicatorVisible(true);
-        plane.setRequiredIndicatorVisible(true);
+        advices.setRequiredIndicatorVisible(true);
         binder.bindInstanceFields(this);
-        licensePlate.addValueChangeListener(e -> {
-            if(shipService.getLicensePlate(licensePlate.getValue()) != null && ship == null) {
-                licensePlate.clear();
-                Notification.show("Ship already registered", 2500, Notification.Position.MIDDLE);
-            } else {
-                if(shipService.getLicensePlate(licensePlate.getValue()) != null && ship != null && !shipService.getLicensePlate(licensePlate.getValue()).getId().equals(ship.getId())) {
-                    licensePlate.clear();
-                    Notification.show("Ship already registered", 2500, Notification.Position.MIDDLE);
-                }
-            }
-        });
         Button register = new Button("Register",  event -> {
             dialog.close();
-            registerShip();
+            registerAdvice();
 
         });
         Button cancel = new Button("Cancel",  event -> {
@@ -69,18 +54,16 @@ public class ShipForm  extends AppLayout {
         register.addClickShortcut(Key.ENTER);
         cancel.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         HorizontalLayout buttons = new HorizontalLayout(register, cancel);
-        verticalLayout.add(licensePlate, name, plane, buttons);
+        verticalLayout.add(advices,buttons);
         formLayout.add(verticalLayout);
         setContent(formLayout);
     }
 
-    private void registerShip() {
-            ship.setLicensePlate(licensePlate.getValue());
-            ship.setName(name.getValue());
-            ship.setPlane(plane.getValue());
-            shipService.create(ship);
-            UI.getCurrent().navigate(WelcomeView.class);
-            UI.getCurrent().getPage().reload();
+    private void registerAdvice() {
+        advice.setAdvice(advices.getValue());
+        adviceService.create(advice);
+        UI.getCurrent().navigate(WelcomeView.class);
+        UI.getCurrent().getPage().reload();
     }
 
     private static Tab createTab(Component content) {

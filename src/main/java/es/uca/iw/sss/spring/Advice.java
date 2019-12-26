@@ -1,6 +1,8 @@
 package es.uca.iw.sss.spring;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Advice {
@@ -9,6 +11,13 @@ public class Advice {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
     private String advice = "";
+    @ManyToOne
+    private Ship ship;
+
+    public Advice()
+    {
+
+    }
 
     public Advice(String advice)
     {
@@ -29,6 +38,14 @@ public class Advice {
 
     public void setAdvice(String advice) {
         this.advice = advice;
+    }
+
+    public Ship getShip() {
+        return ship;
+    }
+
+    public void setShip(Ship ship) {
+        this.ship = ship;
     }
 
     @Override

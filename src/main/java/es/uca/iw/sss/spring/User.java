@@ -90,7 +90,6 @@ public class User implements Serializable, Cloneable, UserDetails {
         this.ship = ship;
     }
 
-
     public String getLastName() {
         return lastName;
     }

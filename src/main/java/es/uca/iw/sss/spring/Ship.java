@@ -20,7 +20,7 @@ public class Ship {
     private String legend = "";
     @OneToMany(mappedBy = "ship")
     private Set<User> userSet = new HashSet<>();
-    @ManyToMany
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
     private Set<Advice> adviceSet = new HashSet<>();
 
 

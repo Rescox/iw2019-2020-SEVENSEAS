@@ -53,8 +53,8 @@ public class MainLayout extends AppLayout {
     public static Tabs createMenuTabs() {
         final Tabs tabs = new Tabs();
         tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
-        tabs.add(createTab(VaadinIcon.HANDSHAKE, "Welcome", WelcomeView.class));
         if(SecurityUtils.hasRole("customer")) {
+            tabs.add(createTab(VaadinIcon.HANDSHAKE, "Welcome", WelcomeView.class));
             tabs.add(createTab(VaadinIcon.FLAG, "Advices", AdvicesView.class));
             tabs.add(createTab(VaadinIcon.LIFEBUOY, "Plan", PlanView.class));
             tabs.add(createTab(VaadinIcon.HEART, "Services", ServicesView.class));
@@ -62,8 +62,9 @@ public class MainLayout extends AppLayout {
             tabs.add(createTab(VaadinIcon.USER, "MyAccount", AccountView.class));
         }
         if(SecurityUtils.hasRole("admin")) {
-            tabs.add(createTab(VaadinIcon.USER, "User", ManageUserView.class));
             tabs.add(createTab(VaadinIcon.BOAT, "Ship", ManageShipView.class));
+            tabs.add(createTab(VaadinIcon.USER, "User", ManageUserView.class));
+
         }
 
         return tabs;
