@@ -33,7 +33,8 @@ public class WelcomeView extends HorizontalLayout {
             add(verticalLayout1);
         }
         if(SecurityUtils.hasRole("admin")) {
-            H1 welcomeMessage = new H1("HOLA ");
+            Button register = new Button("Register Ship", event -> ShipForm());
+            add(register);
         }
     }
 

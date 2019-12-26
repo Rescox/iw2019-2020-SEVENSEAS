@@ -100,6 +100,11 @@ public class Ship {
                 '}';
     }
 
+    @Override
+    public Ship clone() throws CloneNotSupportedException {
+        return (Ship) super.clone();
+    }
+
     public Set<Advice> getAdviceSet() {
         return adviceSet;
     }
