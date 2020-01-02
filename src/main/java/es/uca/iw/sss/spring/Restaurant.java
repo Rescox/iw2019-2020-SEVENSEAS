@@ -20,7 +20,6 @@ public class Restaurant implements Serializable, Cloneable {
     @Column(nullable=false)
     private String description;
 
-
     @Column(nullable=false)
     private Long aforum;
 
@@ -75,5 +74,28 @@ public class Restaurant implements Serializable, Cloneable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (this.id == null) {
+            return false;
+        }
+
+        if (obj instanceof Restaurant && obj.getClass().equals(getClass())) {
+            return this.id.equals(((Restaurant) obj).id);
+        }
+
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "restaurant='" + restaurant + '\'' +
+                '}';
     }
 }

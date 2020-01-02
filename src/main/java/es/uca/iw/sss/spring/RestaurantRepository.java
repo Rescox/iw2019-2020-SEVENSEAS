@@ -1,10 +1,14 @@
 package es.uca.iw.sss.spring;
 
-import es.uca.iw.sss.spring.Restaurant;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import java.util.List;
 
 public interface RestaurantRepository extends JpaRepository<Restaurant,Long> {
 
-    Restaurant FindById(int id);
+    Restaurant findById(int id);
+
+    List<Restaurant> findAll();
+
 
 }
