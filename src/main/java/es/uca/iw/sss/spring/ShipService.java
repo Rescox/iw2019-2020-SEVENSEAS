@@ -9,7 +9,7 @@ import java.util.*;
 public class ShipService {
     private ShipRepository repoShip;
     private final HashMap<Long, Ship> ships = new HashMap<>();
-
+    private static ShipService shipService;
 
     @Autowired
     public ShipService(ShipRepository repoShip)
@@ -28,6 +28,14 @@ public class ShipService {
 
         return repoShip.findById(id);
 
+    }
+
+    public static ShipService getInstance(ShipRepository repoShip) {
+        if (shipService == null) {
+            shipService = new ShipService(repoShip);
+            shipService.findAll();
+        }
+        return shipService;
     }
 
     public Ship getLicensePlate(String licensePlate) { return repoShip.findByLicensePlate(licensePlate); }
