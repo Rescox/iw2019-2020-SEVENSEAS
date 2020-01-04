@@ -92,10 +92,4 @@ public class Restaurant implements Serializable, Cloneable {
         return false;
     }
 
-    @Override
-    public String toString() {
-        return "Restaurant{" +
-                "restaurant='" + restaurant + '\'' +
-                '}';
-    }
 }
