@@ -25,9 +25,12 @@ public class ShipService {
     }
 
     public Ship findById(int id) {
-
         return repoShip.findById(id);
+    }
 
+    public Ship findByLicensePlate(String licensePlate)
+    {
+        return repoShip.findByLicensePlate(licensePlate);
     }
 
     public static ShipService getInstance(ShipRepository repoShip) {

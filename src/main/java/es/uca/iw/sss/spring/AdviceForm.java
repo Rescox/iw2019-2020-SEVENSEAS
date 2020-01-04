@@ -1,86 +1,94 @@
 package es.uca.iw.sss.spring;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.TabVariant;
-import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
+import com.vaadin.flow.data.binder.Binder;
+import com.vaadin.flow.spring.annotation.SpringComponent;
+import com.vaadin.flow.spring.annotation.UIScope;
+import org.springframework.beans.factory.annotation.Autowired;
 
-
-@Route("adviceform")
-@PageTitle("Advice Registration")
-public class AdviceForm  extends AppLayout {
-    private TextField advices = new TextField("License Plate");
-    private Dialog dialog = new Dialog();
-    private AdviceRepository adviceRepository;
-    private AdviceService adviceService;
-    private Advice advice = new Advice();
+@SpringComponent
+@UIScope
+public class AdviceForm extends VerticalLayout implements KeyNotifier {
+    private final AdviceRepository adviceRepository;
+    private Advice advices;
+    private TextField advice = new TextField("Advice");
+    private TextField shipLicensePlate = new TextField("Ship license plate");
     private BeanValidationBinder<Advice> binder = new BeanValidationBinder<>(Advice.class);
+    private AdviceService adviceService;
+    private ShipService shipService;
+    Button save = new Button("Save", VaadinIcon.CHECK.create());
+    Button cancel = new Button("Cancel");
+    Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+    HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+    private ChangeHandler changeHandler;
 
-    public AdviceForm(AdviceService adviceService) {
-
-        FormLayout formLayout = new FormLayout();
+    @Autowired
+    public AdviceForm(AdviceRepository adviceRepository, AdviceService adviceService, ShipService shipService) {
+        this.adviceRepository = adviceRepository;
         this.adviceService = adviceService;
-        VerticalLayout verticalLayout = new VerticalLayout();
-        advices.setRequiredIndicatorVisible(true);
-        binder.bindInstanceFields(this);
-        Button register = new Button("Register",  event -> {
-            dialog.close();
-            registerAdvice();
+        this.shipService = shipService;
+        add(advice,shipLicensePlate,actions);
 
-        });
-        Button cancel = new Button("Cancel",  event -> {
-            dialog.close();
-            UI.getCurrent().navigate(ManageShipView.class);
-        });
-        dialog.add(register, cancel);
-        register.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-        register.addClickShortcut(Key.ENTER);
-        cancel.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
-        HorizontalLayout buttons = new HorizontalLayout(register, cancel);
-        verticalLayout.add(advices,buttons);
-        formLayout.add(verticalLayout);
-        setContent(formLayout);
+        setSpacing(true);
+
+        save.getElement().getThemeList().add("primary");
+        delete.getElement().getThemeList().add("error");
+
+        addKeyPressListener(Key.ENTER, e -> save());
+
+        save.addClickListener(e -> save());
+        delete.addClickListener(e -> delete());
+        cancel.addClickListener(e -> editAdvice(advices));
+        setVisible(false);
     }
 
-    private void registerAdvice() {
-        advice.setAdvice(advices.getValue());
-        adviceService.create(advice);
-        UI.getCurrent().navigate(WelcomeView.class);
-        UI.getCurrent().getPage().reload();
+    void delete() {
+        adviceRepository.delete(advices);
+        changeHandler.onChange();
     }
 
-    private static Tab createTab(Component content) {
-        final Tab tab = new Tab();
-        tab.addThemeVariants(TabVariant.LUMO_ICON_ON_TOP);
-        tab.add(content);
-        return tab;
+    void save() {
+        advices.setAdvice(advice.getValue());
+        advices.setShip(shipService.findByLicensePlate(shipLicensePlate.getValue()));
+        adviceService.create(advices);
+        changeHandler.onChange();
     }
 
-    private static Tab createTab(VaadinIcon icon, String title, Class<? extends Component> viewClass) {
-        return createTab(populateLink(new RouterLink(null, viewClass), icon, title));
+    public interface ChangeHandler {
+        void onChange();
     }
 
-    private static <T extends HasComponents> T populateLink(T a, VaadinIcon icon, String title) {
-        a.add(icon.create());
-        a.add(title);
-        return a;
+    public final void editAdvice(Advice adviceEdit) {
+        if (adviceEdit == null) {
+            setVisible(false);
+            return;
+        }
+        final boolean persisted = adviceEdit.getId() != null;
+        if (persisted) {
+            advices = adviceRepository.findById(adviceEdit.getId()).get();
+        }
+        else {
+            advices = adviceEdit;
+        }
+        cancel.setVisible(persisted);
+
+        binder.setBean(advices);
+
+        setVisible(true);
+
+        advice.focus();
+    }
+
+    public void setChangeHandler(ChangeHandler h) {
+        changeHandler = h;
     }
 
 }

@@ -22,6 +22,7 @@ public class ShipForm extends VerticalLayout implements KeyNotifier {
     private TextField name = new TextField("Name");
     private TextField plane = new TextField("Plane");
     private TextField licensePlate = new TextField("License Plate");
+    private TextField legend = new TextField("Legend");
     private BeanValidationBinder<Ship> binder = new BeanValidationBinder<>(Ship.class);
     private ShipService shipService;
     Button save = new Button("Save", VaadinIcon.CHECK.create());
@@ -35,7 +36,7 @@ public class ShipForm extends VerticalLayout implements KeyNotifier {
     public ShipForm(ShipRepository shipRepository) {
         this.shipRepository = shipRepository;
         shipService = ShipService.getInstance(shipRepository);
-        add(name,licensePlate, plane, actions);
+        add(name,licensePlate,plane,legend,actions);
 
         binder.bindInstanceFields(this);
         licensePlate.addValueChangeListener(e -> {
@@ -56,7 +57,7 @@ public class ShipForm extends VerticalLayout implements KeyNotifier {
 
         save.addClickListener(e -> save());
         delete.addClickListener(e -> delete());
-        cancel.addClickListener(e -> editCustomer(ship));
+        cancel.addClickListener(e -> editShip(ship));
         setVisible(false);
     }
 
@@ -74,7 +75,7 @@ public class ShipForm extends VerticalLayout implements KeyNotifier {
         void onChange();
     }
 
-    public final void editCustomer(Ship shipEdit) {
+    public final void editShip(Ship shipEdit) {
         if (shipEdit == null) {
             setVisible(false);
             return;

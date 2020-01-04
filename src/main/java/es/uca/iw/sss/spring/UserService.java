@@ -24,7 +24,7 @@ public class UserService implements UserDetailsService {
 
     private UserRepository repo;
     private PasswordEncoder passwordEncoder;
-    private static UserService instance;
+    private static UserService userService;
     private static final Logger LOGGER = Logger.getLogger(UserService.class.getName());
 
     private final HashMap<Long, User> contacts = new HashMap<>();
@@ -37,17 +37,19 @@ public class UserService implements UserDetailsService {
         this.passwordEncoder = passwordEncoder;
     }
 
-    /**
-     * @return a reference to an example facade for Customer objects.
-     */
-    public static UserService getInstance() {
-
-        return instance;
+    public UserService(UserRepository repo)
+    {
+        this.repo = repo;
     }
 
-    /**
-     * @return all available Customer objects.
-     */
+    public static UserService getInstance(UserRepository repo) {
+        if (userService == null) {
+            userService = new UserService(repo);
+            userService.findAll();
+        }
+        return userService;
+    }
+
     public synchronized List<User> findAll() {
         return repo.findAll();
     }
@@ -57,8 +59,6 @@ public class UserService implements UserDetailsService {
     public synchronized long count() {
         return contacts.size();
     }
-
-
 
     public void create(User usuario)
     {

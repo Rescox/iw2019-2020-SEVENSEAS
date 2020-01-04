@@ -1,8 +1,7 @@
 package es.uca.iw.sss.spring;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+
 
 @Entity
 public class Advice {
@@ -10,6 +9,7 @@ public class Advice {
     @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
+    @Column(nullable = false)
     private String advice = "";
     @ManyToOne
     private Ship ship;

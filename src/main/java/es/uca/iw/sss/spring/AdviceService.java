@@ -7,31 +7,37 @@ import java.util.*;
 
 @Service
 public class AdviceService {
+    private AdviceRepository repoAdvice;
+    private final HashMap<Long, Advice> advices = new HashMap<>();
+    private static AdviceService adviceService;
+
     @Autowired
-    AdviceRepository adviceRepository;
-
-    public AdviceService(AdviceRepository repo) {
-        this.adviceRepository = repo;
+    public AdviceService(AdviceRepository repoAdvice)
+    {
+        this.repoAdvice = repoAdvice;
     }
 
-    public Advice saveAdvice(Advice advice) {
-        return adviceRepository.save(advice);
+    public synchronized void saveAdvice(Advice advice){
+        repoAdvice.save(advice);
+    }
+    public synchronized List<Advice> findAll() {
+        return repoAdvice.findAll();
     }
 
-    public List<Advice> listAdvice() {
-        return adviceRepository.findAll();
+    public Advice findById(int id) {
+        return repoAdvice.findById(id);
     }
 
-    public Long countAdvices() {
-        return adviceRepository.count();
-    }
-
-    public void deleteAdvices(Advice advice) {
-        adviceRepository.delete(advice);
+    public static AdviceService getInstance(AdviceRepository repoAdvice) {
+        if (adviceService == null) {
+            adviceService = new AdviceService(repoAdvice);
+            adviceService.findAll();
+        }
+        return adviceService;
     }
 
     public void create(Advice advice)
     {
-        adviceRepository.save(advice);
+        repoAdvice.save(advice);
     }
 }

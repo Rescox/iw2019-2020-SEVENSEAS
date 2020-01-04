@@ -15,4 +15,5 @@ public interface AdviceRepository extends JpaRepository<Advice,Long> {
 
     Advice findByAdvice(Advice userInstance);
 
+    Advice findByAdviceStartsWithIgnoreCase(String advice);
 }

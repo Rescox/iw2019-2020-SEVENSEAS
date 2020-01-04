@@ -1,5 +1,6 @@
 package es.uca.iw.sss.spring;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -11,6 +12,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
 
+import javax.swing.*;
+
 @Route(value = "ManageShip", layout = MainLayout.class)
 @PageTitle("Manage Ship")
 public class ManageShipView extends VerticalLayout {
@@ -19,6 +22,10 @@ public class ManageShipView extends VerticalLayout {
     private final ShipRepository shipRepository;
     private final ShipForm shipForm;
     private final Button addShip;
+    private final Button restaurants;
+    private final Button scales;
+    private final Button tour;
+    private final Button advices;
 
     public ManageShipView(ShipRepository shipRepository, ShipForm shipForm)
     {
@@ -27,33 +34,66 @@ public class ManageShipView extends VerticalLayout {
         this.shipGrid = new Grid<>(Ship.class);
         this.filter = new TextField();
         this.addShip = new Button("New ship", VaadinIcon.PLUS.create());
+        final Ship[] shipSelected = new Ship[1];
 
         HorizontalLayout actions = new HorizontalLayout(filter, addShip);
         add(actions, shipGrid, shipForm);
 
-        shipGrid.setColumns("name","licensePlate","plane");;
+        shipGrid.setColumns("id","name","licensePlate","plane","legend");
         filter.setPlaceholder("Filter by name");
         filter.setValueChangeMode(ValueChangeMode.EAGER);
-        filter.addValueChangeListener(e -> listCustomers(e.getValue()));
+        filter.addValueChangeListener(e -> listShips(e.getValue()));
 
         shipGrid.asSingleSelect().addValueChangeListener(e -> {
-            shipForm.editCustomer(e.getValue());
+            shipForm.editShip(e.getValue());
+            shipSelected[0] = e.getValue(); // Barco seleccionado
         });
-        addShip.addClickListener(e -> shipForm.editCustomer(new Ship("", "", "")));
+        addShip.addClickListener(e -> shipForm.editShip(new Ship()));
         shipForm.setChangeHandler(() -> {
             shipForm.setVisible(false);
-            listCustomers(filter.getValue());
+            listShips(filter.getValue());
         });
-        listCustomers(null);
+        listShips(null);
+        restaurants = new Button("Manage Restaurants", e -> RestaurantView());
+        tour = new Button("Manage Restaurants", e -> TourView());
+        advices = new Button("Manage Advices", e -> AdviceView());
+        scales = new Button("Manage Restaurants", e -> ScaleView());
+
+        HorizontalLayout manages = new HorizontalLayout(restaurants, tour,advices,scales);
+        add(manages);
     }
 
-    void listCustomers(String filterText) {
+    void listShips(String filterText) {
         if (StringUtils.isEmpty(filterText)) {
             shipGrid.setItems(shipRepository.findAll());
         }
         else {
             shipGrid.setItems(shipRepository.findByNameStartsWithIgnoreCase(filterText));
         }
+    }
+
+    public void RestaurantView()
+    {
+        UI.getCurrent().navigate(ManageUserView.class);
+        UI.getCurrent().getPage().reload();
+    }
+
+    public void AdviceView()
+    {
+        UI.getCurrent().navigate(ManageAdviceView.class);
+        UI.getCurrent().getPage().reload();
+    }
+
+    public void ScaleView()
+    {
+        UI.getCurrent().navigate(ManageUserView.class);
+        UI.getCurrent().getPage().reload();
+    }
+
+    public void TourView()
+    {
+        UI.getCurrent().navigate(ManageUserView.class);
+        UI.getCurrent().getPage().reload();
     }
 }
 
