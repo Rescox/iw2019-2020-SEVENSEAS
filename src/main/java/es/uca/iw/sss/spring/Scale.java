@@ -8,9 +8,17 @@ public class Scale {
     @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
+    @Column(nullable = false)
     private String entrance = "";
+    @Column(nullable = false)
     private String departure = "";
+    @Column(nullable = false)
     private String date = "";
+
+    public Scale()
+    {
+
+    }
 
     public Scale(String entrance, String departure, String date) {
         this.entrance = entrance;
