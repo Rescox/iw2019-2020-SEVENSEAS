@@ -19,7 +19,7 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    public List<Restaurant> listAdvice() {
+    public List<Restaurant> listRestaurant() {
         return restaurantRepository.findAll();
     }
 

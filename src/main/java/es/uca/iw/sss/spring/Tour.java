@@ -13,6 +13,11 @@ public class Tour {
     private Float price;
     private String schedule = "";
 
+    public Tour()
+    {
+
+    }
+
     public Tour(String name, String description, Float price, String schedule) {
         this.name = name;
         this.description = description;
