@@ -55,7 +55,6 @@ public class LoginView extends VerticalLayout {
     login.setI18n(I18n);
     login.setForgotPasswordButtonVisible(true);
     login.addLoginListener(e -> loginAction(e));
-    login.addForgotPasswordListener(e -> RegisterForm());
     add(login);
   }
 
@@ -66,7 +65,12 @@ public class LoginView extends VerticalLayout {
       }else
           if(authenticate(e.getUsername(), e.getPassword())){
               login.close();
-              UI.getCurrent().navigate(WelcomeView.class);
+              if(SecurityUtils.hasRole("customer"))
+                UI.getCurrent().navigate(WelcomeView.class);
+              if(SecurityUtils.hasRole("admin"))
+                  UI.getCurrent().navigate(ManageShipView.class);
+              if(SecurityUtils.hasRole("manager"))
+                  UI.getCurrent().navigate(ManagerWelcome.class);
               UI.getCurrent().getPage().reload();
           }else{
               login.setError(true);

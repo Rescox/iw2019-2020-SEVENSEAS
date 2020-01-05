@@ -60,10 +60,15 @@ public class MainLayout extends AppLayout {
             tabs.add(createTab(VaadinIcon.HEART, "Services", ServicesView.class));
             tabs.add(createTab(VaadinIcon.TICKET, "Tours", TourView.class));
             tabs.add(createTab(VaadinIcon.USER, "MyAccount", AccountView.class));
+
         }
         if(SecurityUtils.hasRole("admin")) {
             tabs.add(createTab(VaadinIcon.BOAT, "Ship", ManageShipView.class));
             tabs.add(createTab(VaadinIcon.USER, "User", ManageUserView.class));
+
+        }
+        if(SecurityUtils.hasRole("manager")) {
+            tabs.add(createTab(VaadinIcon.HANDSHAKE, "WelcomeManager", ManagerWelcome.class));
 
         }
 

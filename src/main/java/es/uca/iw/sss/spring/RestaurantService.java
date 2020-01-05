@@ -31,6 +31,19 @@ public class RestaurantService {
         return stance;
     }
 
+    public Long countRestaurants() {
+        return restaurantRepository.count();
+    }
+
+    public void deleteRestaurant(Restaurant restaurant) {
+        restaurantRepository.delete(restaurant);
+    }
+
+    public void create(Restaurant restaurant)
+    {
+        restaurantRepository.save(restaurant);
+    }
+
 }
 
 
