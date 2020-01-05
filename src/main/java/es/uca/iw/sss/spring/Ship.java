@@ -22,6 +22,8 @@ public class Ship {
     private Set<User> userSet = new HashSet<>();
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
     private Set<Advice> adviceSet = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
+    private Set<Restaurant> restaurantSet = new HashSet<>();
 
 
     public Ship()
@@ -73,6 +75,10 @@ public class Ship {
 
     public void setUserSet(Set<User> userSet) {
         this.userSet = userSet;
+    }
+
+    public Set<Restaurant> getRestaurantSet() {
+        return restaurantSet;
     }
 
     @Override

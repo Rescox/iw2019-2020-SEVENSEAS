@@ -26,6 +26,9 @@ public class Restaurant implements Serializable, Cloneable {
     @Column(nullable=false)
     private String photo;
 
+    @ManyToOne
+    private Ship ship;
+
     public Restaurant(){
 
     }
@@ -76,6 +79,14 @@ public class Restaurant implements Serializable, Cloneable {
         this.description = description;
     }
 
+    public Ship getShip() {
+        return ship;
+    }
+
+    public void setShip(Ship ship) {
+        this.ship = ship;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -92,4 +103,10 @@ public class Restaurant implements Serializable, Cloneable {
         return false;
     }
 
+    @Override
+    public String toString() {
+        return "Restaurant{" +
+                "restaurant='" +  + '\'' +
+                '}';
+    }
 }

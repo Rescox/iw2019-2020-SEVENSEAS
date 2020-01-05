@@ -10,6 +10,7 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import es.uca.iw.sss.spring.utils.SecurityUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.HashSet;
 import java.util.List;
@@ -17,14 +18,38 @@ import java.util.Set;
 
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
-@Route(value ="RestaurantsView", layout = MainLayout.class)
-@PageTitle("Restaurants")
+@Route(value = "Restaurant", layout = MainLayout.class)
+@PageTitle("Restaurant")
+public class RestaurantsView extends FormLayout {
+    private Grid<Restaurant> restaurantGrid = new Grid<>(Restaurant.class);
+
+    private RestaurantService restaurantService;
+    public RestaurantsView(RestaurantService restaurantService) {
+        this.restaurantService = restaurantService;
+        User currentUser = SecurityUtils.getUser();
+        Ship currentShip = currentUser.getShip();
+        Set<Restaurant> restaurants = currentShip.getRestaurantSet();
+        VerticalLayout verticalLayout1 = new VerticalLayout();
+        restaurantGrid.setColumns("id");
+        restaurantGrid.setItems(restaurants);
+        verticalLayout1.add(restaurantGrid);
+        add(verticalLayout1);
+    }
+
+
+
+}
+
+/*
+@Route(value = "Restaurant", layout = MainLayout.class)
+@PageTitle("Reservation")
 public class RestaurantsView extends VerticalLayout {
 
 
     private RestaurantService restaurantService;
     private Grid<Restaurant> restaurantGrid = new Grid<>(Restaurant.class);
 
+    @Autowired
     public RestaurantsView(RestaurantService restaurantService)
     {
         this.restaurantService = restaurantService;
@@ -32,10 +57,8 @@ public class RestaurantsView extends VerticalLayout {
         Ship currentShip = currentUser.getShip();
         Set<Restaurant> restaurants = currentShip.getRestaurantSet();
         VerticalLayout verticalLayout1 = new VerticalLayout();
-        restaurantGrid.setColumns("restaurant");
-        restaurantGrid.setItems(restaurants);
-        verticalLayout1.add(restaurantGrid);
-        add(verticalLayout1);
+
     }
 
 }
+*/
