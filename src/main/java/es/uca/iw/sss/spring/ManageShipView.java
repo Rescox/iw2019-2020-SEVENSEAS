@@ -26,6 +26,7 @@ public class ManageShipView extends VerticalLayout {
     private final Button scales;
     private final Button tour;
     private final Button advices;
+    final Ship[] shipSelected = new Ship[1];
 
     public ManageShipView(ShipRepository shipRepository, ShipForm shipForm)
     {
@@ -34,9 +35,13 @@ public class ManageShipView extends VerticalLayout {
         this.shipGrid = new Grid<>(Ship.class);
         this.filter = new TextField();
         this.addShip = new Button("New ship", VaadinIcon.PLUS.create());
-        final Ship[] shipSelected = new Ship[1];
+        this.restaurants = new Button("Manage Restaurants", e -> RestaurantView());
+        this.tour = new Button("Manage Tour", e -> TourView());
+        this.scales = new Button("Manage Scale", e -> ScaleView());
+        this.advices = new Button("Manage Advices", e -> AdviceView());
+        advices.setEnabled(false);
 
-        HorizontalLayout actions = new HorizontalLayout(filter, addShip);
+        HorizontalLayout actions = new HorizontalLayout(filter, addShip,restaurants, tour,advices,scales);
         add(actions, shipGrid, shipForm);
 
         shipGrid.setColumns("id","name","licensePlate","plane","legend");
@@ -44,23 +49,22 @@ public class ManageShipView extends VerticalLayout {
         filter.setValueChangeMode(ValueChangeMode.EAGER);
         filter.addValueChangeListener(e -> listShips(e.getValue()));
 
+
         shipGrid.asSingleSelect().addValueChangeListener(e -> {
             shipForm.editShip(e.getValue());
-            shipSelected[0] = e.getValue(); // Barco seleccionado
+            shipSelected[0] = e.getValue(); //Barco seleccionado
+            advices.setEnabled(true);
         });
+
         addShip.addClickListener(e -> shipForm.editShip(new Ship()));
+
         shipForm.setChangeHandler(() -> {
             shipForm.setVisible(false);
             listShips(filter.getValue());
         });
-        listShips(null);
-        restaurants = new Button("Manage Restaurants", e -> RestaurantView());
-        tour = new Button("Manage Restaurants", e -> TourView());
-        advices = new Button("Manage Advices", e -> AdviceView());
-        scales = new Button("Manage Restaurants", e -> ScaleView());
 
-        HorizontalLayout manages = new HorizontalLayout(restaurants, tour,advices,scales);
-        add(manages);
+        listShips(null);
+
     }
 
     void listShips(String filterText) {
@@ -74,25 +78,25 @@ public class ManageShipView extends VerticalLayout {
 
     public void RestaurantView()
     {
-        UI.getCurrent().navigate(ManageUserView.class);
+        UI.getCurrent().navigate(ManageRestaurantView.class);
         UI.getCurrent().getPage().reload();
     }
 
     public void AdviceView()
     {
-        UI.getCurrent().navigate(ManageAdviceView.class);
+        UI.getCurrent().navigate(ManageAdviceView.class, shipSelected[0].getLicensePlate());
         UI.getCurrent().getPage().reload();
     }
 
     public void ScaleView()
     {
-        UI.getCurrent().navigate(ManageUserView.class);
+        UI.getCurrent().navigate(ManageScaleView.class);
         UI.getCurrent().getPage().reload();
     }
 
     public void TourView()
     {
-        UI.getCurrent().navigate(ManageUserView.class);
+        UI.getCurrent().navigate(ManageTourView.class);
         UI.getCurrent().getPage().reload();
     }
 }
