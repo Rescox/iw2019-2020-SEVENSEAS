@@ -27,7 +27,7 @@ public class ServicesView extends VerticalLayout {
 
         Image img1=new Image("images/restaurants1.jpg", "images/restaurants1.jpg");
         img1.setWidth("300px");
-        img1.addClickListener(e -> UI.getCurrent().navigate(RestaurantsView.class));
+        img1.addClickListener(e -> UI.getCurrent().navigate(RestaurantView.class));
 
         Image img2=new Image("images/fashion1.jpg","images/fashion1.jpg");
         img2.setWidth("300px");
