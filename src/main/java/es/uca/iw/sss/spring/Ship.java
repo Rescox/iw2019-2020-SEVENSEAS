@@ -21,7 +21,7 @@ public class Ship {
     @OneToMany(mappedBy = "ship")
     private Set<User> userSet = new HashSet<>();
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
-    private Set<Advice> adviceSet = new HashSet<>();
+    private Set<AdviceShip> adviceSet = new HashSet<>();
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
     private Set<Restaurant> restaurantSet = new HashSet<>();
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
@@ -113,11 +113,11 @@ public class Ship {
         return (Ship) super.clone();
     }
 
-    public Set<Advice> getAdviceSet() {
+    public Set<AdviceShip> getAdviceSet() {
         return adviceSet;
     }
 
-    public void setAdviceSet(Set<Advice> adviceSet) {
+    public void setAdviceSet(Set<AdviceShip> adviceSet) {
         this.adviceSet = adviceSet;
     }
 

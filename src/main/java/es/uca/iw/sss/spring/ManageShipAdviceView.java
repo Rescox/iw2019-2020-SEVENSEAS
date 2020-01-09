@@ -17,7 +17,7 @@ import java.util.Set;
 
 @Route(value = "ManageAdviceShip", layout = MainLayout.class)
 @PageTitle("Manage Advice Ship")
-public class ManageAdviceView extends VerticalLayout implements HasUrlParameter<String> {
+public class ManageShipAdviceView extends VerticalLayout implements HasUrlParameter<String> {
     final TextField filter;
     final Grid<AdviceShip> adviceGrid;
     private final AdviceShipRepository adviceRepository;
@@ -27,7 +27,7 @@ public class ManageAdviceView extends VerticalLayout implements HasUrlParameter<
     private ShipService shipService;
     private Set<AdviceShip> advices;
 
-    public ManageAdviceView (AdviceShipRepository adviceRepository, AdviceShipForm adviceForm, ShipService shipService)
+    public ManageShipAdviceView (AdviceShipRepository adviceRepository, AdviceShipForm adviceForm, ShipService shipService)
     {
         this.adviceRepository = adviceRepository;
         this.adviceForm = adviceForm;

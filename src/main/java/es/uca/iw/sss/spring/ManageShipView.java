@@ -84,7 +84,7 @@ public class ManageShipView extends VerticalLayout {
 
     public void AdviceView()
     {
-        UI.getCurrent().navigate(ManageAdviceView.class, shipSelected[0].getLicensePlate());
+        UI.getCurrent().navigate(ManageShipAdviceView.class, shipSelected[0].getLicensePlate());
         UI.getCurrent().getPage().reload();
     }
 

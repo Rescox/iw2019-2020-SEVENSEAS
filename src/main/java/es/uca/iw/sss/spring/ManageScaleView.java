@@ -52,7 +52,7 @@ public class ManageScaleView extends VerticalLayout {
             scaleGrid.setItems(scaleRepository.findAll());
         }
         else {
-            scaleGrid.setItems(scaleRepository.findByEntranceStartsWithIgnoreCase(filterText));
+            scaleGrid.setItems(scaleRepository.findByDateStartsWithIgnoreCase(filterText));
         }
     }
 }
