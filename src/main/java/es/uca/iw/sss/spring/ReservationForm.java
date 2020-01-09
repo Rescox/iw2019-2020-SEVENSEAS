@@ -9,6 +9,7 @@ import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.tabs.Tab;
@@ -16,21 +17,21 @@ import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.time.LocalDate;
+import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
 
 @Route(value = "ReservationForm", layout = MainLayout.class)
 @PageTitle("ReservationForm")
-public class ReservationForm extends FormLayout {
+public class ReservationForm extends FormLayout implements HasUrlParameter<Long> {
 
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
-    DatePicker datePicker = new DatePicker();
+    DatePicker datePicker;
     LocalDate now = LocalDate.now();
-    TimePicker timePicker = new TimePicker();
+    TimePicker timePicker;
 
 
     private Dialog dialog = new Dialog();
@@ -42,8 +43,10 @@ public class ReservationForm extends FormLayout {
     private BeanValidationBinder<Reservation> binder = new BeanValidationBinder<>(Reservation.class);
 
     @Autowired
-    public ReservationForm(ReservationService reservationService, UserService userService) {
+    public ReservationForm(ReservationService reservationService, UserService userService, RestaurantService restaurantService) {
 
+       datePicker = new DatePicker();
+        timePicker = new TimePicker();
         FormLayout formLayout = new FormLayout();
         this.reservationService = reservationService;
         this.userService = userService;
@@ -70,6 +73,7 @@ public class ReservationForm extends FormLayout {
             dialog.close();
             UI.getCurrent().navigate(ManageShipView.class);
         });
+
         dialog.add(register, cancel);
         register.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         register.addClickShortcut(Key.ENTER);
@@ -83,7 +87,7 @@ public class ReservationForm extends FormLayout {
     private void registerReservation() {
         reservation.setFirstName(firstName.getValue());
         reservation.setLastName(lastName.getValue());
-        reservation.setId_client((long) 1);
+        reservation.setId_client(getUser().getId());
         reservation.setDate(datePicker.getValue().toString());
         reservation.setHour(timePicker.getValue().toString());
         reservationService.create(reservation);
@@ -91,5 +95,13 @@ public class ReservationForm extends FormLayout {
         UI.getCurrent().getPage().reload();
     }
 
+    public void setParameter(BeforeEvent beforeEvent, Long id) {
+        Location location = beforeEvent.getLocation();
+        id = Long.parseLong(location.getSegments().get(1));
+        System.out.println(location.getSegments().get(1));
+        reservation.setId_restaurant(id);
+    }
 
+
+    
 }

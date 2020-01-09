@@ -49,41 +49,20 @@ public class RestaurantView extends AppLayout {
         verticalLayout1.setWidth("30%");
 
         //Mostrar todos los nombres de los restaurantes
-        Tabs tabs = new Tabs();
         for(Restaurant r: restaurants)
         {
-            Tab tab = new Tab();
-            tab.setLabel(r.getName());
-            tabs.add(createTab(r.getName(), ReservationForm.class));
-            tabs.add(createTab(r.getName(), ReservationForm.class));
-            tabs.add(createTab(r.getName(), ReservationForm.class));
-            tabs.add(createTab(r.getName(), ReservationForm.class));
-
+            Button boton = new Button(r.getName(), e -> ReservationForm(r.getId()));
+            verticalLayout1.add(boton);
         }
 
-        tabs.setOrientation(Tabs.Orientation.VERTICAL);
-        verticalLayout1.add(tabs);
         setContent(verticalLayout1);
     }
 
-    public static Tab createTab(Component content) {
-        final Tab tab = new Tab();
-        tab.addThemeVariants(TabVariant.LUMO_ICON_ON_TOP);
-        tab.add(content);
-        return tab;
+    public void ReservationForm(Long id_restaurante)
+    {
+        UI.getCurrent().navigate(ReservationForm.class, id_restaurante);
+        UI.getCurrent().getPage().reload();
     }
 
-    public static Tab createTab( String title, Class<? extends Component> viewClass) {
-        return createTab(populateLink(new RouterLink(null, viewClass), title));
-    }
-
-    public static Tab createTab2( String title, Class<? extends Component> viewClass) {
-        return createTab(populateLink(new RouterLink(null, viewClass), title));
-    }
-
-    public static <T extends HasComponents> T populateLink(T a, String title) {
-        a.add(title);
-        return a;
-    }
 
 }

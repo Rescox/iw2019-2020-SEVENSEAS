@@ -9,27 +9,30 @@ public class Reservation {
     @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
-    @Column
+    @Column(nullable = false)
     private String firstName;
-    @Column
+    @Column(nullable = false)
     private String lastName;
-    @Column
+    @Column(nullable = false)
     private float price;
-    @Column
+    @Column(nullable = false)
     private String services;
-    @Column
+    @Column(nullable = false)
     private String date;
-    @Column
+    @Column(nullable = false)
     private String hour;
-    @Column
+    @Column(nullable = false)
     private Long id_client;
+    @Column(nullable = false)
+    private Long id_restaurant;
 
-    public Reservation(float price, String services, String date, String hour, Long id_client) {
+    public Reservation(float price, String services, String date, String hour, Long id_client, Long id_restaurant) {
         this.price = price;
         this.services = services;
         this.date = date;
         this.hour = hour;
         this.id_client = id_client;
+        this.id_restaurant = id_restaurant;
     }
 
     public Reservation()
@@ -72,7 +75,7 @@ public class Reservation {
     public String getHour() { return hour; }
 
     public void setHour(String hour) {
-        this.date = hour;
+        this.hour = hour;
     }
 
     public Long getId_client() { return id_client; }
@@ -86,6 +89,10 @@ public class Reservation {
     public String getLastName() { return lastName; }
 
     public void setLastName(String lastName) { this.lastName = lastName; }
+
+    public Long getId_restaurant() {return id_restaurant; }
+
+    public void setId_restaurant(Long id_restaurant) {this.id_restaurant = id_restaurant; }
 
     @Override
     public boolean equals(Object obj) {

@@ -9,6 +9,7 @@ public class Service {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
     private String name = "";
+    private Boolean tipo = false;
 
     public Service(String name)
     {
@@ -30,6 +31,10 @@ public class Service {
     public void setName(String name) {
         this.name = name;
     }
+
+    public Boolean getTipo() {return tipo;}
+
+    public void setTipo(Boolean tipo) { this.tipo = tipo;}
 
     @Override
     public boolean equals(Object obj) {
