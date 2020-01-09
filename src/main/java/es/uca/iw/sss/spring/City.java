@@ -14,8 +14,8 @@ public class City {
     private String name = "";
     @Column
     private String pic = "";
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
-    private Set<AdviceShip> adviceSet = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "city")
+    private Set<AdviceCity> adviceSet = new HashSet<>();
     @OneToOne
     private Scale scale;
 
@@ -74,11 +74,11 @@ public class City {
                 '}';
     }
 
-    public Set<AdviceShip> getAdviceSet() {
+    public Set<AdviceCity> getAdviceSet() {
         return adviceSet;
     }
 
-    public void setAdviceSet(Set<AdviceShip> adviceSet) {
+    public void setAdviceSet(Set<AdviceCity> adviceSet) {
         this.adviceSet = adviceSet;
     }
 
