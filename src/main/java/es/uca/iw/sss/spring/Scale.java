@@ -9,20 +9,18 @@ public class Scale {
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
     @Column(nullable = false)
-    private String entrance = "";
-    @Column(nullable = false)
-    private String departure = "";
-    @Column(nullable = false)
     private String date = "";
+    @ManyToOne
+    private Ship ship;
+    @OneToOne
+    private City city;
 
     public Scale()
     {
 
     }
 
-    public Scale(String entrance, String departure, String date) {
-        this.entrance = entrance;
-        this.departure = departure;
+    public Scale(String date) {
         this.date = date;
     }
 
@@ -34,28 +32,28 @@ public class Scale {
         this.id = id;
     }
 
-    public String getEntrance() {
-        return entrance;
-    }
-
-    public void setEntrance(String entrance) {
-        this.entrance = entrance;
-    }
-
-    public String getDeparture() {
-        return departure;
-    }
-
-    public void setDeparture(String departure) {
-        this.departure = departure;
-    }
-
     public String getDate() {
         return date;
     }
 
     public void setDate(String date) {
         this.date = date;
+    }
+
+    public Ship getShip() {
+        return ship;
+    }
+
+    public void setShip(Ship ship) {
+        this.ship = ship;
+    }
+
+    public City getCity() {
+        return city;
+    }
+
+    public void setCity(City city) {
+        this.city = city;
     }
 
     @Override
@@ -77,8 +75,6 @@ public class Scale {
     @Override
     public String toString() {
         return "Scales{" +
-                "entrance='" + entrance + '\'' +
-                ", departure='" + departure + '\'' +
                 ", date='" + date + '\'' +
                 '}';
     }

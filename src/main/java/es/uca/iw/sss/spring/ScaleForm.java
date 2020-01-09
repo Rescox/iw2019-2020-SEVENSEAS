@@ -18,8 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ScaleForm extends VerticalLayout implements KeyNotifier {
     private final ScaleRepository scaleRepository;
     private Scale scale;
-    private TextField entrance = new TextField("entrance");
-    private TextField departure = new TextField("departure");
+    private TextField city = new TextField("city");
     private TextField date = new TextField("date");
     private BeanValidationBinder<Scale> binder = new BeanValidationBinder<>(Scale.class);
     private ScaleService scaleService;
@@ -35,7 +34,7 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
         this.scaleRepository = scaleRepository;
         this.scaleService = scaleService;
         this.shipService = shipService;
-        add(entrance,departure,date,actions);
+        add(city,date,actions);
 
         binder.bindInstanceFields(this);
         setSpacing(true);
@@ -83,7 +82,7 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
 
         setVisible(true);
 
-        entrance.focus();
+        city.focus();
     }
 
     public void setChangeHandler(ChangeHandler h) {

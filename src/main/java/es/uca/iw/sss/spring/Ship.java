@@ -24,6 +24,8 @@ public class Ship {
     private Set<Advice> adviceSet = new HashSet<>();
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
     private Set<Restaurant> restaurantSet = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
+    private Set<Scale> scaleSet = new HashSet<>();
 
 
     public Ship()
@@ -125,5 +127,13 @@ public class Ship {
 
     public void setLegend(String legend) {
         this.legend = legend;
+    }
+
+    public Set<Scale> getScaleSet() {
+        return scaleSet;
+    }
+
+    public void setScaleSet(Set<Scale> scaleSet) {
+        this.scaleSet = scaleSet;
     }
 }

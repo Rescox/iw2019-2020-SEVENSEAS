@@ -39,7 +39,7 @@ public class ManageScaleView extends VerticalLayout {
         scaleGrid.asSingleSelect().addValueChangeListener(e -> {
             scaleForm.editScale(e.getValue());
         });
-        addScale.addClickListener(e -> scaleForm.editScale(new Scale("","","")));
+        addScale.addClickListener(e -> scaleForm.editScale(new Scale()));
         scaleForm.setChangeHandler(() -> {
             scaleForm.setVisible(false);
             listScales(filter.getValue());

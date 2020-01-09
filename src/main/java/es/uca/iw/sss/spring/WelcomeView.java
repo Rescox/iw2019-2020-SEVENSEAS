@@ -22,14 +22,16 @@ public class WelcomeView extends HorizontalLayout {
     {
         if(SecurityUtils.hasRole("customer")) {
             VerticalLayout verticalLayout1 = new VerticalLayout();
-            H1 welcomeMessage = new H1("Bienvenido a su viaje con: ");
             User currentUser = SecurityUtils.getUser();
             Ship currentShip = currentUser.getShip();
             H2 shipMap = new H2("Map");
-            Grid<Ship> grid = new Grid<>(Ship.class);
-            grid.setColumns("name", "licensePlate");
-            grid.setItems(currentShip);
-            verticalLayout1.add(grid, shipMap);
+            Grid<Ship> gridShip = new Grid<>(Ship.class);
+            Grid<Scale> gridScale = new Grid<>(Scale.class);
+            gridShip.setColumns("name", "licensePlate");
+            gridScale.setColumns("name","date");
+            gridScale.addColumn("name");
+            gridShip.setItems(currentShip);
+            verticalLayout1.add(gridShip, gridScale);
             add(verticalLayout1);
         }
         if(SecurityUtils.hasRole("admin")) {

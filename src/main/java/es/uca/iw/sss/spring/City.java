@@ -1,6 +1,8 @@
 package es.uca.iw.sss.spring;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class City {
@@ -8,14 +10,17 @@ public class City {
     @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
+    @Column
     private String name = "";
+    @Column
     private String pic = "";
-    private String advice = "";
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
+    private Set<Advice> adviceSet = new HashSet<>();
+    @OneToOne
+    private Scale scale;
 
-    public City(String name, String pic, String advice) {
-        this.name = name;
-        this.pic = pic;
-        this.advice = advice;
+    public City(Scale scale) {
+        this.scale = scale;
     }
 
     public Long getId() {
@@ -42,13 +47,8 @@ public class City {
         this.pic = pic;
     }
 
-    public String getAdvice() {
-        return advice;
-    }
 
-    public void setAdvice(String advice) {
-        this.advice = advice;
-    }
+
 
     @Override
     public boolean equals(Object obj) {
@@ -71,7 +71,22 @@ public class City {
         return "City{" +
                 "name='" + name + '\'' +
                 ", pic='" + pic + '\'' +
-                ", advice='" + advice + '\'' +
                 '}';
+    }
+
+    public Set<Advice> getAdviceSet() {
+        return adviceSet;
+    }
+
+    public void setAdviceSet(Set<Advice> adviceSet) {
+        this.adviceSet = adviceSet;
+    }
+
+    public Scale getScale() {
+        return scale;
+    }
+
+    public void setScale(Scale scale) {
+        this.scale = scale;
     }
 }

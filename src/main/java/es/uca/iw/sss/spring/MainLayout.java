@@ -33,7 +33,6 @@ public class MainLayout extends AppLayout {
     public MainLayout(UserService userService, ShipService shiipService) {
         service = userService;
         shipService = shiipService;
-        User loggedUser = getUser();
         H3 nombreapellido = new H3 ("Bienvenido, " + getUser().toString());
         menu = createMenuTabs();
         Button logout = new Button("Logout");
@@ -69,6 +68,8 @@ public class MainLayout extends AppLayout {
         }
         if(SecurityUtils.hasRole("manager")) {
             tabs.add(createTab(VaadinIcon.HANDSHAKE, "WelcomeManager", ManagerWelcome.class));
+            tabs.add(createTab(VaadinIcon.HANDSHAKE, "Tours", ManagerWelcome.class));
+            tabs.add(createTab(VaadinIcon.HANDSHAKE, "Services", ManagerWelcome.class));
 
         }
 
