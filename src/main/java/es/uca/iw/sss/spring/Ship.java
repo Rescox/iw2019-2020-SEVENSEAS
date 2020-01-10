@@ -26,7 +26,8 @@ public class Ship {
     private Set<Restaurant> restaurantSet = new HashSet<>();
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
     private Set<Scale> scaleSet = new HashSet<>();
-
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
+    private Set<Tour> tourSet = new HashSet<>();
 
     public Ship()
     {
@@ -83,6 +84,39 @@ public class Ship {
         return restaurantSet;
     }
 
+
+    public Set<AdviceShip> getAdviceSet() {
+        return adviceSet;
+    }
+
+    public void setAdviceSet(Set<AdviceShip> adviceSet) {
+        this.adviceSet = adviceSet;
+    }
+
+    public String getLegend() {
+        return legend;
+    }
+
+    public void setLegend(String legend) {
+        this.legend = legend;
+    }
+
+    public Set<Scale> getScaleSet() {
+        return scaleSet;
+    }
+
+    public void setScaleSet(Set<Scale> scaleSet) {
+        this.scaleSet = scaleSet;
+    }
+
+    public Set<Tour> getTourSet() {
+        return tourSet;
+    }
+
+    public void setTourSet(Set<Tour> scaleSet) {
+        this.tourSet = tourSet;
+    }
+
     @Override
     public boolean equals(Object obj) {
         if (this == obj) {
@@ -111,29 +145,5 @@ public class Ship {
     @Override
     public Ship clone() throws CloneNotSupportedException {
         return (Ship) super.clone();
-    }
-
-    public Set<AdviceShip> getAdviceSet() {
-        return adviceSet;
-    }
-
-    public void setAdviceSet(Set<AdviceShip> adviceSet) {
-        this.adviceSet = adviceSet;
-    }
-
-    public String getLegend() {
-        return legend;
-    }
-
-    public void setLegend(String legend) {
-        this.legend = legend;
-    }
-
-    public Set<Scale> getScaleSet() {
-        return scaleSet;
-    }
-
-    public void setScaleSet(Set<Scale> scaleSet) {
-        this.scaleSet = scaleSet;
     }
 }

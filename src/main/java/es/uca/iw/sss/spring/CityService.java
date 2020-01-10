@@ -30,6 +30,11 @@ public class CityService {
         return repoCity.findById(id);
     }
 
+    public City findByName(String name)
+    {
+        return repoCity.findByName(name);
+    }
+
     public void create(City city)
     {
         repoCity.save(city);

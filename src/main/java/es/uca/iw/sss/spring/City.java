@@ -28,6 +28,12 @@ public class City {
         this.scale = scale;
     }
 
+    public City(String name,Scale scale)
+    {
+        this.name = name;
+        this.scale = scale;
+    }
+
     public Long getId() {
         return id;
     }

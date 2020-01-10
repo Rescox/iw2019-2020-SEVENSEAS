@@ -32,7 +32,6 @@ public class ManageCityView extends VerticalLayout {
         this.filter = new TextField();
         this.addCity = new Button("New City", VaadinIcon.PLUS.create());
         this.advices = new Button("Manage Advices", e -> AdviceView());
-        advices.setEnabled(false);
 
         HorizontalLayout actions = new HorizontalLayout(filter, addCity,advices);
         add(actions, cityGrid, cityForm);
@@ -46,7 +45,6 @@ public class ManageCityView extends VerticalLayout {
         cityGrid.asSingleSelect().addValueChangeListener(e -> {
             cityForm.editCity(e.getValue());
             citySelected[0] = e.getValue();
-            advices.setEnabled(true);
         });
 
         addCity.addClickListener(e -> cityForm.editCity(new City()));

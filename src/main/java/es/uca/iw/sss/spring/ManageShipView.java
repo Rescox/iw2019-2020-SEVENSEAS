@@ -12,7 +12,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
 
-
 @Route(value = "ManageShip", layout = MainLayout.class)
 @PageTitle("Manage Ship")
 public class ManageShipView extends VerticalLayout {
@@ -38,7 +37,7 @@ public class ManageShipView extends VerticalLayout {
         this.tour = new Button("Manage Tour", e -> TourView());
         this.scales = new Button("Manage Scale", e -> ScaleView());
         this.advices = new Button("Manage Advices", e -> AdviceView());
-        advices.setEnabled(false);
+
 
         HorizontalLayout actions = new HorizontalLayout(filter, addShip,restaurants, tour,advices,scales);
         add(actions, shipGrid, shipForm);
@@ -48,11 +47,9 @@ public class ManageShipView extends VerticalLayout {
         filter.setValueChangeMode(ValueChangeMode.EAGER);
         filter.addValueChangeListener(e -> listShips(e.getValue()));
 
-
         shipGrid.asSingleSelect().addValueChangeListener(e -> {
             shipForm.editShip(e.getValue());
-            shipSelected[0] = e.getValue(); //Barco seleccionado
-            advices.setEnabled(true);
+            shipSelected[0] = e.getValue();
         });
 
         addShip.addClickListener(e -> shipForm.editShip(new Ship()));
@@ -63,7 +60,6 @@ public class ManageShipView extends VerticalLayout {
         });
 
         listShips(null);
-
     }
 
     void listShips(String filterText) {
@@ -89,7 +85,7 @@ public class ManageShipView extends VerticalLayout {
 
     public void ScaleView()
     {
-        UI.getCurrent().navigate(ManageScaleView.class);
+        UI.getCurrent().navigate(ManageScaleView.class, shipSelected[0].getLicensePlate());
         UI.getCurrent().getPage().reload();
     }
 

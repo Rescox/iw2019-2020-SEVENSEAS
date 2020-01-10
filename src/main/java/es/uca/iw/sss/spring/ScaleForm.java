@@ -8,7 +8,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,9 +17,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ScaleForm extends VerticalLayout implements KeyNotifier {
     private final ScaleRepository scaleRepository;
     private Scale scale;
-    private TextField city = new TextField("city");
-    private TextField date = new TextField("date");
+    private TextField date = new TextField("Date");
+    private TextField licensePLate = new TextField("Ship License Plate");
+    private TextField cityName = new TextField("City Name");
     private BeanValidationBinder<Scale> binder = new BeanValidationBinder<>(Scale.class);
+    private CityService cityService;
     private ScaleService scaleService;
     private ShipService shipService;
     Button save = new Button("Save", VaadinIcon.CHECK.create());
@@ -30,11 +31,12 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
     private ChangeHandler changeHandler;
 
     @Autowired
-    public ScaleForm(ScaleRepository scaleRepository, ScaleService scaleService, ShipService shipService) {
+    public ScaleForm(ScaleRepository scaleRepository, ScaleService scaleService, ShipService shipService,CityService cityService) {
         this.scaleRepository = scaleRepository;
         this.scaleService = scaleService;
         this.shipService = shipService;
-        add(city,date,actions);
+        this.cityService = cityService;
+        add(cityName,licensePLate,date,actions);
 
         binder.bindInstanceFields(this);
         setSpacing(true);
@@ -56,7 +58,18 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
     }
 
     void save() {
-        scaleRepository.save(scale);
+        scale.setDate(date.getValue());
+        scale.setShip(shipService.findByLicensePlate(licensePLate.getValue()));
+        if(cityService.findByName(cityName.getValue()) != null)
+        {
+            scale.setCity(cityService.findByName(cityName.getValue()));
+        }
+        else
+        {
+            cityService.saveCity(new City(cityName.getValue(),new Scale()));
+            scale.setCity(cityService.findByName(cityName.getValue()));
+        }
+        scaleService.create(scale);
         changeHandler.onChange();
     }
 
@@ -82,7 +95,7 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
 
         setVisible(true);
 
-        city.focus();
+        cityName.focus();
     }
 
     public void setChangeHandler(ChangeHandler h) {

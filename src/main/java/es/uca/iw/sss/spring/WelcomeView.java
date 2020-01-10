@@ -14,6 +14,8 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import es.uca.iw.sss.spring.utils.SecurityUtils;
 
+import java.util.Set;
+
 @Route(value = "Welcome", layout = MainLayout.class)
 @PageTitle("Welcome")
 public class WelcomeView extends HorizontalLayout {
@@ -24,12 +26,13 @@ public class WelcomeView extends HorizontalLayout {
             VerticalLayout verticalLayout1 = new VerticalLayout();
             User currentUser = SecurityUtils.getUser();
             Ship currentShip = currentUser.getShip();
+            Set<Scale> scaleSet = currentShip.getScaleSet();
             H2 shipMap = new H2("Map");
             Grid<Ship> gridShip = new Grid<>(Ship.class);
             Grid<Scale> gridScale = new Grid<>(Scale.class);
             gridShip.setColumns("name", "licensePlate");
-            gridScale.setColumns("name","date");
-            gridScale.addColumn("name");
+            gridScale.setColumns("date", "city.name");
+            gridScale.setItems(scaleSet);
             gridShip.setItems(currentShip);
             verticalLayout1.add(gridShip, gridScale);
             add(verticalLayout1);

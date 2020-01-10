@@ -12,6 +12,8 @@ public class Tour {
     private String description = "";
     private Float price;
     private String schedule = "";
+    @ManyToOne
+    private Ship ship;
 
     public Tour()
     {
@@ -64,6 +66,15 @@ public class Tour {
     public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
+
+    public Ship getShip() {
+        return ship;
+    }
+
+    public void setShip(Ship ship) {
+        this.ship = ship;
+    }
+
 
     @Override
     public boolean equals(Object obj) {

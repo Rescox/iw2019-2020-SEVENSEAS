@@ -51,31 +51,30 @@ public class LoginView extends VerticalLayout {
     I18n.getForm().setTitle("Sign in");
     I18n.getForm().setUsername("User");
     I18n.getForm().setPassword("Password");
-    I18n.getForm().setForgotPassword("Sign up");
     login.setI18n(I18n);
     login.setForgotPasswordButtonVisible(true);
     login.addLoginListener(e -> loginAction(e));
     add(login);
   }
 
-  private void loginAction(AbstractLogin.LoginEvent e) {
-      if(SecurityUtils.isUserLoggedIn()){
-          UI.getCurrent().navigate(WelcomeView.class);
-          UI.getCurrent().getPage().reload();
-      }else
-          if(authenticate(e.getUsername(), e.getPassword())){
-              login.close();
-              if(SecurityUtils.hasRole("customer"))
+    private void loginAction(AbstractLogin.LoginEvent e) {
+        if(SecurityUtils.isUserLoggedIn()){
+            UI.getCurrent().navigate(WelcomeView.class);
+            UI.getCurrent().getPage().reload();
+        }else
+        if(authenticate(e.getUsername(), e.getPassword())){
+            login.close();
+            if(SecurityUtils.hasRole("customer"))
                 UI.getCurrent().navigate(WelcomeView.class);
-              if(SecurityUtils.hasRole("admin"))
-                  UI.getCurrent().navigate(ManageShipView.class);
-              if(SecurityUtils.hasRole("manager"))
-                  UI.getCurrent().navigate(ManagerWelcome.class);
-              UI.getCurrent().getPage().reload();
-          }else{
-              login.setError(true);
-          }
-  }
+            if(SecurityUtils.hasRole("admin"))
+                UI.getCurrent().navigate(ManageShipView.class);
+            if(SecurityUtils.hasRole("manager"))
+                UI.getCurrent().navigate(ManagerWelcome.class);
+            UI.getCurrent().getPage().reload();
+        }else{
+            login.setError(true);
+        }
+    }
 
   public boolean authenticate(String user, String password) {
     try {
@@ -92,9 +91,4 @@ public class LoginView extends VerticalLayout {
       return false;
     }
   }
-
-    public void RegisterForm() {
-        UI.getCurrent().navigate(RegisterForm.class);
-        UI.getCurrent().getPage().reload();
-    }
 }
