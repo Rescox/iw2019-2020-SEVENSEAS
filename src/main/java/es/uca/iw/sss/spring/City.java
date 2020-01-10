@@ -19,6 +19,11 @@ public class City {
     @OneToOne
     private Scale scale;
 
+    public City()
+    {
+
+    }
+
     public City(Scale scale) {
         this.scale = scale;
     }
@@ -47,6 +52,21 @@ public class City {
         this.pic = pic;
     }
 
+    public Set<AdviceCity> getAdviceSet() {
+        return adviceSet;
+    }
+
+    public void setAdviceSet(Set<AdviceCity> adviceSet) {
+        this.adviceSet = adviceSet;
+    }
+
+    public Scale getScale() {
+        return scale;
+    }
+
+    public void setScale(Scale scale) {
+        this.scale = scale;
+    }
 
 
 
@@ -74,19 +94,4 @@ public class City {
                 '}';
     }
 
-    public Set<AdviceCity> getAdviceSet() {
-        return adviceSet;
-    }
-
-    public void setAdviceSet(Set<AdviceCity> adviceSet) {
-        this.adviceSet = adviceSet;
-    }
-
-    public Scale getScale() {
-        return scale;
-    }
-
-    public void setScale(Scale scale) {
-        this.scale = scale;
-    }
 }

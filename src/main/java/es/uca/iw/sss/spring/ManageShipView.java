@@ -12,7 +12,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import org.apache.commons.lang3.StringUtils;
 
-import javax.swing.*;
 
 @Route(value = "ManageShip", layout = MainLayout.class)
 @PageTitle("Manage Ship")

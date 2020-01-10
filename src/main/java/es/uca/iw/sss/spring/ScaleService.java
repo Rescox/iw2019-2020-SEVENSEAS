@@ -2,6 +2,7 @@ package es.uca.iw.sss.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import java.util.*;
 
 
@@ -23,10 +24,9 @@ public class ScaleService {
         return repoScale.findAll();
     }
 
-    public Scale findById(int id) {
+    public Optional<Scale> findById(Long id) {
         return repoScale.findById(id);
     }
-
     public void create(Scale scale)
     {
         repoScale.save(scale);

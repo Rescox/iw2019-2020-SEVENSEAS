@@ -8,32 +8,30 @@ import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
 import com.vaadin.flow.router.*;
-import com.vaadin.flow.server.VaadinService;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
 
-@Route(value = "ManageAdviceShip", layout = MainLayout.class)
-@PageTitle("Manage Advice Ship")
-public class ManageShipAdviceView extends VerticalLayout implements HasUrlParameter<String> {
+@Route(value = "ManageAdviceCity", layout = MainLayout.class)
+@PageTitle("Manage Advice City")
+public class ManageCityAdviceView extends VerticalLayout implements HasUrlParameter<Long> {
     final TextField filter;
-    final Grid<AdviceShip> adviceGrid;
-    private final AdviceShipRepository adviceRepository;
-    private final AdviceShipForm adviceForm;
+    final Grid<AdviceCity> adviceGrid;
+    private final AdviceCityRepository adviceRepository;
+    private final AdviceCityForm adviceForm;
     private final Button addAdvice;
-    private ShipService shipService;
-    private Set<AdviceShip> advices;
+    private CityService cityService;
+    private Set<AdviceCity> advices;
 
-    public ManageShipAdviceView (AdviceShipRepository adviceRepository, AdviceShipForm adviceForm, ShipService shipService)
+    public ManageCityAdviceView(AdviceCityRepository adviceRepository, AdviceCityForm adviceForm, CityService cityService)
     {
         this.adviceRepository = adviceRepository;
         this.adviceForm = adviceForm;
-        this.adviceGrid = new Grid<>(AdviceShip.class);
+        this.adviceGrid = new Grid<>(AdviceCity.class);
         this.filter = new TextField();
-        this.shipService = shipService;
-        this.addAdvice = new Button("New advice", VaadinIcon.PLUS.create());
+        this.cityService = cityService;
+        this.addAdvice = new Button("New Advice", VaadinIcon.PLUS.create());
 
         HorizontalLayout actions = new HorizontalLayout(filter, addAdvice);
         add(actions, adviceGrid, adviceForm);
@@ -46,7 +44,7 @@ public class ManageShipAdviceView extends VerticalLayout implements HasUrlParame
         adviceGrid.asSingleSelect().addValueChangeListener(e -> {
             adviceForm.editAdvice(e.getValue());
         });
-        addAdvice.addClickListener(e -> adviceForm.editAdvice(new AdviceShip()));
+        addAdvice.addClickListener(e -> adviceForm.editAdvice(new AdviceCity()));
         adviceForm.setChangeHandler(() -> {
             adviceForm.setVisible(false);
             listAdvices(filter.getValue());
@@ -64,11 +62,10 @@ public class ManageShipAdviceView extends VerticalLayout implements HasUrlParame
     }
 
   @Override
-  public void setParameter(BeforeEvent beforeEvent, String licensePlate) {
+  public void setParameter(BeforeEvent beforeEvent, Long id) {
       Location location = beforeEvent.getLocation();
-      licensePlate = location.getSegments().get(1);
-      advices = shipService.findByLicensePlate(licensePlate).getAdviceSet();
+      id = Long.parseLong(location.getSegments().get(1));
+      advices = cityService.findById(id).get().getAdviceSet();
       adviceGrid.setItems(advices);
     }
 }
-
