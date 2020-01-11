@@ -25,7 +25,7 @@ import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
 @Route(value = "ReservationForm", layout = MainLayout.class)
 @PageTitle("ReservationForm")
-public class ReservationForm extends FormLayout implements HasUrlParameter<Long> {
+public class ReservationForm extends FormLayout implements HasUrlParameter<Long>{
 
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
@@ -36,20 +36,23 @@ public class ReservationForm extends FormLayout implements HasUrlParameter<Long>
 
     private Dialog dialog = new Dialog();
     private ReservationRepository reservationRepository;
+    private RestaurantRepository restaurantRepository;
     private ReservationService reservationService;
     private UserService userService;
     private UserRepository userRepository;
     private Reservation reservation = new Reservation();
     private BeanValidationBinder<Reservation> binder = new BeanValidationBinder<>(Reservation.class);
+    private Restaurant restaurant = new Restaurant();
 
     @Autowired
-    public ReservationForm(ReservationService reservationService, UserService userService, RestaurantService restaurantService) {
+    public ReservationForm(ReservationService reservationService, UserService userService, RestaurantRepository restaurantRepository) {
 
-       datePicker = new DatePicker();
+        datePicker = new DatePicker();
         timePicker = new TimePicker();
         FormLayout formLayout = new FormLayout();
         this.reservationService = reservationService;
         this.userService = userService;
+        this.restaurantRepository = restaurantRepository;
         VerticalLayout verticalLayout = new VerticalLayout();
         firstName.setRequiredIndicatorVisible(true);
         lastName.setRequiredIndicatorVisible(true);
@@ -87,7 +90,7 @@ public class ReservationForm extends FormLayout implements HasUrlParameter<Long>
     private void registerReservation() {
         reservation.setFirstName(firstName.getValue());
         reservation.setLastName(lastName.getValue());
-        reservation.setId_client(getUser().getId());
+        reservation.setUser(getUser());
         reservation.setDate(datePicker.getValue().toString());
         reservation.setHour(timePicker.getValue().toString());
         reservationService.create(reservation);
@@ -96,12 +99,13 @@ public class ReservationForm extends FormLayout implements HasUrlParameter<Long>
     }
 
     public void setParameter(BeforeEvent beforeEvent, Long id) {
+
         Location location = beforeEvent.getLocation();
-        id = Long.parseLong(location.getSegments().get(1));
         System.out.println(location.getSegments().get(1));
-        reservation.setId_restaurant(id);
+        if(restaurantRepository.findById(id).isPresent()){
+            reservation.setRestaurant(restaurantRepository.findById(id).get());
+        }
+
     }
 
-
-    
 }

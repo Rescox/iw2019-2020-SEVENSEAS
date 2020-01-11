@@ -33,6 +33,7 @@ public class RestaurantView extends AppLayout {
     private Grid<Restaurant> restaurantGrid = new Grid<>(Restaurant.class);
     private ReservationService reservationService;
     private UserService userService;
+    private RestaurantRepository restaurantRepository;
 
 
     private RestaurantService restaurantService;
@@ -60,6 +61,7 @@ public class RestaurantView extends AppLayout {
 
     public void ReservationForm(Long id_restaurante)
     {
+
         UI.getCurrent().navigate(ReservationForm.class, id_restaurante);
         UI.getCurrent().getPage().reload();
     }
