@@ -26,6 +26,7 @@ public class ManageShipView extends VerticalLayout {
   private final Button advices;
   private final Button shop;
   private final Button spa;
+  private final Button event;
   final Ship[] shipSelected = new Ship[1];
 
   public ManageShipView(ShipRepository shipRepository, ShipForm shipForm) {
@@ -40,10 +41,12 @@ public class ManageShipView extends VerticalLayout {
     this.advices = new Button("Manage Advices", e -> AdviceView());
     this.shop = new Button("Manage Shop", e -> ShopView());
     this.spa = new Button("Manage Spa", e -> SpaView());
+    this.event = new Button("Manage Event", e -> EventView());
 
-    HorizontalLayout actions =
-        new HorizontalLayout(filter, addShip, restaurants, tour, advices, scales, shop, spa);
-    add(actions, shipGrid, shipForm);
+    HorizontalLayout actions = new HorizontalLayout(filter, addShip);
+    HorizontalLayout manage =
+        new HorizontalLayout(restaurants, tour, advices, scales, shop, spa, event);
+    add(actions, manage, shipGrid, shipForm);
 
     shipGrid.setColumns("id", "name", "licensePlate", "plane", "legend");
     filter.setPlaceholder("Filter by name");
@@ -104,6 +107,11 @@ public class ManageShipView extends VerticalLayout {
 
   public void ShopView() {
     UI.getCurrent().navigate(ManageShopView.class, shipSelected[0].getLicensePlate());
+    UI.getCurrent().getPage().reload();
+  }
+
+  public void EventView() {
+    UI.getCurrent().navigate(ManageEventView.class, shipSelected[0].getLicensePlate());
     UI.getCurrent().getPage().reload();
   }
 }
