@@ -21,7 +21,7 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
     private TextField photo = new TextField("Photo");
     private TextField description = new TextField("Description");
     private TextField name = new TextField("Name");
-    private BeanValidationBinder<Restaurant> binder = new BeanValidationBinder<>(Restaurant.class);
+    private TextField licensePlate = new TextField("Ship License Plate");
     private RestaurantService restaurantService;
     private ShipService shipService;
     Button save = new Button("Save", VaadinIcon.CHECK.create());
@@ -35,7 +35,7 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
         this.restaurantRepository = restaurantRepository;
         this.restaurantService = restaurantService;
         this.shipService = shipService;
-        add(name,description,aforum,photo,actions);
+        add(name,description,aforum,photo,licensePlate,actions);
 
         setSpacing(true);
 
@@ -60,6 +60,7 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
         restaurant.setPhoto(photo.getValue());
         restaurant.setName(name.getValue());
         restaurant.setDescription(description.getValue());
+        restaurant.setShip(shipService.findByLicensePlate(licensePlate.getValue()));
         restaurantService.create(restaurant);
         changeHandler.onChange();
     }
@@ -82,7 +83,46 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
         }
         cancel.setVisible(persisted);
 
-        binder.setBean(restaurant);
+        if(restaurant.getAforum() != null)
+        {
+            aforum.setValue(Long.toString(restaurant.getAforum()));
+        }
+        else
+        {
+            aforum.setValue("");
+        }
+        if(restaurant.getPhoto() != null)
+        {
+            photo.setValue(restaurant.getPhoto());
+        }
+        else
+        {
+            photo.setValue("");
+        }
+        if(restaurant.getName() != null)
+        {
+            name.setValue(restaurant.getName());
+        }
+        else
+        {
+            name.setValue("");
+        }
+        if(restaurant.getDescription() != null)
+        {
+            description.setValue(restaurant.getDescription());
+        }
+        else
+        {
+            description.setValue("");
+        }
+        if(restaurant.getShip() != null)
+        {
+            licensePlate.setValue(Long.toString(restaurant.getShip().getId()));
+        }
+        else
+        {
+            licensePlate.setValue("");
+        }
 
         setVisible(true);
 

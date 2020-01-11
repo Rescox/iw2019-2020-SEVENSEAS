@@ -24,8 +24,7 @@ public class AdviceShipForm extends VerticalLayout implements KeyNotifier{
     private final AdviceShipRepository adviceRepository;
     private AdviceShip advices;
     private TextField advice = new TextField("Advice");
-    private TextField shipLicensePlate = new TextField("Ship license plate");
-    private BeanValidationBinder<AdviceShip> binder = new BeanValidationBinder<>(AdviceShip.class);
+    private TextField shipLicensePlate = new TextField("Ship License Plate");
     private AdviceShipService adviceService;
     private ShipService shipService;
     Button save = new Button("Save", VaadinIcon.CHECK.create());
@@ -84,7 +83,6 @@ public class AdviceShipForm extends VerticalLayout implements KeyNotifier{
         }
         cancel.setVisible(persisted);
 
-        binder.setBean(advices);
 
         setVisible(true);
 

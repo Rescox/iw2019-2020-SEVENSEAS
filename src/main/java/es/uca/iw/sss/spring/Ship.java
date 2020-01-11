@@ -1,5 +1,7 @@
 package es.uca.iw.sss.spring;
 
+import org.hibernate.annotations.OnDelete;
+
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Set;
@@ -28,6 +30,12 @@ public class Ship {
     private Set<Scale> scaleSet = new HashSet<>();
     @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
     private Set<Tour> tourSet = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
+    private Set<Shop> shopSet = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
+    private Set<Spa> spaSet = new HashSet<>();
+    @OneToMany(fetch = FetchType.EAGER,mappedBy = "ship")
+    private Set<Event> eventSet = new HashSet<>();
 
     public Ship()
     {
@@ -84,6 +92,9 @@ public class Ship {
         return restaurantSet;
     }
 
+    public void setRestaurantSet(Set<Restaurant> restaurantSet) {
+        this.restaurantSet = restaurantSet;
+    }
 
     public Set<AdviceShip> getAdviceSet() {
         return adviceSet;
@@ -115,6 +126,30 @@ public class Ship {
 
     public void setTourSet(Set<Tour> scaleSet) {
         this.tourSet = tourSet;
+    }
+
+    public Set<Shop> getShopSet() {
+        return shopSet;
+    }
+
+    public void setShopSet(Set<Shop> shopSet) {
+        this.shopSet = shopSet;
+    }
+
+    public Set<Spa> getSpaSet() {
+        return spaSet;
+    }
+
+    public void setSpaSet(Set<Spa> spaSet) {
+        this.spaSet = spaSet;
+    }
+
+    public Set<Event> getEventSet() {
+        return eventSet;
+    }
+
+    public void setEventSet(Set<Event> eventSet) {
+        this.eventSet = eventSet;
     }
 
     @Override

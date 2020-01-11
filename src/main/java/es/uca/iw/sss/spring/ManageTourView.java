@@ -7,26 +7,30 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.value.ValueChangeMode;
-import com.vaadin.flow.router.PageTitle;
-import com.vaadin.flow.router.Route;
+import com.vaadin.flow.router.*;
 import org.apache.commons.lang3.StringUtils;
+
+import java.util.Set;
 
 @Route(value = "ManageTour", layout = MainLayout.class)
 @PageTitle("Manage Tour")
-public class ManageTourView extends VerticalLayout {
+public class ManageTourView extends VerticalLayout implements HasUrlParameter<String> {
     final TextField filter;
     final Grid<Tour> tourGrid;
     private final TourRepository tourRepository;
     private final TourForm tourForm;
     private final Button addTour;
+    private Set<Tour> tours;
+    private ShipService shipService;
 
-    public ManageTourView(TourRepository tourRepository, TourForm tourForm)
+    public ManageTourView(TourRepository tourRepository, TourForm tourForm, ShipService shipService)
     {
         this.tourRepository = tourRepository;
+        this.shipService = shipService;
         this.tourForm = tourForm;
         this.tourGrid = new Grid<>(Tour.class);
         this.filter = new TextField();
-        this.addTour = new Button("New tour", VaadinIcon.PLUS.create());
+        this.addTour = new Button("New Tour", VaadinIcon.PLUS.create());
 
         HorizontalLayout actions = new HorizontalLayout(filter, addTour);
         add(actions, tourGrid, tourForm);
@@ -54,6 +58,14 @@ public class ManageTourView extends VerticalLayout {
         else {
             tourGrid.setItems(tourRepository.findByNameStartsWithIgnoreCase(filterText));
         }
+    }
+
+    @Override
+    public void setParameter(BeforeEvent beforeEvent, String licensePlate) {
+        Location location = beforeEvent.getLocation();
+        licensePlate = location.getSegments().get(1);
+        tours = shipService.findByLicensePlate(licensePlate).getTourSet();
+        tourGrid.setItems(tours);
     }
 }
 

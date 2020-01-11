@@ -73,7 +73,7 @@ public class ManageShipView extends VerticalLayout {
 
     public void RestaurantView()
     {
-        UI.getCurrent().navigate(ManageRestaurantView.class);
+        UI.getCurrent().navigate(ManageRestaurantView.class,shipSelected[0].getLicensePlate());
         UI.getCurrent().getPage().reload();
     }
 
@@ -91,7 +91,7 @@ public class ManageShipView extends VerticalLayout {
 
     public void TourView()
     {
-        UI.getCurrent().navigate(ManageTourView.class);
+        UI.getCurrent().navigate(ManageTourView.class, shipSelected[0].getLicensePlate());
         UI.getCurrent().getPage().reload();
     }
 }

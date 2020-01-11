@@ -23,20 +23,23 @@ public class TourForm extends VerticalLayout implements KeyNotifier {
     private TextField description = new TextField("Description");
     private TextField price = new TextField("Price");
     private TextField schedule = new TextField("Schedule");
-    private BeanValidationBinder<Tour> binder = new BeanValidationBinder<>(Tour.class);
+    private TextField licensePlate = new TextField("Ship License Plate");
+    private ShipService shipService;
     private TourService tourService;
     Button save = new Button("Save", VaadinIcon.CHECK.create());
     Button cancel = new Button("Cancel");
     Button delete = new Button("Delete", VaadinIcon.TRASH.create());
     HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
 
+
     private ChangeHandler changeHandler;
 
     @Autowired
-    public TourForm(TourRepository tourRepository, TourService tourService) {
+    public TourForm(TourRepository tourRepository, TourService tourService, ShipService shipService) {
         this.tourRepository = tourRepository;
+        this.shipService = shipService;
         this.tourService = tourService;
-        add(name,description,price,schedule,actions);
+        add(name,description,price,schedule,licensePlate,actions);
 
         setSpacing(true);
 
@@ -61,6 +64,7 @@ public class TourForm extends VerticalLayout implements KeyNotifier {
         tour.setPrice(Float.parseFloat(price.getValue()));
         tour.setDescription(description.getValue());
         tour.setSchedule(schedule.getValue());
+        tour.setShip(shipService.findByLicensePlate(licensePlate.getValue()));
         tourService.create(tour);
         changeHandler.onChange();
     }
@@ -83,7 +87,25 @@ public class TourForm extends VerticalLayout implements KeyNotifier {
         }
         cancel.setVisible(persisted);
 
-        binder.setBean(tour);
+        name.setValue(tour.getName());
+        if(tour.getPrice() != null)
+        {
+            price.setValue(Float.toString(tour.getPrice()));
+        }
+        else
+        {
+            price.setValue("");
+        }
+        description.setValue(tour.getDescription());
+        schedule.setValue(tour.getSchedule());
+        if(tour.getShip() != null)
+        {
+            licensePlate.setValue(Long.toString(tour.getShip().getId()));
+        }
+        else
+        {
+            licensePlate.setValue("");
+        }
 
         setVisible(true);
 
