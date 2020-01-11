@@ -3,6 +3,7 @@ package es.uca.iw.sss.spring;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
@@ -15,6 +16,7 @@ import com.vaadin.flow.router.Route;
 import es.uca.iw.sss.spring.meteorology.Weather;
 import es.uca.iw.sss.spring.meteorology.WeatherService;
 import es.uca.iw.sss.spring.utils.SecurityUtils;
+import org.hibernate.dialect.function.TemplateRenderer;
 
 import java.text.DecimalFormat;
 import java.util.Date;
@@ -38,7 +40,6 @@ public class WelcomeView extends VerticalLayout {
             Grid<Scale> gridScale = new Grid<>(Scale.class);
             gridShip.setColumns("name", "licensePlate");
             gridScale.setColumns("date", "city.name");
-            gridScale.setSelectionMode(Grid.SelectionMode.SINGLE);
             gridScale.asSingleSelect().addValueChangeListener(e -> {
                 this.scaleDetails(e.getValue());
             });
@@ -57,11 +58,16 @@ public class WelcomeView extends VerticalLayout {
         H2 temperature = new H2("Temperature in " + scale.getCity().getName() + " about " + df2.format(temp) + "ºC");
         H2 cloud = new H2("Clouds: " + weather.getWeatherDescription());
         H2 H2gallery = new H2("Gallery");
-        HorizontalLayout details = new HorizontalLayout();
+        VerticalLayout details = new VerticalLayout();
         VerticalLayout cityWeather = new VerticalLayout();
-        VerticalLayout gallery = new VerticalLayout();
-        cityWeather.add(temperature, cloud);
+        FormLayout gallery = new FormLayout();
+        gallery.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 2, FormLayout.ResponsiveStep.LabelsPosition.ASIDE));
+
         gallery.add(H2gallery);
+        for(int i = 0; i < 7; i++) {
+            gallery.add(new Image(scale.getCity().getPic() + "/img" + i +".jpeg", "asdasd"));
+        }
+        cityWeather.add(temperature, cloud);
         details.add(gallery, cityWeather);
         add(details);
 

@@ -38,8 +38,8 @@ import java.net.URI;
         Weather weather = null;
         //if(validParameters(city)) {
             //URI url = new UriTemplate(this.apiUrl).expand(city, this.apiKey);
-            this.apiUrl = apiUrl + city + apiKey;
-            URI url = new UriTemplate(this.apiUrl).expand();
+            String apiUrlModified = apiUrl + city + apiKey;
+            URI url = new UriTemplate(apiUrlModified).expand();
             weather = invoke(url, Weather.class);
         //}
         return weather;
