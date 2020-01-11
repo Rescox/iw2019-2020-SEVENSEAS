@@ -33,7 +33,7 @@ public class ManageShipAdviceView extends VerticalLayout implements HasUrlParame
         this.adviceGrid = new Grid<>(AdviceShip.class);
         this.filter = new TextField();
         this.shipService = shipService;
-        this.addAdvice = new Button("New advice", VaadinIcon.PLUS.create());
+        this.addAdvice = new Button("New Advice", VaadinIcon.PLUS.create());
 
         HorizontalLayout actions = new HorizontalLayout(filter, addAdvice);
         add(actions, adviceGrid, adviceForm);

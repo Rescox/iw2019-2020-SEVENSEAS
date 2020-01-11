@@ -20,77 +20,85 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringComponent
 @UIScope
-public class AdviceShipForm extends VerticalLayout implements KeyNotifier{
-    private final AdviceShipRepository adviceRepository;
-    private AdviceShip advices;
-    private TextField advice = new TextField("Advice");
-    private TextField shipLicensePlate = new TextField("Ship License Plate");
-    private AdviceShipService adviceService;
-    private ShipService shipService;
-    Button save = new Button("Save", VaadinIcon.CHECK.create());
-    Button cancel = new Button("Cancel");
-    Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-    HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
-    private ChangeHandler changeHandler;
+public class AdviceShipForm extends VerticalLayout implements KeyNotifier {
+  private final AdviceShipRepository adviceRepository;
+  private AdviceShip advices;
+  private TextField advice = new TextField("Advice");
+  private TextField shipLicensePlate = new TextField("Ship License Plate");
+  private AdviceShipService adviceService;
+  private ShipService shipService;
+  Button save = new Button("Save", VaadinIcon.CHECK.create());
+  Button cancel = new Button("Cancel");
+  Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+  HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+  private ChangeHandler changeHandler;
 
-    @Autowired
-    public AdviceShipForm(AdviceShipRepository adviceRepository, AdviceShipService adviceService, ShipService shipService) {
-        this.adviceRepository = adviceRepository;
-        this.adviceService = adviceService;
-        this.shipService = shipService;
-        add(advice,shipLicensePlate,actions);
+  @Autowired
+  public AdviceShipForm(
+      AdviceShipRepository adviceRepository,
+      AdviceShipService adviceService,
+      ShipService shipService) {
+    this.adviceRepository = adviceRepository;
+    this.adviceService = adviceService;
+    this.shipService = shipService;
+    add(advice, shipLicensePlate, actions);
 
-        setSpacing(true);
+    setSpacing(true);
 
-        save.getElement().getThemeList().add("primary");
-        delete.getElement().getThemeList().add("error");
+    save.getElement().getThemeList().add("primary");
+    delete.getElement().getThemeList().add("error");
 
-        addKeyPressListener(Key.ENTER, e -> save());
+    addKeyPressListener(Key.ENTER, e -> save());
 
-        save.addClickListener(e -> save());
-        delete.addClickListener(e -> delete());
-        cancel.addClickListener(e -> editAdvice(advices));
-        setVisible(false);
+    save.addClickListener(e -> save());
+    delete.addClickListener(e -> delete());
+    cancel.addClickListener(e -> editAdvice(advices));
+    setVisible(false);
+  }
+
+  void delete() {
+    adviceRepository.delete(advices);
+    changeHandler.onChange();
+  }
+
+  void save() {
+    advices.setAdvice(advice.getValue());
+    advices.setShip(shipService.findByLicensePlate(shipLicensePlate.getValue()));
+    adviceService.create(advices);
+    changeHandler.onChange();
+  }
+
+  public interface ChangeHandler {
+    void onChange();
+  }
+
+  public final void editAdvice(AdviceShip adviceEdit) {
+    if (adviceEdit == null) {
+      setVisible(false);
+      return;
+    }
+    final boolean persisted = adviceEdit.getId() != null;
+    if (persisted) {
+      advices = adviceRepository.findById(adviceEdit.getId()).get();
+    } else {
+      advices = adviceEdit;
+    }
+    cancel.setVisible(persisted);
+
+    cancel.setVisible(persisted);
+    advice.setValue(advices.getAdvice());
+    if (advices.getShip() != null) {
+      shipLicensePlate.setValue(Long.toString(adviceEdit.getShip().getId()));
+    } else {
+      shipLicensePlate.setValue("");
     }
 
-    void delete() {
-        adviceRepository.delete(advices);
-        changeHandler.onChange();
-    }
+    setVisible(true);
 
-    void save() {
-        advices.setAdvice(advice.getValue());
-        advices.setShip(shipService.findByLicensePlate(shipLicensePlate.getValue()));
-        adviceService.create(advices);
-        changeHandler.onChange();
-    }
+    advice.focus();
+  }
 
-    public interface ChangeHandler {
-        void onChange();
-    }
-
-    public final void editAdvice(AdviceShip adviceEdit) {
-        if (adviceEdit == null) {
-            setVisible(false);
-            return;
-        }
-        final boolean persisted = adviceEdit.getId() != null;
-        if (persisted) {
-            advices = adviceRepository.findById(adviceEdit.getId()).get();
-        }
-        else {
-            advices = adviceEdit;
-        }
-        cancel.setVisible(persisted);
-
-
-        setVisible(true);
-
-        advice.focus();
-    }
-
-    public void setChangeHandler(ChangeHandler h) {
-        changeHandler = h;
-    }
-
+  public void setChangeHandler(ChangeHandler h) {
+    changeHandler = h;
+  }
 }

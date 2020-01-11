@@ -7,22 +7,20 @@ import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @SpringComponent
 @UIScope
-public class RestaurantForm extends VerticalLayout implements KeyNotifier {
-  private final RestaurantRepository restaurantRepository;
-  private Restaurant restaurant;
-  private TextField aforum = new TextField("Aforum");
+public class ShopForm extends VerticalLayout implements KeyNotifier {
+  private final ShopRepository shopRepository;
+  private Shop shop;
   private TextField photo = new TextField("Photo");
   private TextField description = new TextField("Description");
   private TextField name = new TextField("Name");
   private TextField licensePlate = new TextField("Ship License Plate");
-  private RestaurantService restaurantService;
+  private ShopService shopService;
   private ShipService shipService;
   Button save = new Button("Save", VaadinIcon.CHECK.create());
   Button cancel = new Button("Cancel");
@@ -31,14 +29,11 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
   private ChangeHandler changeHandler;
 
   @Autowired
-  public RestaurantForm(
-      RestaurantRepository restaurantRepository,
-      RestaurantService restaurantService,
-      ShipService shipService) {
-    this.restaurantRepository = restaurantRepository;
-    this.restaurantService = restaurantService;
+  public ShopForm(ShopRepository shopRepository, ShopService shopService, ShipService shipService) {
+    this.shopRepository = shopRepository;
+    this.shopService = shopService;
     this.shipService = shipService;
-    add(name, description, aforum, photo, licensePlate, actions);
+    add(name, description, photo, licensePlate, actions);
 
     setSpacing(true);
 
@@ -49,22 +44,21 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
 
     save.addClickListener(e -> save());
     delete.addClickListener(e -> delete());
-    cancel.addClickListener(e -> editRestaurant(restaurant));
+    cancel.addClickListener(e -> editShop(shop));
     setVisible(false);
   }
 
   void delete() {
-    restaurantRepository.delete(restaurant);
+    shopRepository.delete(shop);
     changeHandler.onChange();
   }
 
   void save() {
-    restaurant.setAforum(Long.parseLong(aforum.getValue()));
-    restaurant.setPhoto(photo.getValue());
-    restaurant.setName(name.getValue());
-    restaurant.setDescription(description.getValue());
-    restaurant.setShip(shipService.findByLicensePlate(licensePlate.getValue()));
-    restaurantService.create(restaurant);
+    shop.setPhoto(photo.getValue());
+    shop.setName(name.getValue());
+    shop.setDescription(description.getValue());
+    shop.setShip(shipService.findByLicensePlate(licensePlate.getValue()));
+    shopService.create(shop);
     changeHandler.onChange();
   }
 
@@ -72,41 +66,36 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
     void onChange();
   }
 
-  public final void editRestaurant(Restaurant restaurantEdit) {
-    if (restaurantEdit == null) {
+  public final void editShop(Shop shopEdit) {
+    if (shopEdit == null) {
       setVisible(false);
       return;
     }
-    final boolean persisted = restaurantEdit.getId() != null;
+    final boolean persisted = shopEdit.getId() != null;
     if (persisted) {
-      restaurant = restaurantRepository.findById(restaurantEdit.getId()).get();
+      shop = shopRepository.findById(shopEdit.getId()).get();
     } else {
-      restaurant = restaurantEdit;
+      shop = shopEdit;
     }
     cancel.setVisible(persisted);
 
-    if (restaurant.getAforum() != null) {
-      aforum.setValue(Long.toString(restaurant.getAforum()));
-    } else {
-      aforum.setValue("");
-    }
-    if (restaurant.getPhoto() != null) {
-      photo.setValue(restaurant.getPhoto());
+    if (shop.getPhoto() != null) {
+      photo.setValue(shop.getPhoto());
     } else {
       photo.setValue("");
     }
-    if (restaurant.getName() != null) {
-      name.setValue(restaurant.getName());
+    if (shop.getName() != null) {
+      name.setValue(shop.getName());
     } else {
       name.setValue("");
     }
-    if (restaurant.getDescription() != null) {
-      description.setValue(restaurant.getDescription());
+    if (shop.getDescription() != null) {
+      description.setValue(shop.getDescription());
     } else {
       description.setValue("");
     }
-    if (restaurant.getShip() != null) {
-      licensePlate.setValue(Long.toString(restaurant.getShip().getId()));
+    if (shop.getShip() != null) {
+      licensePlate.setValue(Long.toString(shop.getShip().getId()));
     } else {
       licensePlate.setValue("");
     }
