@@ -21,6 +21,7 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
   private TextField photo = new TextField("Photo");
   private TextField description = new TextField("Description");
   private TextField name = new TextField("Name");
+  private TextField phone = new TextField("Phone");
   private TextField licensePlate = new TextField("Ship License Plate");
   private RestaurantService restaurantService;
   private ShipService shipService;
@@ -38,7 +39,7 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
     this.restaurantRepository = restaurantRepository;
     this.restaurantService = restaurantService;
     this.shipService = shipService;
-    add(name, description, aforum, photo, licensePlate, actions);
+    add(name, description, aforum, photo, phone, licensePlate, actions);
 
     setSpacing(true);
 
@@ -63,6 +64,7 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
     restaurant.setPhoto(photo.getValue());
     restaurant.setName(name.getValue());
     restaurant.setDescription(description.getValue());
+    restaurant.setPhone(phone.getValue());
     restaurant.setShip(shipService.findByLicensePlate(licensePlate.getValue()));
     restaurantService.create(restaurant);
     changeHandler.onChange();
@@ -104,6 +106,11 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
       description.setValue(restaurant.getDescription());
     } else {
       description.setValue("");
+    }
+    if (restaurant.getPhone() != null) {
+      phone.setValue(restaurant.getPhone());
+    } else {
+      phone.setValue("");
     }
     if (restaurant.getShip() != null) {
       licensePlate.setValue(Long.toString(restaurant.getShip().getId()));

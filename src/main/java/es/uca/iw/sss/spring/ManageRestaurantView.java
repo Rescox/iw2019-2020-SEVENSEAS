@@ -1,5 +1,6 @@
 package es.uca.iw.sss.spring;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -20,8 +21,10 @@ public class ManageRestaurantView extends VerticalLayout implements HasUrlParame
     private final RestaurantRepository restaurantRepository;
     private final RestaurantForm restaurantForm;
     private final Button addRestaurant;
+    private final Button dish;
     private  ShipService shipService;
     private Set<Restaurant> restaurants;
+    private Restaurant[] restaurantSelected = new Restaurant[1];
 
     public ManageRestaurantView(RestaurantRepository restaurantRepository, RestaurantForm restaurantForm, ShipService shipService)
     {
@@ -31,17 +34,19 @@ public class ManageRestaurantView extends VerticalLayout implements HasUrlParame
         this.restaurantGrid = new Grid<>(Restaurant.class);
         this.filter = new TextField();
         this.addRestaurant = new Button("New Restaurant", VaadinIcon.PLUS.create());
+        this.dish = new Button("Manage Dish", e -> DishView());
 
-        HorizontalLayout actions = new HorizontalLayout(filter, addRestaurant);
+        HorizontalLayout actions = new HorizontalLayout(filter, addRestaurant,dish);
         add(actions, restaurantGrid, restaurantForm);
 
-        restaurantGrid.setColumns("id","name","description","aforum","photo");
+        restaurantGrid.setColumns("id","name","description","aforum","photo","phone");
         filter.setPlaceholder("Filter by entrance");
         filter.setValueChangeMode(ValueChangeMode.EAGER);
         filter.addValueChangeListener(e -> listRestaurants(e.getValue()));
 
         restaurantGrid.asSingleSelect().addValueChangeListener(e -> {
             restaurantForm.editRestaurant(e.getValue());
+            restaurantSelected[0] = e.getValue();
         });
         addRestaurant.addClickListener(e -> restaurantForm.editRestaurant(new Restaurant()));
         restaurantForm.setChangeHandler(() -> {
@@ -58,6 +63,11 @@ public class ManageRestaurantView extends VerticalLayout implements HasUrlParame
         else {
             restaurantGrid.setItems(restaurantRepository.findByNameStartsWithIgnoreCase(filterText));
         }
+    }
+
+    public void DishView()
+    {
+        UI.getCurrent().navigate(ManageDishView.class,restaurantSelected[0].getId());
     }
 
     @Override
