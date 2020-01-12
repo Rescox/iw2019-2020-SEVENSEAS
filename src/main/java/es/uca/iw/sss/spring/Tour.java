@@ -1,17 +1,23 @@
 package es.uca.iw.sss.spring;
 
 import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-public class Tour {
+public class Tour implements Serializable, Cloneable {
     @Id
     @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
+    @Column(nullable = false)
     private String name = "";
+    @Column(nullable = false)
     private String description = "";
+    @Column(nullable = false)
     private Float price;
+    @Column(nullable = false)
     private String schedule = "";
+
     @ManyToOne
     private Ship ship;
 
@@ -66,15 +72,6 @@ public class Tour {
     public void setSchedule(String schedule) {
         this.schedule = schedule;
     }
-
-    public Ship getShip() {
-        return ship;
-    }
-
-    public void setShip(Ship ship) {
-        this.ship = ship;
-    }
-
 
     @Override
     public boolean equals(Object obj) {
