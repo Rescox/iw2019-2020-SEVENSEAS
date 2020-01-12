@@ -68,8 +68,6 @@ public class MainLayout extends AppLayout {
         }
         if(SecurityUtils.hasRole("manager")) {
             tabs.add(createTab(VaadinIcon.HANDSHAKE, "WelcomeManager", ManagerWelcome.class));
-            tabs.add(createTab(VaadinIcon.HANDSHAKE, "Tours", ManagerWelcome.class));
-            tabs.add(createTab(VaadinIcon.HANDSHAKE, "Services", ManagerWelcome.class));
 
         }
 
