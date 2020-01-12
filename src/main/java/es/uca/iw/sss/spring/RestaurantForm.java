@@ -2,6 +2,7 @@ package es.uca.iw.sss.spring;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -57,6 +58,7 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
   void delete() {
     restaurantRepository.delete(restaurant);
     changeHandler.onChange();
+    UI.getCurrent().getPage().reload();
   }
 
   void save() {
@@ -68,6 +70,7 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
     restaurant.setShip(shipService.findByLicensePlate(licensePlate.getValue()));
     restaurantService.create(restaurant);
     changeHandler.onChange();
+    UI.getCurrent().getPage().reload();
   }
 
   public interface ChangeHandler {

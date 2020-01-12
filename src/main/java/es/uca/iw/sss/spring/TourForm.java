@@ -2,6 +2,7 @@ package es.uca.iw.sss.spring;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
@@ -57,6 +58,7 @@ public class TourForm extends VerticalLayout implements KeyNotifier {
     void delete() {
         tourRepository.delete(tour);
         changeHandler.onChange();
+        UI.getCurrent().getPage().reload();
     }
 
     void save() {
@@ -67,6 +69,7 @@ public class TourForm extends VerticalLayout implements KeyNotifier {
         tour.setShip(shipService.findByLicensePlate(licensePlate.getValue()));
         tourService.create(tour);
         changeHandler.onChange();
+        UI.getCurrent().getPage().reload();
     }
 
     public interface ChangeHandler {

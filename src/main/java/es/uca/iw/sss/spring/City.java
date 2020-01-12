@@ -14,9 +14,9 @@ public class City {
     private String name = "";
     @Column
     private String pic = "";
-    @OneToMany(fetch = FetchType.EAGER,mappedBy = "city")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "city")
     private Set<AdviceCity> adviceSet = new HashSet<>();
-    @OneToOne
+    @OneToOne( fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
     private Scale scale;
 
     public City()
@@ -28,10 +28,9 @@ public class City {
         this.scale = scale;
     }
 
-    public City(String name,Scale scale)
+    public City(String name)
     {
         this.name = name;
-        this.scale = scale;
     }
 
     public Long getId() {

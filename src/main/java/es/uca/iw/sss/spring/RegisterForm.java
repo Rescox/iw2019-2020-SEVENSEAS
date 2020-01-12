@@ -109,7 +109,14 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
 
         binder.setBean(user);
 
-        shipLicensePlate.setValue(user.getShip().getLicensePlate());
+        if(user.getShip() != null)
+        {
+            shipLicensePlate.setValue(user.getShip().getLicensePlate());
+        }
+        else
+        {
+            shipLicensePlate.setValue("");
+        }
         password.setValue(user.getPassword());
 
         setVisible(true);

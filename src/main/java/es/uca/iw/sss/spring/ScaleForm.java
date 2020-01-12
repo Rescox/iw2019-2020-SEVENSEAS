@@ -2,6 +2,7 @@ package es.uca.iw.sss.spring;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ScaleForm extends VerticalLayout implements KeyNotifier {
   private final ScaleRepository scaleRepository;
   private Scale scale;
+  private City city;
   private TextField date = new TextField("Date");
   private TextField licensePLate = new TextField("Ship License Plate");
   private TextField cityName = new TextField("City Name");
@@ -59,6 +61,7 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
   void delete() {
     scaleRepository.delete(scale);
     changeHandler.onChange();
+    UI.getCurrent().getPage().reload();
   }
 
   void save() {
@@ -67,11 +70,14 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
     if (cityService.findByName(cityName.getValue()) != null) {
       scale.setCity(cityService.findByName(cityName.getValue()));
     } else {
-      cityService.saveCity(new City(cityName.getValue(), new Scale()));
+      city = new City(cityName.getValue());
+      city.setScale(scale);
+      cityService.create(city);
       scale.setCity(cityService.findByName(cityName.getValue()));
     }
     scaleService.create(scale);
     changeHandler.onChange();
+    UI.getCurrent().getPage().reload();
   }
 
   public interface ChangeHandler {
@@ -85,14 +91,22 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
     }
     final boolean persisted = scaleEdit.getId() != null;
     if (persisted) {
-      scale = scaleRepository.findById(scaleEdit.getId()).get();
+      scale = scaleRepository.findById(scaleEdit.getId()).get(); 
     } else {
       scale = scaleEdit;
     }
     cancel.setVisible(persisted);
 
-    date.setValue(scale.getDate());
-    licensePLate.setValue(scale.getShip().getLicensePlate());
+    if (scale.getDate() != null) {
+      date.setValue(scale.getDate());
+    } else {
+      date.setValue("");
+    }
+    if (scale.getShip() != null) {
+      licensePLate.setValue(scale.getShip().getLicensePlate());
+    } else {
+      licensePLate.setValue("");
+    }
     if (scale.getCity() != null) {
       cityName.setValue(scale.getCity().getName());
     } else {

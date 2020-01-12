@@ -59,6 +59,7 @@ public class AdviceShipForm extends VerticalLayout implements KeyNotifier {
   void delete() {
     adviceRepository.delete(advices);
     changeHandler.onChange();
+    UI.getCurrent().getPage().reload();
   }
 
   void save() {
@@ -66,6 +67,7 @@ public class AdviceShipForm extends VerticalLayout implements KeyNotifier {
     advices.setShip(shipService.findByLicensePlate(shipLicensePlate.getValue()));
     adviceService.create(advices);
     changeHandler.onChange();
+    UI.getCurrent().getPage().reload();
   }
 
   public interface ChangeHandler {

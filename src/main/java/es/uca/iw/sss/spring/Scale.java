@@ -12,7 +12,7 @@ public class Scale {
     private String date = "";
     @ManyToOne
     private Ship ship;
-    @OneToOne
+    @OneToOne(cascade = CascadeType.MERGE, orphanRemoval = true)
     private City city;
 
     public Scale()

@@ -28,7 +28,7 @@ public class Restaurant implements Serializable, Cloneable {
 
   @ManyToOne private Ship ship;
 
-  @OneToMany(fetch = FetchType.EAGER,mappedBy = "restaurant")
+  @OneToMany(fetch = FetchType.EAGER,mappedBy = "restaurant", cascade = CascadeType.REMOVE)
   private Set<Dish> dishSet = new HashSet<>();
 
   public Restaurant() {}

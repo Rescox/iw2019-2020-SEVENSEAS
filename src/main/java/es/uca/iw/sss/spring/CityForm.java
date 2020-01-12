@@ -81,7 +81,14 @@ public class CityForm extends VerticalLayout implements KeyNotifier {
         }
         cancel.setVisible(persisted);
 
-        pic.setValue(city.getPic());
+        if(city.getPic() != null)
+        {
+            pic.setValue(city.getPic());
+        }
+        else
+        {
+            pic.setValue("");
+        }
         name.setValue(city.getName());
         if(city.getScale() != null)
         {
