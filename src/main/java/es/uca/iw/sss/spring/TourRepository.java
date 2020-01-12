@@ -10,5 +10,5 @@ public interface TourRepository extends JpaRepository<Tour,Long> {
 
     List<Tour> findAll();
 
-    Tour findByNameStartsWithIgnoreCase(String name);
+    List<Tour> findByNameStartsWithIgnoreCase(String name);
 }

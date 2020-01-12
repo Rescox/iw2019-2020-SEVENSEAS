@@ -119,7 +119,7 @@ public class SpaForm extends VerticalLayout implements KeyNotifier {
         }
         if(spa.getShip() != null)
         {
-            licensePlate.setValue(Long.toString(spa.getShip().getId()));
+            licensePlate.setValue(spa.getShip().getLicensePlate());
         }
         else
         {

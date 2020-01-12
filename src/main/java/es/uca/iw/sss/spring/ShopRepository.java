@@ -10,5 +10,5 @@ public interface ShopRepository extends JpaRepository<Shop,Long> {
 
     List<Shop> findAll();
 
-    Shop findByNameStartsWithIgnoreCase(String name);
+    List<Shop> findByNameStartsWithIgnoreCase(String name);
 }

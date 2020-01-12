@@ -40,9 +40,11 @@ public class ManageRestaurantView extends VerticalLayout implements HasUrlParame
         add(actions, restaurantGrid, restaurantForm);
 
         restaurantGrid.setColumns("id","name","description","aforum","photo","phone");
-        filter.setPlaceholder("Filter by entrance");
+
+        filter.setPlaceholder("Filter by name");
         filter.setValueChangeMode(ValueChangeMode.EAGER);
         filter.addValueChangeListener(e -> listRestaurants(e.getValue()));
+
 
         restaurantGrid.asSingleSelect().addValueChangeListener(e -> {
             restaurantForm.editRestaurant(e.getValue());

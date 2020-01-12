@@ -124,7 +124,7 @@ public class EventForm extends VerticalLayout implements KeyNotifier {
       end_time.setValue("");
     }
     if (event.getShip() != null) {
-      licensePlate.setValue(Long.toString(event.getShip().getId()));
+      licensePlate.setValue(event.getShip().getLicensePlate());
     } else {
       licensePlate.setValue("");
     }

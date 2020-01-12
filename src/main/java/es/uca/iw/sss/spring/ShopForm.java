@@ -95,7 +95,7 @@ public class ShopForm extends VerticalLayout implements KeyNotifier {
       description.setValue("");
     }
     if (shop.getShip() != null) {
-      licensePlate.setValue(Long.toString(shop.getShip().getId()));
+      licensePlate.setValue(shop.getShip().getLicensePlate());
     } else {
       licensePlate.setValue("");
     }

@@ -10,5 +10,5 @@ public interface SpaRepository extends JpaRepository<Spa,Long> {
 
     List<Spa> findAll();
 
-    Spa findByNameStartsWithIgnoreCase(String name);
+    List<Spa> findByNameStartsWithIgnoreCase(String name);
 }

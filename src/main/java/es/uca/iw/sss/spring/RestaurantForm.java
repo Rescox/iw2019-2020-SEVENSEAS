@@ -113,7 +113,7 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
       phone.setValue("");
     }
     if (restaurant.getShip() != null) {
-      licensePlate.setValue(Long.toString(restaurant.getShip().getId()));
+      licensePlate.setValue(restaurant.getShip().getLicensePlate());
     } else {
       licensePlate.setValue("");
     }

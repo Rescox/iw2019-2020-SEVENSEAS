@@ -10,5 +10,5 @@ public interface EventRepository extends JpaRepository<Event,Long> {
 
     List<Event> findAll();
 
-    Event findByNameStartsWithIgnoreCase(String name);
+    List<Event> findByNameStartsWithIgnoreCase(String name);
 }

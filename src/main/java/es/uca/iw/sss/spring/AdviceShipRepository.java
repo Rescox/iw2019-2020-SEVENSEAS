@@ -2,6 +2,8 @@ package es.uca.iw.sss.spring;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 
 public interface AdviceShipRepository extends JpaRepository<AdviceShip,Long> {
     AdviceShip findById(int id);
@@ -10,5 +12,5 @@ public interface AdviceShipRepository extends JpaRepository<AdviceShip,Long> {
 
     AdviceShip findByAdvice(AdviceShip userInstance);
 
-    AdviceShip findByAdviceStartsWithIgnoreCase(String advice);
+    List<AdviceShip> findByAdviceStartsWithIgnoreCase(String advice);
 }

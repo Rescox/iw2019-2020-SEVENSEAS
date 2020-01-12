@@ -2,6 +2,8 @@ package es.uca.iw.sss.spring;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
+import java.util.List;
+
 
 public interface AdviceCityRepository extends JpaRepository<AdviceCity,Long> {
     AdviceCity findById(int id);
@@ -10,5 +12,5 @@ public interface AdviceCityRepository extends JpaRepository<AdviceCity,Long> {
 
     AdviceCity findByAdvice(AdviceCity userInstance);
 
-    AdviceCity findByAdviceStartsWithIgnoreCase(String advice);
+    List<AdviceCity> findByAdviceStartsWithIgnoreCase(String advice);
 }
