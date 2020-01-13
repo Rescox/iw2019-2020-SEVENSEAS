@@ -70,8 +70,5 @@ public class WelcomeView extends VerticalLayout {
         cityWeather.add(temperature, cloud);
         details.add(gallery, cityWeather);
         add(details);
-
-
-
     }
 }
