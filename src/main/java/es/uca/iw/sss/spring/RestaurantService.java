@@ -33,24 +33,29 @@ public class RestaurantService {
         return restaurantRepository.save(restaurant);
     }
 
-    public List<Restaurant> listRestaurant() {
-        return restaurantRepository.findAll();
-    }
+        public List<Restaurant> listRestaurant() {
+            return restaurantRepository.findAll();
+        }
 
-    public Long countRestaurants() {
-        return restaurantRepository.count();
-    }
+        public Long countRestaurants() {
+            return restaurantRepository.count();
+        }
 
-    public void deleteRestaurant(Restaurant restaurant) {
-        restaurantRepository.delete(restaurant);
-    }
+        public void deleteRestaurant(Restaurant restaurant) {
+            restaurantRepository.delete(restaurant);
+        }
 
-    public void create(Restaurant restaurant)
-    {
-        restaurantRepository.save(restaurant);
-    }
+        public void create(Restaurant restaurant)
+        {
+            restaurantRepository.save(restaurant);
+        }
 
-    public Optional<Restaurant> findById(Long id) {
-        return restaurantRepository.findById(id);
-    }
+        public Optional<Restaurant> findById(Long id) {
+            return restaurantRepository.findById(id);
+        }
 }
+
+
+
+
+

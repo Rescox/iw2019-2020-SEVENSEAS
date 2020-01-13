@@ -1,9 +1,11 @@
+
 package es.uca.iw.sss.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class SpaService {
@@ -34,5 +36,9 @@ public class SpaService {
     public void create(Spa spa)
     {
         spaRepository.save(spa);
+    }
+
+    public Optional<Spa> findById(Long id) {
+        return spaRepository.findById(id);
     }
 }

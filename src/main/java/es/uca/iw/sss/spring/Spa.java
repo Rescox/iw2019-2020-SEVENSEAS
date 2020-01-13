@@ -22,11 +22,13 @@ public class Spa implements Serializable, Cloneable {
     private String photo;
     @Column(nullable=false)
     private String phone;
+    @Column(nullable=false)
+    private Float price;
     @ManyToOne
     private Ship ship;
 
     public Spa(){}
-    public Spa(String name, String description, Long aforum, String photo, String phone, Ship ship)
+    public Spa(String name, String description, Long aforum, String photo, String phone, Ship ship, Float price)
     {
         this.name = name;
         this.description = description;
@@ -34,6 +36,7 @@ public class Spa implements Serializable, Cloneable {
         this.phone = phone;
         this.photo = photo;
         this.ship = ship;
+        this.price = price;
     }
 
     public Long getId() {
@@ -58,6 +61,14 @@ public class Spa implements Serializable, Cloneable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public Float getPrice() {
+        return price;
+    }
+
+    public void setPrice(Float price) {
+        this.price = price;
     }
 
     public Long getAforum() {

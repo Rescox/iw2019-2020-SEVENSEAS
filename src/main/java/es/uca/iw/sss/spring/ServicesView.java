@@ -35,9 +35,14 @@ public class ServicesView extends VerticalLayout {
 
         Image img3=new Image("/images/wellness1.jpg","images/wellness1.jpg");
         img3.setWidth("300px");
+        img3.addClickListener(e -> UI.getCurrent().navigate(SpasView.class));
 
-        formLayout.add(img1, img2, img3);
-        formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 3, FormLayout.ResponsiveStep.LabelsPosition.ASIDE));
+        Image img4=new Image("/images/events1.jpg","images/events1.jpg");
+        img4.setWidth("300px");
+        img4.addClickListener(e -> UI.getCurrent().navigate(EventsView.class));
+
+        formLayout.add(img1, img2, img3, img4);
+        formLayout.setResponsiveSteps(new FormLayout.ResponsiveStep("0", 4, FormLayout.ResponsiveStep.LabelsPosition.ASIDE));
         buttonsLayout.add(formLayout);
         servicesLayout.add(buttonsLayout);
         servicesLayout.setHorizontalComponentAlignment(Alignment.CENTER,buttonsLayout);

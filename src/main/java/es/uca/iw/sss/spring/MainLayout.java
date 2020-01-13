@@ -33,7 +33,8 @@ public class MainLayout extends AppLayout {
     public MainLayout(UserService userService, ShipService shiipService) {
         service = userService;
         shipService = shiipService;
-        H3 nombreapellido = new H3 ("Bienvenido, " + getUser().toString());
+        User loggedUser = getUser();
+        Label nombreapellido = new Label("Bienvenido, " + getUser().toString());
         menu = createMenuTabs();
         Button logout = new Button("Logout");
         logout.addClickListener(e -> {logout();});
@@ -54,20 +55,15 @@ public class MainLayout extends AppLayout {
         tabs.setOrientation(Tabs.Orientation.HORIZONTAL);
         if(SecurityUtils.hasRole("customer")) {
             tabs.add(createTab(VaadinIcon.HANDSHAKE, "Welcome", WelcomeView.class));
-            tabs.add(createTab(VaadinIcon.FLAG, "Advices", AdviceShipView.class));
+            tabs.add(createTab(VaadinIcon.FLAG, "Advices", AdvicesView.class));
             tabs.add(createTab(VaadinIcon.LIFEBUOY, "Plan", PlanView.class));
             tabs.add(createTab(VaadinIcon.HEART, "Services", ServicesView.class));
             tabs.add(createTab(VaadinIcon.TICKET, "Tours", TourView.class));
             tabs.add(createTab(VaadinIcon.USER, "MyAccount", AccountView.class));
-
         }
         if(SecurityUtils.hasRole("admin")) {
             tabs.add(createTab(VaadinIcon.BOAT, "Ship", ManageShipView.class));
             tabs.add(createTab(VaadinIcon.USER, "User", ManageUserView.class));
-            tabs.add(createTab(VaadinIcon.BUILDING, "City", ManageCityView.class));
-        }
-        if(SecurityUtils.hasRole("manager")) {
-            tabs.add(createTab(VaadinIcon.HANDSHAKE, "WelcomeManager", ManagerWelcome.class));
 
         }
 

@@ -1,13 +1,14 @@
+
 package es.uca.iw.sss.spring;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class EventService {
-
     @Autowired
     EventRepository eventRepository;
 
@@ -19,7 +20,7 @@ public class EventService {
         return eventRepository.save(event);
     }
 
-    public List<Event> listEvent() {
+    public List<Event> listSpa() {
         return eventRepository.findAll();
     }
 
@@ -27,12 +28,16 @@ public class EventService {
         return eventRepository.count();
     }
 
-    public void deleteSpa(Event event) {
+    public void deleteEvent(Event event) {
         eventRepository.delete(event);
     }
 
     public void create(Event event)
     {
         eventRepository.save(event);
+    }
+
+    public Optional<Event> findById(Long id) {
+        return eventRepository.findById(id);
     }
 }

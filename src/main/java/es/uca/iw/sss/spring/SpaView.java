@@ -1,43 +1,34 @@
 package es.uca.iw.sss.spring;
 
-
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
-
-@Route(value = "ReservationForm", layout = MainLayout.class)
-@PageTitle("ReservationForm")
-public class ReservationForm extends HorizontalLayout implements HasUrlParameter<Long>{
+@Route(value = "SpaView", layout = MainLayout.class)
+@PageTitle("SpaView")
+public class SpaView extends HorizontalLayout implements HasUrlParameter<Long> {
 
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
@@ -45,43 +36,41 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
     LocalDate now = LocalDate.now();
     TimePicker timePicker;
 
-    private Dialog dialog = new Dialog();
-    private ReservationRepository reservationRepository;
-    private RestaurantRepository restaurantRepository;
-    private ReservationService reservationService;
-    private RestaurantService restaurantService;
+    /*private Dialog dialog = new Dialog();*/
+    private SpaReservationRepository spaReservationRepository;
+    private SpaRepository spaRepository;
+    private SpaReservationService spaReservationService;
+    private SpaService spaService;
     private UserService userService;
     private UserRepository userRepository;
-    private Reservation reservation = new Reservation();
-    private BeanValidationBinder<Reservation> binder = new BeanValidationBinder<>(Reservation.class);
-    private Restaurant restaurant;
+    private SpaReservation spaReservation = new SpaReservation();
+    private BeanValidationBinder<SpaReservation> binder = new BeanValidationBinder<>(SpaReservation.class);
+    private Spa spa;
     private H3 name;
     private Label description;
+    private Label price;
     private String photourl;
-    private Set<Dish> dishList;
-    private Grid<Dish> dishGrid = new Grid<>(Dish.class);
     private Image img;
 
     @Autowired
-    public ReservationForm(ReservationService reservationService, UserService userService, RestaurantRepository restaurantRepository, RestaurantService restaurantService) {
+    public SpaView(SpaReservationService spaReservationService, UserService userService, SpaRepository spaRepository, SpaService spaService) {
 
         //Pintar parte de registrar reserva
         datePicker = new DatePicker();
         timePicker = new TimePicker();
         FormLayout formLayout = new FormLayout();
-        this.reservationService = reservationService;
+        this.spaReservationService = spaReservationService;
         this.userService = userService;
-        this.restaurantRepository = restaurantRepository;
-        this.restaurantService = restaurantService;
+        this.spaRepository = spaRepository;
+        this.spaService = spaService;
         this.name = new H3();
         this.photourl = new String();
         this.description = new Label();
-        this.dishList = new HashSet<>();
+        this.price = new Label();
         this.img = new Image(""+photourl+"","hola");
         img.setHeight("100%");
         img.setWidth("250px");
-        dishGrid.setItems(dishList);
-        dishGrid.setColumns("nameDish","price");
+
 
         binder.bindInstanceFields(this);
         VerticalLayout verticalLayout1 = new VerticalLayout();
@@ -99,16 +88,13 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
         timePicker.setMax("23:00");
 
         Button register = new Button("Register", event -> {
-            dialog.close();
-            registerReservation();
-
+           registerReservation();
         });
         Button cancel = new Button("Cancel",  event -> {
-            dialog.close();
-            UI.getCurrent().navigate(ManageShipView.class);
+            UI.getCurrent().navigate(ServicesView.class);
         });
 
-        dialog.add(register, cancel);
+
         register.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         register.addClickShortcut(Key.ENTER);
         cancel.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
@@ -116,20 +102,20 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
         verticalLayout1.setWidth("20%");
         verticalLayout2.setWidth("60%");
         verticalLayout3.setWidth("20%");
-        verticalLayout1.add(name,description,firstName, lastName, datePicker,timePicker,buttons);
-        verticalLayout2.add(dishGrid);
+        verticalLayout1.add(name,description,price,firstName, lastName, datePicker,timePicker,buttons);
         verticalLayout3.add(img);
         add(verticalLayout3,verticalLayout1,verticalLayout2);
 
     }
 
     private void registerReservation() {
-        reservation.setFirstName(firstName.getValue());
-        reservation.setLastName(lastName.getValue());
-        reservation.setUser(getUser());
-        reservation.setDate(datePicker.getValue().toString());
-        reservation.setHour(timePicker.getValue().toString());
-        reservationService.create(reservation);
+        spaReservation.setFirstName(firstName.getValue());
+        spaReservation.setLastName(lastName.getValue());
+        spaReservation.setUser(getUser());
+        spaReservation.setServices("1");
+        spaReservation.setDate(datePicker.getValue().toString());
+        spaReservation.setHour(timePicker.getValue().toString());
+        spaReservationService.create(spaReservation);
         UI.getCurrent().navigate(WelcomeView.class);
         UI.getCurrent().getPage().reload();
     }
@@ -140,13 +126,13 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
         Location location = beforeEvent.getLocation();
         System.out.println(location.getSegments().get(1));
         id = Long.parseLong(location.getSegments().get(1));
-        if(restaurantRepository.findById(id).isPresent()){
-            reservation.setRestaurant(restaurantRepository.findById(id).get());
-            restaurant = restaurantService.findById(id).get();
-            this.name.setText(restaurant.getName());
-            this.description.setText(restaurant.getDescription());
-            this.photourl = restaurant.getPhoto();
-            this.dishList = restaurant.getDishSet();
+        if(spaRepository.findById(id).isPresent()){
+            spaReservation.setSpa(spaRepository.findById(id).get());
+            spa = spaService.findById(id).get();
+            this.name.setText(spa.getName());
+            this.description.setText(spa.getDescription());
+            this.price.setText(""+spa.getPrice()+"€");
+            this.photourl = spa.getPhoto();
 
         }
 

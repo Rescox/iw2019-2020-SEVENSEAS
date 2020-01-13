@@ -2,6 +2,9 @@ package es.uca.iw.sss.spring;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 public class Event implements Serializable, Cloneable {
@@ -18,6 +21,8 @@ public class Event implements Serializable, Cloneable {
     @Column(nullable=false)
     private String photo;
     @Column(nullable=false)
+    private String date;
+    @Column(nullable=false)
     private String init_time;   //Hora inicio
     @Column(nullable=false)     //Hora fin
     private String end_time;
@@ -27,7 +32,7 @@ public class Event implements Serializable, Cloneable {
     private Ship ship;
 
     public Event() {}
-    public Event(String name, String description, Long aforum, String photo, String init_time, String end_time, Long price, Ship ship) {
+    public Event(String name, String description, Long aforum, String photo, String init_time, String end_time, Long price, Ship ship, String date) {
         this.name = name;
         this.description = description;
         this.aforum = aforum;
@@ -36,6 +41,7 @@ public class Event implements Serializable, Cloneable {
         this.end_time = end_time;
         this.price = price;
         this.ship = ship;
+        this.date = date;
     }
 
     public Long getId() {
@@ -109,6 +115,10 @@ public class Event implements Serializable, Cloneable {
     public void setShip(Ship ship) {
         this.ship = ship;
     }
+
+    public String getDate() { return date; }
+
+    public void setDate(String date) { this.date = date; }
 
     @Override
     public boolean equals(Object obj) {
