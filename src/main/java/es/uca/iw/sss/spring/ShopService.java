@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class ShopService {
@@ -13,6 +14,10 @@ public class ShopService {
 
     public ShopService(ShopRepository repo) {
         this.shopRepository = repo;
+    }
+
+    public Optional<Shop> findById(Long id) {
+        return shopRepository.findById(id);
     }
 
     public Shop saveShop(Shop shop) {
