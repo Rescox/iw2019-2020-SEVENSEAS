@@ -33,6 +33,7 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
     private BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
     private UserService userService;
     private ShipService shipService;
+    private String pass;
     Button save = new Button("Save", VaadinIcon.CHECK.create());
     Button cancel = new Button("Cancel");
     Button delete = new Button("Delete", VaadinIcon.TRASH.create());
@@ -86,7 +87,13 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
     void save() {
         user.setShip(shipService.findByLicensePlate(shipLicensePlate.getValue()));
         userService.create(user);
+        if(!this.pass.isEmpty() && password.getValue().length() == 60)
+        {
+            user.setPassword(this.pass);
+            userService.saveUser(user);
+        }
         changeHandler.onChange();
+
     }
 
     public interface ChangeHandler {
@@ -117,7 +124,8 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
         {
             shipLicensePlate.setValue("");
         }
-        password.setValue(user.getPassword());
+
+        pass = user.getPassword();
 
         setVisible(true);
 

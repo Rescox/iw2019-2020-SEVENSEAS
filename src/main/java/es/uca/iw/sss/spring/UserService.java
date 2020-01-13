@@ -42,6 +42,10 @@ public class UserService implements UserDetailsService {
         this.repo = repo;
     }
 
+    public void saveUser(User user) {
+         repo.save(user);
+    }
+
     public static UserService getInstance(UserRepository repo) {
         if (userService == null) {
             userService = new UserService(repo);

@@ -91,7 +91,7 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
     }
     final boolean persisted = scaleEdit.getId() != null;
     if (persisted) {
-      scale = scaleRepository.findById(scaleEdit.getId()).get(); 
+      scale = scaleRepository.findById(scaleEdit.getId()).get();
     } else {
       scale = scaleEdit;
     }
