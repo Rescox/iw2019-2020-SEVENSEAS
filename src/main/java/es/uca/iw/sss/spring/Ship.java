@@ -32,7 +32,7 @@ public class Ship {
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "ship", cascade = CascadeType.REMOVE)
   private Set<Restaurant> restaurantSet = new HashSet<>();
 
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "ship", cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "ship", cascade = CascadeType.REMOVE)
   private Set<Scale> scaleSet = new HashSet<>();
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "ship", cascade = CascadeType.REMOVE)
