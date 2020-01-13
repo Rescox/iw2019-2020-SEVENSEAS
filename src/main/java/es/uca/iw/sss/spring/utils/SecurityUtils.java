@@ -2,7 +2,7 @@ package es.uca.iw.sss.spring.utils;
 
 import com.vaadin.flow.server.ServletHelper.RequestType;
 import com.vaadin.flow.shared.ApplicationConstants;
-import es.uca.iw.sss.spring.User;
+import es.uca.iw.sss.spring.backend.entities.User;
 import org.springframework.core.annotation.AnnotationUtils;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

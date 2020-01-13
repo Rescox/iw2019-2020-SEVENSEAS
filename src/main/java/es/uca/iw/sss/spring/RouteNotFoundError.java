@@ -3,6 +3,7 @@ package es.uca.iw.sss.spring;
 import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Tag;
 import com.vaadin.flow.router.*;
+import es.uca.iw.sss.spring.ui.common.MainLayout;
 
 import javax.servlet.http.HttpServletResponse;
 
