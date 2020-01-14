@@ -37,10 +37,10 @@ public class SpaView extends HorizontalLayout implements HasUrlParameter<Long> {
 
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
-    DatePicker datePicker;
-    NumberField numberField;
-    LocalDate now = LocalDate.now();
-    TimePicker timePicker;
+    private DatePicker datePicker;
+    private NumberField numberField;
+    private LocalDate now = LocalDate.now();
+    private TimePicker timePicker;
 
     private SpaReservationRepository spaReservationRepository;
     private SpaRepository spaRepository;
@@ -109,6 +109,7 @@ public class SpaView extends HorizontalLayout implements HasUrlParameter<Long> {
             UI.getCurrent().navigate(ServicesView.class);
         });
 
+        register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         register.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         register.addClickShortcut(Key.ENTER);

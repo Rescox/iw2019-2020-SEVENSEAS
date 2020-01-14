@@ -43,6 +43,7 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
     private Event event;
     private H3 name;
     private Label description;
+    private Label schenduled;
     private Label price;
     private String photourl;
     private Image img;
@@ -60,9 +61,10 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
         this.name = new H3();
         this.photourl = new String();
         this.description = new Label();
+        this.schenduled = new Label();
         this.price = new Label();
         this.numberField = new NumberField();
-        this.img = new Image(""+photourl+"","hola");
+        this.img = new Image(""+photourl+""," ");
         img.setHeight("100%");
         img.setWidth("250px");
 
@@ -95,7 +97,7 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
         verticalLayout1.setWidth("20%");
         verticalLayout2.setWidth("60%");
         verticalLayout3.setWidth("20%");
-        verticalLayout1.add(name,description,price,firstName,lastName,numberField,buttons);
+        verticalLayout1.add(name,description,schenduled,price,firstName,lastName,numberField,buttons);
         verticalLayout3.add(img);
         add(verticalLayout3,verticalLayout1,verticalLayout2);
 
@@ -125,9 +127,9 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
             event = eventService.findById(id).get();
             this.name.setText(event.getName());
             this.description.setText(event.getDescription());
+            this.schenduled.setText(event.getDate()+" "+event.getInit_time()+" to "+event.getEnd_time());
             this.price.setText(""+event.getPrice()+"€");
             this.photourl = event.getPhoto();
-
         }
 
     }

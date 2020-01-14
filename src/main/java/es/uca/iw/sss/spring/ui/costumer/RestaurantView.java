@@ -1,20 +1,28 @@
-package es.uca.iw.sss.spring.ui.costumer;
+package es.uca.iw.sss.spring;
 
+import com.vaadin.flow.component.Component;
+import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
+import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H2;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Image;
+import com.vaadin.flow.component.html.Label;
+import com.vaadin.flow.component.icon.Icon;
+import com.vaadin.flow.component.icon.VaadinIcon;
+import com.vaadin.flow.component.orderedlayout.FlexComponent;
+import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.tabs.Tab;
+import com.vaadin.flow.component.tabs.TabVariant;
+import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import es.uca.iw.sss.spring.backend.entities.Restaurant;
-import es.uca.iw.sss.spring.backend.entities.Ship;
-import es.uca.iw.sss.spring.backend.entities.User;
-import es.uca.iw.sss.spring.backend.repositories.RestaurantRepository;
-import es.uca.iw.sss.spring.backend.services.ReservationService;
-import es.uca.iw.sss.spring.backend.services.RestaurantService;
-import es.uca.iw.sss.spring.backend.services.UserService;
-import es.uca.iw.sss.spring.ui.common.MainLayout;
+import com.vaadin.flow.router.RouterLink;
 
 import java.util.Set;
 
@@ -46,8 +54,12 @@ public class RestaurantView extends AppLayout {
         //Mostrar todos los nombres de los restaurantes
         for(Restaurant r: restaurants)
         {
-            Button boton = new Button(r.getName(), e -> ReservationForm(r.getId()));
-            verticalLayout1.add(boton);
+            VerticalLayout info = new VerticalLayout();
+            Button boton = new Button("View more", e -> ReservationForm(r.getId()));
+            H3 nombre = new H3(r.getName());
+            Label descripcion = new Label(r.getDescription());
+            info.add(nombre,descripcion,boton);
+            verticalLayout1.add(info);
         }
 
         setContent(verticalLayout1);
@@ -55,7 +67,6 @@ public class RestaurantView extends AppLayout {
 
     public void ReservationForm(Long id_restaurante)
     {
-
         UI.getCurrent().navigate(ReservationForm.class, id_restaurante);
         UI.getCurrent().getPage().reload();
     }

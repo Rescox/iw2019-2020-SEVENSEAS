@@ -1,19 +1,13 @@
-package es.uca.iw.sss.spring.ui.costumer;
+package es.uca.iw.sss.spring;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.html.H3;
+import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import es.uca.iw.sss.spring.backend.entities.Ship;
-import es.uca.iw.sss.spring.backend.entities.Spa;
-import es.uca.iw.sss.spring.backend.entities.User;
-import es.uca.iw.sss.spring.backend.repositories.ShipRepository;
-import es.uca.iw.sss.spring.backend.repositories.SpaRepository;
-import es.uca.iw.sss.spring.backend.services.ShipService;
-import es.uca.iw.sss.spring.backend.services.SpaService;
-import es.uca.iw.sss.spring.backend.services.UserService;
-import es.uca.iw.sss.spring.ui.common.MainLayout;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.Set;
 
@@ -44,8 +38,12 @@ public class SpasView extends VerticalLayout {
         //Mostrar todos los nombres de los spas
         for(Spa s: spas)
         {
-            Button boton = new Button(s.getName(), e -> SpasView(s.getId()));
-            verticalLayout1.add(boton);
+            VerticalLayout info = new VerticalLayout();
+            Button boton = new Button("View more", e -> SpasView(s.getId()));
+            H3 nombre = new H3(s.getName());
+            Label descripcion = new Label(s.getDescription());
+            info.add(nombre,descripcion,boton);
+            verticalLayout1.add(info);
         }
 
         add(verticalLayout1);
