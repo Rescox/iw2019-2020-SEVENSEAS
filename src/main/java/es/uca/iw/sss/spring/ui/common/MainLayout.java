@@ -6,8 +6,7 @@ import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.Span;
+import com.vaadin.flow.component.html.*;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.tabs.Tab;
 import com.vaadin.flow.component.tabs.TabVariant;
@@ -16,6 +15,7 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinSession;
+import es.uca.iw.sss.spring.ServicesView;
 import es.uca.iw.sss.spring.backend.services.ShipService;
 import es.uca.iw.sss.spring.backend.services.UserService;
 import es.uca.iw.sss.spring.ui.admin.ManageCityView;
@@ -25,7 +25,6 @@ import es.uca.iw.sss.spring.ui.costumer.*;
 import es.uca.iw.sss.spring.ui.manager.ManagerWelcome;
 import es.uca.iw.sss.spring.utils.SecurityUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
 @PageTitle("Welcome")
@@ -77,8 +76,6 @@ public class MainLayout extends AppLayout {
         }
         if(SecurityUtils.hasRole("manager")) {
             tabs.add(createTab(VaadinIcon.HANDSHAKE, "WelcomeManager", ManagerWelcome.class));
-            tabs.add(createTab(VaadinIcon.HANDSHAKE, "Tours", ManagerWelcome.class));
-            tabs.add(createTab(VaadinIcon.HANDSHAKE, "Services", ManagerWelcome.class));
 
         }
 

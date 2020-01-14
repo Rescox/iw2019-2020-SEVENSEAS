@@ -1,4 +1,4 @@
-/*package es.uca.iw.sss.spring.ui.costumer;
+package es.uca.iw.sss.spring.ui.costumer;
 
 
 import com.vaadin.flow.component.Component;
@@ -118,4 +118,4 @@ public class ReservationForm extends FormLayout implements HasUrlParameter<Long>
 
     }
 
-}*/
+}

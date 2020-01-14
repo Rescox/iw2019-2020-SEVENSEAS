@@ -17,7 +17,9 @@ import es.uca.iw.sss.spring.backend.entities.Ship;
 import es.uca.iw.sss.spring.backend.entities.Tour;
 import es.uca.iw.sss.spring.backend.repositories.ShipRepository;
 import es.uca.iw.sss.spring.ui.common.MainLayout;
+import org.springframework.security.access.annotation.Secured;
 
+@Secured("manager")
 @Route(value = "WelcomeManager", layout = MainLayout.class)
 public class ManagerWelcome extends VerticalLayout {
     private static final String[] MONTH_LABELS = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul",
@@ -99,8 +101,8 @@ public class ManagerWelcome extends VerticalLayout {
         conf2.addSeries(series2);
         conf2.addxAxis(xaxis2);
         conf2.setSubTitle(ship.getLicensePlate());
-
-
+        if(managerWelcome.getComponentCount() > 5)
+            managerWelcome.remove(chartFacturation, facturation, chartTours, chartEvents);
         managerWelcome.add(chartFacturation, facturation, chartTours, chartEvents);
     }
 }

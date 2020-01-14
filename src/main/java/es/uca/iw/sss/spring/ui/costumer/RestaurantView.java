@@ -56,7 +56,7 @@ public class RestaurantView extends AppLayout {
     public void ReservationForm(Long id_restaurante)
     {
 
-        //UI.getCurrent().navigate(ReservationForm.class, id_restaurante);
+        UI.getCurrent().navigate(ReservationForm.class, id_restaurante);
         UI.getCurrent().getPage().reload();
     }
 
