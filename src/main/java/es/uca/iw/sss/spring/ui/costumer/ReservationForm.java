@@ -64,14 +64,14 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
     private Image img;
 
     @Autowired
-    public ReservationForm(ReservationService reservationService, UserService userService, RestaurantRepository restaurantRepository, RestaurantService restaurantService) {
+    public ReservationForm(ReservationService reservationService, UserService userService, RestaurantRepository restaurantRepository, RestaurantService restaurantService, ReservationRepository reservationRepository) {
 
         //Pintar parte de registrar reserva
         datePicker = new DatePicker();
         timePicker = new TimePicker();
         numberField = new NumberField();
 
-        FormLayout formLayout = new FormLayout();
+        this.reservationRepository = reservationRepository;
         this.reservationService = reservationService;
         this.userService = userService;
         this.restaurantRepository = restaurantRepository;
@@ -139,7 +139,7 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
         String dateHour1 = reservation.getDate() +" "+reservation.getHour();
         Date parsedDateHour1 = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(dateHour1);
 
-        List<Reservation> reservations = reservationRepository.findAll();
+        List<Reservation> reservations = reservationRepository.findByRestaurant(restaurant);
         Long cont = 0L;
         for(Reservation r: reservations)
         {
