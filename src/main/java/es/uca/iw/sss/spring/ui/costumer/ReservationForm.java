@@ -49,8 +49,10 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
     private Dialog dialog = new Dialog();
     private ReservationRepository reservationRepository;
     private RestaurantRepository restaurantRepository;
+    private DishRepository DishRepository;
     private ReservationService reservationService;
     private RestaurantService restaurantService;
+    private DishService DishService;
     private UserService userService;
     private UserRepository userRepository;
     private Reservation reservation = new Reservation();
@@ -64,7 +66,10 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
     private Image img;
 
     @Autowired
-    public ReservationForm(ReservationService reservationService, UserService userService, RestaurantRepository restaurantRepository, RestaurantService restaurantService, ReservationRepository reservationRepository) {
+    public ReservationForm(ReservationService reservationService, UserService userService,
+                           RestaurantRepository restaurantRepository, RestaurantService restaurantService,
+                           ReservationRepository reservationRepository, DishService DishService, DishRepository dishRepository)
+    {
 
         //Pintar parte de registrar reserva
         datePicker = new DatePicker();
@@ -80,11 +85,9 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
         this.photourl = new String();
         this.description = new Label();
         this.dishList = new HashSet<>();
-        this.img = new Image(""+photourl+"","hola");
+        this.img = new Image();
         img.setHeight("100%");
         img.setWidth("250px");
-        dishGrid.setItems(dishList);
-        dishGrid.setColumns("nameDish","price");
 
         binder.bindInstanceFields(this);
         VerticalLayout verticalLayout1 = new VerticalLayout();
@@ -188,7 +191,12 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
             this.name.setText(restaurant.getName());
             this.description.setText(restaurant.getDescription());
             this.photourl = restaurant.getPhoto();
+            this.img.setSrc(this.photourl);
+            this.img.setAlt(this.photourl);
             this.dishList = restaurant.getDishSet();
+            dishGrid.setItems(this.dishList);
+            dishGrid.setColumns("nameDish","price");
+
 
         }
 
