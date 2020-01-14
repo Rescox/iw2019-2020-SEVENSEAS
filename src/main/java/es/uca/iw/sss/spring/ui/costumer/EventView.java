@@ -18,11 +18,8 @@ import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Date;
 import java.util.List;
 
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
@@ -57,17 +54,18 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
         FormLayout formLayout = new FormLayout();
         this.eventReservationService = eventReservationService;
         this.userService = userService;
-        this.eventReservationRepository = eventReservationRepository;
         this.eventRepository = eventRepository;
         this.eventService = eventService;
+        this.eventReservationRepository = eventReservationRepository;
         this.name = new H3();
         this.photourl = new String();
         this.description = new Label();
         this.price = new Label();
-        this.img = new Image(""+photourl+"","hola");
         this.numberField = new NumberField();
+        this.img = new Image(""+photourl+"","hola");
         img.setHeight("100%");
         img.setWidth("250px");
+
 
 
         binder.bindInstanceFields(this);
@@ -83,15 +81,8 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
 
 
         Button register = new Button("Register", event -> {
-            try {
-                registerReservation();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            registerReservation();
         });
-
-        register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
-
         Button cancel = new Button("Cancel",  event -> {
             UI.getCurrent().navigate(ServicesView.class);
         });
@@ -104,43 +95,23 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
         verticalLayout1.setWidth("20%");
         verticalLayout2.setWidth("60%");
         verticalLayout3.setWidth("20%");
-        verticalLayout1.add(name,description,price,firstName, lastName,numberField,buttons);
+        verticalLayout1.add(name,description,price,firstName,lastName,numberField,buttons);
         verticalLayout3.add(img);
         add(verticalLayout3,verticalLayout1,verticalLayout2);
-    }
-
-    private boolean enoughAforum() throws ParseException {
-
-        List<EventReservation> reservations = eventReservationRepository.findByEvent(event);
-        Long cont = 0L;
-        for(EventReservation r: reservations)
-        {
-                cont = cont + r.getPersons();
-        }
-        if(cont + eventReservation.getPersons() > event.getAforum())
-        {
-            return false;
-        }
-        else return true;
 
     }
 
-
-
-    private void registerReservation() throws ParseException {
+    private void registerReservation() {
         eventReservation.setFirstName(firstName.getValue());
         eventReservation.setLastName(lastName.getValue());
         eventReservation.setUser(getUser());
         eventReservation.setServices("1");
         eventReservation.setDate(LocalDate.now().toString());
         eventReservation.setHour(LocalTime.now().toString());
-        eventReservation.setPrice(numberField.getValue().floatValue() * event.getPrice() );
-        if(enoughAforum())
-        {
-            eventReservationService.create(eventReservation);
-            UI.getCurrent().navigate(WelcomeView.class);
-            UI.getCurrent().getPage().reload();
-        }
+        eventReservation.setPersons(numberField.getValue().longValue());
+        eventReservationService.create(eventReservation);
+        UI.getCurrent().navigate(WelcomeView.class);
+        UI.getCurrent().getPage().reload();
     }
 
     @Override
