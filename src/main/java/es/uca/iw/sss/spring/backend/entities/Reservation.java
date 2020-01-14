@@ -1,6 +1,7 @@
-package es.uca.iw.sss.spring.backend.entities;
+package es.uca.iw.sss.spring;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 
 @Entity
 public class Reservation {
@@ -20,18 +21,21 @@ public class Reservation {
     private String date;
     @Column(nullable = false)
     private String hour;
+    @Column(nullable = false)
+    private Long persons;
     @ManyToOne
     private User user;
     @ManyToOne
     private Restaurant restaurant;
 
-    public Reservation(float price, String services, String date, String hour, Long id_client, Long id_restaurant, User user, Restaurant restaurant) {
+    public Reservation(float price, String services, String date, String hour, User user, Restaurant restaurant, Long persons) {
         this.price = price;
         this.services = services;
         this.date = date;
         this.hour = hour;
-      this.user = user;
-      this.restaurant = restaurant;
+        this.user = user;
+        this.restaurant = restaurant;
+        this.persons = persons;
     }
 
     public Reservation()
@@ -77,8 +81,6 @@ public class Reservation {
         this.hour = hour;
     }
 
-
-
     public String getFirstName() { return firstName; }
 
     public void setFirstName(String firstName) { this.firstName = firstName; }
@@ -87,6 +89,29 @@ public class Reservation {
 
     public void setLastName(String lastName) { this.lastName = lastName; }
 
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Restaurant getRestaurant() {
+        return restaurant;
+    }
+
+    public void setRestaurant(Restaurant restaurant) {
+        this.restaurant = restaurant;
+    }
+
+    public Long getPersons() {
+        return persons;
+    }
+
+    public void setPersons(Long persons) {
+        this.persons = persons;
+    }
 
     @Override
     public boolean equals(Object obj) {
@@ -114,19 +139,4 @@ public class Reservation {
     }
 
 
-  public Restaurant getRestaurant() {
-    return restaurant;
-  }
-
-  public void setRestaurant(Restaurant restaurant) {
-    this.restaurant = restaurant;
-  }
-
-  public User getUser() {
-    return user;
-  }
-
-  public void setUser(User user) {
-    this.user = user;
-  }
 }

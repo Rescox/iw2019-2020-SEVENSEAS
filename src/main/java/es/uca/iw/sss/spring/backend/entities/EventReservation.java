@@ -1,4 +1,4 @@
-package es.uca.iw.sss.spring.backend.entities;
+package es.uca.iw.sss.spring;
 
 import javax.persistence.*;
 
@@ -17,6 +17,8 @@ public class EventReservation {
     @Column(nullable = false)
     private String services;
     @Column(nullable = false)
+    private Long persons;
+    @Column(nullable = false)
     private String date;
     @Column(nullable = false)
     private String hour;
@@ -25,13 +27,14 @@ public class EventReservation {
     @ManyToOne
     private Event event;
 
-    public EventReservation(float price, String services, String date, String hour, User user, Event event) {
+    public EventReservation(float price, String services, String date, String hour, User user, Event event,Long persons) {
         this.price = price;
         this.services = services;
         this.date = date;
         this.hour = hour;
         this.user = user;
         this.event = event;
+        this.persons = persons;
     }
 
     public EventReservation()
@@ -100,6 +103,10 @@ public class EventReservation {
     public void setEvent(Event event) {
         this.event = event;
     }
+
+    public Long getPersons() { return persons; }
+
+    public void setPersons(Long persons) { this.persons = persons;}
 
     @Override
     public boolean equals(Object obj) {
