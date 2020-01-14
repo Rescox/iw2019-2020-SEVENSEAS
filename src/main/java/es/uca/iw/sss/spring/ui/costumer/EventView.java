@@ -1,4 +1,4 @@
-package es.uca.iw.sss.spring.ui.costumer;
+package es.uca.iw.sss.spring;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
@@ -11,25 +11,19 @@ import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.*;
-import es.uca.iw.sss.spring.ServicesView;
-import es.uca.iw.sss.spring.backend.entities.Event;
-import es.uca.iw.sss.spring.backend.entities.EventReservation;
-import es.uca.iw.sss.spring.backend.repositories.EventRepository;
-import es.uca.iw.sss.spring.backend.repositories.EventReservationRepository;
-import es.uca.iw.sss.spring.backend.repositories.UserRepository;
-import es.uca.iw.sss.spring.backend.services.EventReservationService;
-import es.uca.iw.sss.spring.backend.services.EventService;
-import es.uca.iw.sss.spring.backend.services.UserService;
-import es.uca.iw.sss.spring.ui.common.MainLayout;
-import es.uca.iw.sss.spring.ui.common.WelcomeView;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.LocalTime;
+import java.util.Date;
+import java.util.List;
 
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
@@ -39,8 +33,8 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
 
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
+    private NumberField numberField;
 
-    /*private Dialog dialog = new Dialog();*/
     private EventReservationRepository eventReservationRepository;
     private EventRepository eventRepository;
     private EventReservationService eventReservationService;
@@ -57,12 +51,13 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
     private Image img;
 
     @Autowired
-    public EventView(EventReservationService eventReservationService, UserService userService, EventRepository eventRepository, EventService eventService) {
+    public EventView(EventReservationService eventReservationService, UserService userService, EventRepository eventRepository, EventService eventService, EventReservationRepository eventReservationRepository) {
 
         //Pintar parte de registrar reserva
         FormLayout formLayout = new FormLayout();
         this.eventReservationService = eventReservationService;
         this.userService = userService;
+        this.eventReservationRepository = eventReservationRepository;
         this.eventRepository = eventRepository;
         this.eventService = eventService;
         this.name = new H3();
@@ -70,6 +65,7 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
         this.description = new Label();
         this.price = new Label();
         this.img = new Image(""+photourl+"","hola");
+        this.numberField = new NumberField();
         img.setHeight("100%");
         img.setWidth("250px");
 
@@ -80,11 +76,22 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
         VerticalLayout verticalLayout3 = new VerticalLayout();
         firstName.setRequiredIndicatorVisible(true);
         lastName.setRequiredIndicatorVisible(true);
+        numberField.setValue(1d);
+        numberField.setHasControls(true);
+        numberField.setMin(1);
+        numberField.setLabel("Number of persons");
 
 
         Button register = new Button("Register", event -> {
-            registerReservation();
+            try {
+                registerReservation();
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
         });
+
+        register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
+
         Button cancel = new Button("Cancel",  event -> {
             UI.getCurrent().navigate(ServicesView.class);
         });
@@ -97,22 +104,43 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
         verticalLayout1.setWidth("20%");
         verticalLayout2.setWidth("60%");
         verticalLayout3.setWidth("20%");
-        verticalLayout1.add(name,description,price,firstName, lastName,buttons);
+        verticalLayout1.add(name,description,price,firstName, lastName,numberField,buttons);
         verticalLayout3.add(img);
         add(verticalLayout3,verticalLayout1,verticalLayout2);
+    }
+
+    private boolean enoughAforum() throws ParseException {
+
+        List<EventReservation> reservations = eventReservationRepository.findByEvent(event);
+        Long cont = 0L;
+        for(EventReservation r: reservations)
+        {
+                cont = cont + r.getPersons();
+        }
+        if(cont + eventReservation.getPersons() > event.getAforum())
+        {
+            return false;
+        }
+        else return true;
 
     }
 
-    private void registerReservation() {
+
+
+    private void registerReservation() throws ParseException {
         eventReservation.setFirstName(firstName.getValue());
         eventReservation.setLastName(lastName.getValue());
         eventReservation.setUser(getUser());
         eventReservation.setServices("1");
         eventReservation.setDate(LocalDate.now().toString());
         eventReservation.setHour(LocalTime.now().toString());
-        eventReservationService.create(eventReservation);
-        UI.getCurrent().navigate(WelcomeView.class);
-        UI.getCurrent().getPage().reload();
+        eventReservation.setPrice(numberField.getValue().floatValue() * event.getPrice() );
+        if(enoughAforum())
+        {
+            eventReservationService.create(eventReservation);
+            UI.getCurrent().navigate(WelcomeView.class);
+            UI.getCurrent().getPage().reload();
+        }
     }
 
     @Override
