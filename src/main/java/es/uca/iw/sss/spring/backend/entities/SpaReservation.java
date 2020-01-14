@@ -1,9 +1,5 @@
 package es.uca.iw.sss.spring;
 
-import es.uca.iw.sss.spring.backend.entities.Reservation;
-import es.uca.iw.sss.spring.backend.entities.Spa;
-import es.uca.iw.sss.spring.backend.entities.User;
-
 import javax.persistence.*;
 
 @Entity
@@ -22,6 +18,8 @@ public class SpaReservation {
     @Column(nullable = false)
     private String services;
     @Column(nullable = false)
+    private Long persons;
+    @Column(nullable = false)
     private String date;
     @Column(nullable = false)
     private String hour;
@@ -30,13 +28,14 @@ public class SpaReservation {
     @ManyToOne
     private Spa spa;
 
-    public SpaReservation(float price, String services, String date, String hour, User user, Spa spa) {
+    public SpaReservation(float price, String services, String date, String hour, User user, Spa spa, Long persons) {
         this.price = price;
         this.services = services;
         this.date = date;
         this.hour = hour;
         this.user = user;
         this.spa = spa;
+        this.persons = persons;
     }
 
     public SpaReservation()
@@ -104,6 +103,14 @@ public class SpaReservation {
 
     public void setSpa(Spa spa) {
         this.spa = spa;
+    }
+
+    public Long getPersons() {
+        return persons;
+    }
+
+    public void setPersons(Long persons) {
+        this.persons = persons;
     }
 
     @Override
