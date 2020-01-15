@@ -23,7 +23,7 @@ public class Ship {
   @Column(nullable = true)
   private String legend = "";
 
-  @OneToMany(fetch = FetchType.EAGER, mappedBy = "ship", cascade = CascadeType.ALL)
+  @OneToMany(fetch = FetchType.EAGER, mappedBy = "ship", cascade = CascadeType.REMOVE)
   private Set<User> userSet = new HashSet<>();
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "ship", cascade = CascadeType.REMOVE)
