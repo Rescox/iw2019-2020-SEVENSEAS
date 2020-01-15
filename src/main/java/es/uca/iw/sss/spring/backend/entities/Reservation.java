@@ -1,4 +1,4 @@
-package es.uca.iw.sss.spring;
+package es.uca.iw.sss.spring.backend.entities;
 
 import javax.persistence.*;
 import java.time.LocalDate;
