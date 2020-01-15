@@ -6,9 +6,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
@@ -20,14 +17,12 @@ import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.*;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
+
 
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
@@ -56,15 +51,15 @@ public class SpaView extends HorizontalLayout implements HasUrlParameter<Long> {
     private Label price;
     private String photourl;
     private Image img;
+    private ConfirmDialog dialog;
 
     @Autowired
     public SpaView(SpaReservationService spaReservationService, UserService userService, SpaRepository spaRepository, SpaService spaService, SpaReservationRepository spaReservationRepository) {
 
-        //Pintar parte de registrar reserva
+
         datePicker = new DatePicker();
         timePicker = new TimePicker();
         numberField = new NumberField();
-
         this.spaReservationService = spaReservationService;
         this.spaReservationRepository = spaReservationRepository;
         this.userService = userService;
@@ -74,7 +69,8 @@ public class SpaView extends HorizontalLayout implements HasUrlParameter<Long> {
         this.photourl = new String();
         this.description = new Label();
         this.price = new Label();
-        this.img = new Image(""+photourl+"","hola");
+        this.img = new Image();
+        this.dialog = new ConfirmDialog();
         img.setHeight("100%");
         img.setWidth("250px");
 
@@ -82,7 +78,6 @@ public class SpaView extends HorizontalLayout implements HasUrlParameter<Long> {
         binder.bindInstanceFields(this);
         VerticalLayout verticalLayout1 = new VerticalLayout();
         VerticalLayout verticalLayout2 = new VerticalLayout();
-        VerticalLayout verticalLayout3 = new VerticalLayout();
         firstName.setRequiredIndicatorVisible(true);
         lastName.setRequiredIndicatorVisible(true);
         datePicker.setLabel("Choose a day");
@@ -99,42 +94,57 @@ public class SpaView extends HorizontalLayout implements HasUrlParameter<Long> {
         numberField.setLabel("Number of persons");
 
         Button register = new Button("Register", event -> {
-            try {
-                registerReservation();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
+            registrar();
         });
         Button cancel = new Button("Cancel",  event -> {
-            UI.getCurrent().navigate(ServicesView.class);
+            UI.getCurrent().navigate(EventsView.class);
         });
 
-        register.addThemeVariants(ButtonVariant.LUMO_PRIMARY);
 
         register.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         register.addClickShortcut(Key.ENTER);
         cancel.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         HorizontalLayout buttons = new HorizontalLayout(register, cancel);
-        verticalLayout1.setWidth("20%");
+        verticalLayout1.setWidth("40%");
         verticalLayout2.setWidth("60%");
-        verticalLayout3.setWidth("20%");
         verticalLayout1.add(name,description,price,firstName, lastName, datePicker,timePicker,numberField,buttons);
-        verticalLayout3.add(img);
-        add(verticalLayout3,verticalLayout1,verticalLayout2);
+        verticalLayout2.add(img);
+        add(verticalLayout1,verticalLayout2);
 
     }
 
-    private boolean enoughAforum() throws ParseException {
+    private void registrar() {
+        if(firstName.getValue() != "" && lastName.getValue() != "" && timePicker.getValue().toString() != "" && datePicker.getValue().toString() != "")
+        {
+            dialog.open();
+        }
+    }
+
+    private void onCancel(ConfirmDialog.CancelEvent cancelEvent) {
+        UI.getCurrent().navigate(SpasView.class);
+    }
+
+    private boolean enoughAforum() {
 
         String dateHour1 = spaReservation.getDate() +" "+spaReservation.getHour();
-        Date parsedDateHour1 = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(dateHour1);
+        Date parsedDateHour1 = null;
+        try {
+            parsedDateHour1 = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(dateHour1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
 
         List<SpaReservation> reservations = spaReservationRepository.findBySpa(spa);
         Long cont = 0L;
         for(SpaReservation r: reservations)
         {
             String dateHour2 = r.getDate() +" "+r.getHour();
-            Date parsedDateHour2 = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(dateHour2);
+            Date parsedDateHour2 = null;
+            try {
+                parsedDateHour2 = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(dateHour2);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             if(parsedDateHour1.equals(parsedDateHour2))
             {
                 cont = cont + r.getPersons();
@@ -149,7 +159,7 @@ public class SpaView extends HorizontalLayout implements HasUrlParameter<Long> {
 
     }
 
-    private void registerReservation() throws ParseException {
+    private void onPublish(ConfirmDialog.ConfirmEvent confirmEvent){
         spaReservation.setFirstName(firstName.getValue());
         spaReservation.setLastName(lastName.getValue());
         spaReservation.setUser(getUser());
@@ -179,6 +189,10 @@ public class SpaView extends HorizontalLayout implements HasUrlParameter<Long> {
             this.description.setText(spa.getDescription());
             this.price.setText(""+spa.getPrice()+"€ per person");
             this.photourl = spa.getPhoto();
+            this.img.setSrc(this.photourl);
+            this.img.setAlt(this.photourl);
+            dialog.setConfirmButton("Yes",this::onPublish);
+            dialog.setCancelButton("No", this::onCancel);
 
         }
 

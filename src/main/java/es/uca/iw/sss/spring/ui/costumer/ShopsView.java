@@ -31,7 +31,7 @@ import java.util.Set;
 
 @Route(value = "Shops", layout = MainLayout.class)
 @PageTitle("Shops")
-public class ShopsView extends HorizontalLayout {
+public class ShopsView extends VerticalLayout {
 
     private Grid<Shop> shopGrid = new Grid<>(Shop.class);
     private ShopService shopService;

@@ -4,7 +4,7 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.datepicker.DatePicker;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
@@ -13,14 +13,13 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.*;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.List;
 
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
@@ -47,12 +46,11 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
     private Label price;
     private String photourl;
     private Image img;
+    private ConfirmDialog dialog;
 
     @Autowired
     public EventView(EventReservationService eventReservationService, UserService userService, EventRepository eventRepository, EventService eventService, EventReservationRepository eventReservationRepository) {
 
-        //Pintar parte de registrar reserva
-        FormLayout formLayout = new FormLayout();
         this.eventReservationService = eventReservationService;
         this.userService = userService;
         this.eventRepository = eventRepository;
@@ -64,16 +62,14 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
         this.schenduled = new Label();
         this.price = new Label();
         this.numberField = new NumberField();
-        this.img = new Image(""+photourl+""," ");
+        this.img = new Image();
+        this.dialog = new ConfirmDialog();
         img.setHeight("100%");
         img.setWidth("250px");
-
-
 
         binder.bindInstanceFields(this);
         VerticalLayout verticalLayout1 = new VerticalLayout();
         VerticalLayout verticalLayout2 = new VerticalLayout();
-        VerticalLayout verticalLayout3 = new VerticalLayout();
         firstName.setRequiredIndicatorVisible(true);
         lastName.setRequiredIndicatorVisible(true);
         numberField.setValue(1d);
@@ -83,10 +79,10 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
 
 
         Button register = new Button("Register", event -> {
-            registerReservation();
+            registrar();
         });
         Button cancel = new Button("Cancel",  event -> {
-            UI.getCurrent().navigate(ServicesView.class);
+            UI.getCurrent().navigate(EventsView.class);
         });
 
 
@@ -94,26 +90,37 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
         register.addClickShortcut(Key.ENTER);
         cancel.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         HorizontalLayout buttons = new HorizontalLayout(register, cancel);
-        verticalLayout1.setWidth("20%");
+        verticalLayout1.setWidth("40%");
         verticalLayout2.setWidth("60%");
-        verticalLayout3.setWidth("20%");
         verticalLayout1.add(name,description,schenduled,price,firstName,lastName,numberField,buttons);
-        verticalLayout3.add(img);
-        add(verticalLayout3,verticalLayout1,verticalLayout2);
+        verticalLayout2.add(img);
+        add(verticalLayout1,verticalLayout2);
 
     }
 
-    private void registerReservation() {
-        eventReservation.setFirstName(firstName.getValue());
-        eventReservation.setLastName(lastName.getValue());
-        eventReservation.setUser(getUser());
-        eventReservation.setServices("1");
-        eventReservation.setDate(LocalDate.now().toString());
-        eventReservation.setHour(LocalTime.now().toString());
-        eventReservation.setPersons(numberField.getValue().longValue());
-        eventReservationService.create(eventReservation);
-        UI.getCurrent().navigate(WelcomeView.class);
-        UI.getCurrent().getPage().reload();
+    private void registrar() {
+        if(firstName.getValue() != "" && lastName.getValue() != ""){
+            dialog.open();
+        }
+    }
+
+
+    private void onCancel(ConfirmDialog.CancelEvent cancelEvent) {
+        UI.getCurrent().navigate(EventView.class);
+    }
+
+    private void onPublish(ConfirmDialog.ConfirmEvent confirmEvent) {
+            eventReservation.setFirstName(firstName.getValue());
+            eventReservation.setLastName(lastName.getValue());
+            eventReservation.setUser(getUser());
+            eventReservation.setServices("1");
+            eventReservation.setDate(LocalDate.now().toString());
+            eventReservation.setHour(LocalTime.now().toString());
+            eventReservation.setPersons(numberField.getValue().longValue());
+            eventReservation.setPrice(event.getPrice()*eventReservation.getPersons());
+            eventReservationService.create(eventReservation);
+            UI.getCurrent().navigate(WelcomeView.class);
+            UI.getCurrent().getPage().reload();
     }
 
     @Override
@@ -128,8 +135,15 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
             this.name.setText(event.getName());
             this.description.setText(event.getDescription());
             this.schenduled.setText(event.getDate()+" "+event.getInit_time()+" to "+event.getEnd_time());
-            this.price.setText(""+event.getPrice()+"€");
+            this.price.setText(""+event.getPrice()+"€ per person");
             this.photourl = event.getPhoto();
+            this.img.setSrc(this.photourl);
+            this.img.setAlt(this.photourl);
+            dialog.setHeader("Confirm reservation");
+            dialog.setText("The final import will be added to your account");
+            dialog.setConfirmButton("Yes",this::onPublish);
+            dialog.setCancelButton("No", this::onCancel);
+
         }
 
     }

@@ -1,32 +1,24 @@
 package es.uca.iw.sss.spring;
 
-
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
+import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.datepicker.DatePicker;
 import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.TabVariant;
 import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
-import com.vaadin.flow.data.binder.Binder;
 import com.vaadin.flow.router.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
@@ -41,20 +33,16 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
 
     private TextField firstName = new TextField("First name");
     private TextField lastName = new TextField("Last name");
-    DatePicker datePicker;
-    NumberField numberField;
-    LocalDate now = LocalDate.now();
-    TimePicker timePicker;
-
-    private Dialog dialog = new Dialog();
+    private DatePicker datePicker;
+    private NumberField numberField;
+    private LocalDate now = LocalDate.now();
+    private TimePicker timePicker;
     private ReservationRepository reservationRepository;
     private RestaurantRepository restaurantRepository;
     private DishRepository DishRepository;
     private ReservationService reservationService;
     private RestaurantService restaurantService;
     private DishService DishService;
-    private UserService userService;
-    private UserRepository userRepository;
     private Reservation reservation = new Reservation();
     private BeanValidationBinder<Reservation> binder = new BeanValidationBinder<>(Reservation.class);
     private Restaurant restaurant;
@@ -64,9 +52,10 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
     private Set<Dish> dishList;
     private Grid<Dish> dishGrid = new Grid<>(Dish.class);
     private Image img;
+    private ConfirmDialog dialog;
 
     @Autowired
-    public ReservationForm(ReservationService reservationService, UserService userService,
+    public ReservationForm(ReservationService reservationService,
                            RestaurantRepository restaurantRepository, RestaurantService restaurantService,
                            ReservationRepository reservationRepository, DishService DishService, DishRepository dishRepository)
     {
@@ -78,7 +67,6 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
 
         this.reservationRepository = reservationRepository;
         this.reservationService = reservationService;
-        this.userService = userService;
         this.restaurantRepository = restaurantRepository;
         this.restaurantService = restaurantService;
         this.name = new H3();
@@ -86,6 +74,7 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
         this.description = new Label();
         this.dishList = new HashSet<>();
         this.img = new Image();
+        this.dialog = new ConfirmDialog();
         img.setHeight("100%");
         img.setWidth("250px");
 
@@ -109,20 +98,12 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
         numberField.setLabel("Number of persons");
 
         Button register = new Button("Register", event -> {
-            dialog.close();
-            try {
-                registerReservation();
-            } catch (ParseException e) {
-                e.printStackTrace();
-            }
-
+            registrar();
         });
         Button cancel = new Button("Cancel",  event -> {
-            dialog.close();
-            UI.getCurrent().navigate(ManageShipView.class);
+            UI.getCurrent().navigate(RestaurantView.class);
         });
 
-        dialog.add(register, cancel);
         register.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
         register.addClickShortcut(Key.ENTER);
         cancel.addThemeVariants(ButtonVariant.LUMO_CONTRAST);
@@ -133,21 +114,45 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
         verticalLayout1.add(name,description,firstName, lastName, datePicker,timePicker,numberField,buttons);
         verticalLayout2.add(dishGrid);
         verticalLayout3.add(img);
+
         add(verticalLayout3,verticalLayout1,verticalLayout2);
 
     }
 
-    private boolean enoughAforum() throws ParseException {
+    private void registrar() {
+        if(firstName.getValue() != "" && lastName.getValue() != "" && timePicker.getValue().toString() != "" && datePicker.getValue().toString() != "")
+        {
+            dialog.open();
+        }
+    }
+
+    private void onCancel(ConfirmDialog.CancelEvent cancelEvent) {
+        UI.getCurrent().navigate(RestaurantView.class);
+    }
+
+
+    private boolean enoughAforum(){
 
         String dateHour1 = reservation.getDate() +" "+reservation.getHour();
-        Date parsedDateHour1 = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(dateHour1);
+        Date parsedDateHour1 = null;
+        try {
+            parsedDateHour1 = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(dateHour1);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
 
         List<Reservation> reservations = reservationRepository.findByRestaurant(restaurant);
         Long cont = 0L;
         for(Reservation r: reservations)
         {
             String dateHour2 = r.getDate() +" "+r.getHour();
-            Date parsedDateHour2 = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(dateHour2);
+            Date parsedDateHour2 = null;
+            try {
+                parsedDateHour2 = new SimpleDateFormat("yyyy-MM-dd hh:mm").parse(dateHour2);
+            } catch (ParseException e) {
+                e.printStackTrace();
+            }
             if(parsedDateHour1.equals(parsedDateHour2))
             {
                 cont = cont + r.getPersons();
@@ -162,7 +167,8 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
 
     }
 
-    private void registerReservation() throws ParseException {
+
+    private void onPublish(ConfirmDialog.ConfirmEvent confirmEvent){
         reservation.setFirstName(firstName.getValue());
         reservation.setLastName(lastName.getValue());
         reservation.setUser(getUser());
@@ -176,7 +182,6 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
             UI.getCurrent().getPage().reload();
         }
     }
-
 
 
     @Override
@@ -196,6 +201,10 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
             this.dishList = restaurant.getDishSet();
             dishGrid.setItems(this.dishList);
             dishGrid.setColumns("nameDish","price");
+            dialog.setHeader("Confirm reservation");
+            dialog.setText("The final import will be added to your account");
+            dialog.setConfirmButton("Yes",this::onPublish);
+            dialog.setCancelButton("No", this::onCancel);
 
 
         }
