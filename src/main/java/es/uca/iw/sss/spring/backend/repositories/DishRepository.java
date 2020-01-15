@@ -1,4 +1,4 @@
-package es.uca.iw.sss.spring;
+package es.uca.iw.sss.spring.backend.repositories;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
