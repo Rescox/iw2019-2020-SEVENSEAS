@@ -40,7 +40,7 @@ public class ManageShopView extends VerticalLayout implements HasUrlParameter<St
     HorizontalLayout actions = new HorizontalLayout(filter, addShop);
     add(actions, shopGrid, shopForm);
 
-    shopGrid.setColumns("id", "name", "description", "photo", "ship.licensePlate");
+    shopGrid.setColumns("id", "name", "description", "open_time","close_time", "ship.licensePlate");
     shopGrid.getColumnByKey("ship.licensePlate").setHeader("Ship License Plate");
     filter.setPlaceholder("Filter by name");
     filter.setValueChangeMode(ValueChangeMode.EAGER);

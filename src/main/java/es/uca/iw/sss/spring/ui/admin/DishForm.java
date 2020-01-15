@@ -23,7 +23,7 @@ public class DishForm extends VerticalLayout implements KeyNotifier {
   private Dish dishes;
   private TextField name = new TextField("Name");
   private TextField price = new TextField("Price");
-  private TextField restaurantId = new TextField("Restaurant id");
+  private TextField restaurantId = new TextField("Restaurant Id");
   private DishService dishService;
   private RestaurantService restaurantService;
   Button save = new Button("Save", VaadinIcon.CHECK.create());

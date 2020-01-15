@@ -26,8 +26,9 @@ public class EventForm extends VerticalLayout implements KeyNotifier {
   private TextField name = new TextField("Name");
   private TextField price = new TextField("Price");
   private TextField aforum = new TextField("Aforum");
-  private TextField init_time = new TextField("Initial time");
-  private TextField end_time = new TextField("End time");
+  private TextField date = new TextField("Date");
+  private TextField init_time = new TextField("Open Time");
+  private TextField end_time = new TextField("Close Time");
   private TextField licensePlate = new TextField("Ship License Plate");
   private EventService eventService;
   private ShipService shipService;
@@ -65,6 +66,7 @@ public class EventForm extends VerticalLayout implements KeyNotifier {
   }
 
   void save() {
+    event.setDate(date.getValue());
     event.setPhoto(photo.getValue());
     event.setName(name.getValue());
     event.setDescription(description.getValue());
@@ -134,6 +136,11 @@ public class EventForm extends VerticalLayout implements KeyNotifier {
       licensePlate.setValue(event.getShip().getLicensePlate());
     } else {
       licensePlate.setValue("");
+    }
+    if (event.getPhoto() != null) {
+      date.setValue(event.getDate());
+    } else {
+      date.setValue("");
     }
 
     setVisible(true);

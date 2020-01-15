@@ -21,7 +21,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class ShopForm extends VerticalLayout implements KeyNotifier {
   private final ShopRepository shopRepository;
   private Shop shop;
-  private TextField photo = new TextField("Photo");
+  private TextField init_time = new TextField("Open Time");
+  private TextField close_time = new TextField("Close Time");
   private TextField description = new TextField("Description");
   private TextField name = new TextField("Name");
   private TextField licensePlate = new TextField("Ship License Plate");
@@ -38,7 +39,7 @@ public class ShopForm extends VerticalLayout implements KeyNotifier {
     this.shopRepository = shopRepository;
     this.shopService = shopService;
     this.shipService = shipService;
-    add(name, description, photo, licensePlate, actions);
+    add(name, description, init_time,close_time, licensePlate, actions);
 
     setSpacing(true);
 
@@ -60,7 +61,8 @@ public class ShopForm extends VerticalLayout implements KeyNotifier {
   }
 
   void save() {
-    shop.setPhoto(photo.getValue());
+    shop.setOpen_time(init_time.getValue());
+    shop.setClose_time(close_time.getValue());
     shop.setName(name.getValue());
     shop.setDescription(description.getValue());
     shop.setShip(shipService.findByLicensePlate(licensePlate.getValue()));
@@ -86,10 +88,15 @@ public class ShopForm extends VerticalLayout implements KeyNotifier {
     }
     cancel.setVisible(persisted);
 
-    if (shop.getPhoto() != null) {
-      photo.setValue(shop.getPhoto());
+    if (shop.getOpen_time() != null) {
+      init_time.setValue(shop.getOpen_time());
     } else {
-      photo.setValue("");
+      init_time.setValue("");
+    }
+    if (shop.getClose_time() != null) {
+      close_time.setValue(shop.getClose_time());
+    } else {
+      close_time.setValue("");
     }
     if (shop.getName() != null) {
       name.setValue(shop.getName());
