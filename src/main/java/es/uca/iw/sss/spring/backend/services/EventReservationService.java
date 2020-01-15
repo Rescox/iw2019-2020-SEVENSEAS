@@ -1,5 +1,6 @@
 package es.uca.iw.sss.spring.backend.services;
 
+import es.uca.iw.sss.spring.backend.entities.Event;
 import es.uca.iw.sss.spring.backend.entities.EventReservation;
 import es.uca.iw.sss.spring.backend.entities.User;
 import es.uca.iw.sss.spring.backend.repositories.EventReservationRepository;
@@ -38,5 +39,7 @@ public class EventReservationService {
     public List<EventReservation>  findByUser(User user) {
         return eventReservationRepository.findByUser(user);
     }
+
+    public int countByEvent(Event event) { return eventReservationRepository.countByEvent(event); }
 
 }

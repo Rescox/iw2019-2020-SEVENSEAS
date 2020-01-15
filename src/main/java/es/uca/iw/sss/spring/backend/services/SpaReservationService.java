@@ -1,6 +1,7 @@
 package es.uca.iw.sss.spring.backend.services;
 
 import es.uca.iw.sss.spring.SpaReservation;
+import es.uca.iw.sss.spring.backend.entities.Spa;
 import es.uca.iw.sss.spring.backend.entities.User;
 import es.uca.iw.sss.spring.backend.repositories.SpaReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,5 +40,8 @@ public class SpaReservationService {
     public List<SpaReservation> findByUser(User user) {
         return spaReservationRepository.findByUser(user);
     }
+
+    public int countBySpa(Spa spa) { return spaReservationRepository.countBySpa(spa); }
+
 
 }
