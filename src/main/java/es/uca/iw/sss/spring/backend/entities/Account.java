@@ -8,46 +8,68 @@ import java.util.Date;
 public class Account {
 
     @Id
-    @GeneratedValue(strategy =  GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private String serviceName;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private Date date;
 
-    @Column(nullable=false)
+    @Column(nullable = false)
     private Double price;
 
     @OneToOne
-    private User owner;
+    private User user;
 
     public Account(String serviceName, double price, User owner) {
         this.serviceName = serviceName;
         this.price = price;
-        this.owner = owner;
+        this.user = owner;
     }
+
+    public Account() {
+
+    }
+
     //Getters
-    public Long getId() { return id; }
-    public Double getPrice() { return price; }
-    public Date getDate() { return date; }
+    public Long getId() {
+        return id;
+    }
+
+    public Double getPrice() {
+        return price;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    //Setters
+    public void setPrice(Double price) {
+        this.price = price;
+    }
+
+    public void setOwner(User user) {
+        this.user = user;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
+
+    @Override
+    public String toString() {
+        return "Reserva de " + user.getUsername();
+    }
+
     public String getServiceName() {
         return serviceName;
     }
 
-    //Setters
-    public void setPrice(Double price) { this.price = price; }
-    public void setOwner(User owner) { this.owner = owner; }
-    public void setDate(Date date) { this.date = date; }
     public void setServiceName(String serviceName) {
         this.serviceName = serviceName;
     }
-
-    @Override
-    public String toString() {
-        return "Reserva de " + owner.getUsername();
-    }
-
-
 }
