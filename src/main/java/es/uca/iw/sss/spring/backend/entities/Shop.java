@@ -1,13 +1,8 @@
-package es.uca.iw.sss.spring;
-
-import es.uca.iw.sss.spring.Dish;
-import es.uca.iw.sss.spring.Ship;
+package es.uca.iw.sss.spring.backend.entities;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 
 @Entity
 public class Shop implements Serializable, Cloneable {
