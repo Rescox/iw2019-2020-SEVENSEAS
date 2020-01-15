@@ -10,4 +10,5 @@ public interface ShipRepository extends JpaRepository<Ship, Long> {
   Ship findByLicensePlate(String licensePlate);
 
   List<Ship> findByNameStartsWithIgnoreCase(String name);
+
 }
