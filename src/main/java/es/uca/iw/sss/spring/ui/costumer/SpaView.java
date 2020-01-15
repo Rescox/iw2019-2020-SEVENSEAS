@@ -71,9 +71,8 @@ public class SpaView extends HorizontalLayout implements HasUrlParameter<Long> {
         this.price = new Label();
         this.img = new Image();
         this.dialog = new ConfirmDialog();
-        img.setHeight("100%");
-        img.setWidth("250px");
-
+        img.setHeight("620px");
+        img.setWidth("700px");
 
         binder.bindInstanceFields(this);
         VerticalLayout verticalLayout1 = new VerticalLayout();
