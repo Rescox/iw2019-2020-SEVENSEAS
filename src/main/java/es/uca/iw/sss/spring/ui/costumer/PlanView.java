@@ -15,8 +15,9 @@ import es.uca.iw.sss.spring.backend.entities.Ship;
 import es.uca.iw.sss.spring.backend.entities.User;
 import es.uca.iw.sss.spring.ui.common.MainLayout;
 import es.uca.iw.sss.spring.utils.SecurityUtils;
+import org.springframework.security.access.annotation.Secured;
 
-
+@Secured("customer")
 @Route(value = "Plan", layout = MainLayout.class)
 @PageTitle("Plan")
 public class PlanView extends VerticalLayout {

@@ -1,29 +1,18 @@
-package es.uca.iw.sss.spring;
+package es.uca.iw.sss.spring.ui.costumer;
 
-import com.vaadin.flow.component.Key;
-import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.button.ButtonVariant;
-import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.dialog.Dialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
-import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.timepicker.TimePicker;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.*;
+import es.uca.iw.sss.spring.backend.entities.Shop;
+import es.uca.iw.sss.spring.backend.repositories.ShopRepository;
+import es.uca.iw.sss.spring.backend.services.ShopService;
+import es.uca.iw.sss.spring.ui.common.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
-import javax.annotation.PostConstruct;
-import java.util.Optional;
-import java.util.Set;
-
-import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
-
+@Secured("customer")
 @Route(value = "ShopView", layout = MainLayout.class)
 @PageTitle("Shop")
 public class ShopView extends VerticalLayout implements HasUrlParameter<Long> {

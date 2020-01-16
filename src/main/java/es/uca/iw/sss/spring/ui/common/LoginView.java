@@ -10,6 +10,7 @@ import com.vaadin.flow.component.login.LoginOverlay;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.*;
 import es.uca.iw.sss.spring.ui.admin.ManageShipView;
+import es.uca.iw.sss.spring.ui.costumer.WelcomeView;
 import es.uca.iw.sss.spring.ui.manager.ManagerWelcome;
 import es.uca.iw.sss.spring.utils.CustomRequestCache;
 import es.uca.iw.sss.spring.utils.SecurityUtils;

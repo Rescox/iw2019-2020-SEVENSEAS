@@ -1,25 +1,17 @@
-package es.uca.iw.sss.spring;
+package es.uca.iw.sss.spring.ui.costumer;
+
 
 import com.vaadin.flow.component.UI;
-import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.Image;
-import com.vaadin.flow.component.html.Span;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import es.uca.iw.sss.spring.ui.common.MainLayout;
-import es.uca.iw.sss.spring.ui.costumer.EventsView;
-import es.uca.iw.sss.spring.ui.costumer.RestaurantView;
-import es.uca.iw.sss.spring.ui.costumer.ShopsView;
-import es.uca.iw.sss.spring.ui.costumer.SpasView;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 
+@Secured("customer")
 @Route(value = "ServicesView", layout = MainLayout.class)
 @PageTitle("Services")
 public class ServicesView extends VerticalLayout {

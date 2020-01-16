@@ -1,33 +1,29 @@
-package es.uca.iw.sss.spring;
+package es.uca.iw.sss.spring.ui.costumer;
 
-import com.vaadin.flow.component.Component;
-import com.vaadin.flow.component.HasComponents;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.applayout.AppLayout;
-import com.vaadin.flow.component.applayout.DrawerToggle;
 import com.vaadin.flow.component.button.Button;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
-import com.vaadin.flow.component.icon.Icon;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.FlexComponent;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.tabs.Tab;
-import com.vaadin.flow.component.tabs.TabVariant;
-import com.vaadin.flow.component.tabs.Tabs;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import com.vaadin.flow.router.RouterLink;
+import es.uca.iw.sss.spring.backend.entities.Restaurant;
+import es.uca.iw.sss.spring.backend.entities.Ship;
+import es.uca.iw.sss.spring.backend.entities.User;
+import es.uca.iw.sss.spring.backend.repositories.RestaurantRepository;
+import es.uca.iw.sss.spring.backend.services.ReservationService;
+import es.uca.iw.sss.spring.backend.services.RestaurantService;
+import es.uca.iw.sss.spring.backend.services.UserService;
+import es.uca.iw.sss.spring.ui.common.MainLayout;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.Set;
 
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
+@Secured("customer")
 @Route(value = "RestaurantView", layout = MainLayout.class)
 @PageTitle("Restaurant")
 public class RestaurantView extends AppLayout {

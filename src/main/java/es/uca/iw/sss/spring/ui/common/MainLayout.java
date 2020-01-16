@@ -15,7 +15,6 @@ import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.RouterLink;
 import com.vaadin.flow.server.PWA;
 import com.vaadin.flow.server.VaadinSession;
-import es.uca.iw.sss.spring.ServicesView;
 import es.uca.iw.sss.spring.backend.services.ShipService;
 import es.uca.iw.sss.spring.backend.services.UserService;
 import es.uca.iw.sss.spring.ui.admin.ManageCityView;

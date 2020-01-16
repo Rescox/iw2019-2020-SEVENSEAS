@@ -1,34 +1,22 @@
-package es.uca.iw.sss.spring;
+package es.uca.iw.sss.spring.ui.costumer;
 
-import com.vaadin.flow.component.Component;
 import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.grid.GridVariant;
-import com.vaadin.flow.component.html.H3;
-import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.data.provider.ListDataProvider;
-import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-
-import es.uca.iw.sss.spring.MainLayout;
-import es.uca.iw.sss.spring.Shop;
+import es.uca.iw.sss.spring.backend.entities.Ship;
+import es.uca.iw.sss.spring.backend.entities.Shop;
+import es.uca.iw.sss.spring.backend.entities.User;
+import es.uca.iw.sss.spring.backend.repositories.ShopRepository;
+import es.uca.iw.sss.spring.backend.services.ShopService;
+import es.uca.iw.sss.spring.ui.common.MainLayout;
 import es.uca.iw.sss.spring.utils.SecurityUtils;
-import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.value.ValueChangeMode;
+import org.springframework.security.access.annotation.Secured;
 
-import com.vaadin.flow.component.button.Button;
-import org.apache.commons.lang3.StringUtils;
-
-import javax.swing.*;
-import java.awt.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.Set;
 
+@Secured("customer")
 @Route(value = "Shops", layout = MainLayout.class)
 @PageTitle("Shops")
 public class ShopsView extends VerticalLayout {

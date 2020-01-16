@@ -44,7 +44,7 @@ public class EventForm extends VerticalLayout implements KeyNotifier {
     this.eventRepository = eventRepository;
     this.eventService = eventService;
     this.shipService = shipService;
-    add(name, description, photo, aforum, price, init_time, end_time, licensePlate, actions);
+    add(name, description, photo, aforum, price, date,init_time, end_time, licensePlate, actions);
 
     setSpacing(true);
 

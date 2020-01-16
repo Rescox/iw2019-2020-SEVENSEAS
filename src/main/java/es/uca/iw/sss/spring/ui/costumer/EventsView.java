@@ -1,4 +1,4 @@
-package es.uca.iw.sss.spring;
+package es.uca.iw.sss.spring.ui.costumer;
 
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
@@ -7,16 +7,24 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
+import es.uca.iw.sss.spring.backend.entities.Event;
+import es.uca.iw.sss.spring.backend.entities.Ship;
+import es.uca.iw.sss.spring.backend.entities.User;
+import es.uca.iw.sss.spring.backend.repositories.EventRepository;
+import es.uca.iw.sss.spring.backend.repositories.ShipRepository;
+import es.uca.iw.sss.spring.backend.services.EventService;
+import es.uca.iw.sss.spring.backend.services.ShipService;
+import es.uca.iw.sss.spring.backend.services.UserService;
+import es.uca.iw.sss.spring.ui.common.MainLayout;
+import org.springframework.security.access.annotation.Secured;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
-import java.time.LocalTime;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.Set;
-
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
+
+@Secured("customer")
 @Route(value = "EventsView", layout = MainLayout.class)
 @PageTitle("Events")
 public class EventsView extends VerticalLayout{

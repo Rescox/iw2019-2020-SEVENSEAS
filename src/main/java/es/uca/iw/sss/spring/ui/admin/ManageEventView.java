@@ -46,6 +46,7 @@ public class ManageEventView extends VerticalLayout implements HasUrlParameter<S
         "description",
         "aforum",
         "photo",
+        "date",
         "init_time",
         "end_time",
         "price",

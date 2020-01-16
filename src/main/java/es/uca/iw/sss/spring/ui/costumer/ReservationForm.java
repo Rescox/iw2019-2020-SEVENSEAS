@@ -1,4 +1,4 @@
-package es.uca.iw.sss.spring;
+package es.uca.iw.sss.spring.ui.costumer;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
@@ -18,6 +18,16 @@ import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.*;
+import es.uca.iw.sss.spring.backend.entities.Dish;
+import es.uca.iw.sss.spring.backend.entities.Reservation;
+import es.uca.iw.sss.spring.backend.entities.Restaurant;
+import es.uca.iw.sss.spring.backend.repositories.DishRepository;
+import es.uca.iw.sss.spring.backend.repositories.ReservationRepository;
+import es.uca.iw.sss.spring.backend.repositories.RestaurantRepository;
+import es.uca.iw.sss.spring.backend.services.DishService;
+import es.uca.iw.sss.spring.backend.services.ReservationService;
+import es.uca.iw.sss.spring.backend.services.RestaurantService;
+import es.uca.iw.sss.spring.ui.common.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -39,10 +49,10 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
     private TimePicker timePicker;
     private ReservationRepository reservationRepository;
     private RestaurantRepository restaurantRepository;
-    private DishRepository DishRepository;
+    private DishRepository dishRepository;
     private ReservationService reservationService;
     private RestaurantService restaurantService;
-    private DishService DishService;
+    private DishService dishService;
     private Reservation reservation = new Reservation();
     private BeanValidationBinder<Reservation> binder = new BeanValidationBinder<>(Reservation.class);
     private Restaurant restaurant;

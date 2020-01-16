@@ -1,7 +1,6 @@
 package es.uca.iw.sss.spring.ui.manager;
 
 
-import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.charts.Chart;
 import com.vaadin.flow.component.charts.model.ChartType;
 import com.vaadin.flow.component.charts.model.Configuration;
@@ -9,21 +8,18 @@ import com.vaadin.flow.component.charts.model.ListSeries;
 import com.vaadin.flow.component.charts.model.XAxis;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H1;
-import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.Route;
-import es.uca.iw.sss.spring.SpaReservation;
 import es.uca.iw.sss.spring.backend.entities.*;
-import es.uca.iw.sss.spring.backend.repositories.ShipRepository;
 import es.uca.iw.sss.spring.backend.services.AccountService;
 import es.uca.iw.sss.spring.backend.services.EventReservationService;
 import es.uca.iw.sss.spring.backend.services.ShipService;
 import es.uca.iw.sss.spring.backend.services.SpaReservationService;
+import es.uca.iw.sss.spring.ui.admin.CityForm;
 import es.uca.iw.sss.spring.ui.common.MainLayout;
 import org.springframework.security.access.annotation.Secured;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -54,10 +50,10 @@ public class ManagerWelcome extends VerticalLayout {
             } catch (ParseException ex) {
                 ex.printStackTrace();
             }
-            ship = (Ship) e.getValue(); // Barco seleccionado
         });
         add(shipGrid);
     }
+
 
     public void addChart(Ship ship, ManagerWelcome managerWelcome) throws ParseException {
         Chart chartFacturation = new Chart(ChartType.SPLINE);
@@ -176,6 +172,8 @@ public class ManagerWelcome extends VerticalLayout {
         conf3.addSeries(series3);
         conf3.addxAxis(xaxis3);
         conf3.setSubTitle(ship.getLicensePlate());
+
         managerWelcome.add(chartFacturation, facturation, chartTours, chartEvents, chartSpas);
+
     }
 }

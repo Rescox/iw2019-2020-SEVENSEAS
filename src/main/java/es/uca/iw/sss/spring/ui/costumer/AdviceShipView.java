@@ -11,9 +11,10 @@ import es.uca.iw.sss.spring.backend.entities.User;
 import es.uca.iw.sss.spring.backend.services.AdviceShipService;
 import es.uca.iw.sss.spring.ui.common.MainLayout;
 import es.uca.iw.sss.spring.utils.SecurityUtils;
-
+import org.springframework.security.access.annotation.Secured;
 import java.util.Set;
 
+@Secured("customer")
 @Route(value = "AdviceShip", layout = MainLayout.class)
 @PageTitle("AdviceShip")
 public class AdviceShipView extends FormLayout {

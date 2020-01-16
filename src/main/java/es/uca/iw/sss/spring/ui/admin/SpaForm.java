@@ -25,6 +25,7 @@ public class SpaForm extends VerticalLayout implements KeyNotifier {
   private TextField description = new TextField("Description");
   private TextField name = new TextField("Name");
   private TextField phone = new TextField("Phone");
+  private TextField price = new TextField("Price");
   private TextField licensePlate = new TextField("Ship License Plate");
   private SpaService spaService;
   private ShipService shipService;
@@ -39,7 +40,7 @@ public class SpaForm extends VerticalLayout implements KeyNotifier {
     this.spaRepository = spaRepository;
     this.spaService = spaService;
     this.shipService = shipService;
-    add(name, description, aforum, photo, phone, licensePlate, actions);
+    add(name, description, aforum, photo, phone, price, licensePlate, actions);
 
     setSpacing(true);
 
@@ -62,6 +63,7 @@ public class SpaForm extends VerticalLayout implements KeyNotifier {
 
   void save() {
     spa.setAforum(Long.parseLong(aforum.getValue()));
+    spa.setPrice(Float.parseFloat(price.getValue()));
     spa.setPhoto(photo.getValue());
     spa.setName(name.getValue());
     spa.setDescription(description.getValue());
@@ -118,6 +120,11 @@ public class SpaForm extends VerticalLayout implements KeyNotifier {
       phone.setValue(spa.getPhone());
     } else {
       phone.setValue("");
+    }
+    if (spa.getPhone() != null) {
+      price.setValue(Float.toString(spa.getPrice()));
+    } else {
+      price.setValue("");
     }
 
     setVisible(true);

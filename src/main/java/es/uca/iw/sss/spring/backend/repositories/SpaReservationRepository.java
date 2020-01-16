@@ -1,7 +1,7 @@
 package es.uca.iw.sss.spring.backend.repositories;
 
-import es.uca.iw.sss.spring.SpaReservation;
 import es.uca.iw.sss.spring.backend.entities.Spa;
+import es.uca.iw.sss.spring.backend.entities.SpaReservation;
 import es.uca.iw.sss.spring.backend.entities.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 

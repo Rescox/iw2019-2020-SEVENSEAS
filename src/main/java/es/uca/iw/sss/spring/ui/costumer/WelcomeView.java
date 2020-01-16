@@ -1,4 +1,4 @@
-package es.uca.iw.sss.spring.ui.common;
+package es.uca.iw.sss.spring.ui.costumer;
 
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
@@ -12,11 +12,14 @@ import es.uca.iw.sss.spring.backend.entities.Ship;
 import es.uca.iw.sss.spring.backend.entities.User;
 import es.uca.iw.sss.spring.meteorology.Weather;
 import es.uca.iw.sss.spring.meteorology.WeatherService;
+import es.uca.iw.sss.spring.ui.common.MainLayout;
 import es.uca.iw.sss.spring.utils.SecurityUtils;
+import org.springframework.security.access.annotation.Secured;
 
 import java.text.DecimalFormat;
 import java.util.Set;
 
+@Secured("customer")
 @Route(value = "Welcome", layout = MainLayout.class)
 @PageTitle("Welcome")
 public class WelcomeView extends VerticalLayout {

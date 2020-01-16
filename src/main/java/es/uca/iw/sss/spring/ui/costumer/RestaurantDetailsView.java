@@ -1,8 +1,6 @@
 package es.uca.iw.sss.spring.ui.costumer;
 
 import com.vaadin.flow.component.formlayout.FormLayout;
-import com.vaadin.flow.component.grid.Grid;
-import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -13,11 +11,13 @@ import es.uca.iw.sss.spring.backend.entities.Ship;
 import es.uca.iw.sss.spring.backend.entities.User;
 import es.uca.iw.sss.spring.backend.services.RestaurantService;
 import es.uca.iw.sss.spring.ui.common.MainLayout;
+import org.springframework.security.access.annotation.Secured;
 
 import java.util.Set;
 
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
+@Secured("customer")
 @Route(value = "RestaurantDetails", layout = MainLayout.class)
 @PageTitle("Restaurant")
 public class RestaurantDetailsView extends FormLayout {

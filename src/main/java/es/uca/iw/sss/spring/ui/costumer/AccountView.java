@@ -7,7 +7,6 @@ import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
-import es.uca.iw.sss.spring.SpaReservation;
 import es.uca.iw.sss.spring.backend.entities.*;
 import es.uca.iw.sss.spring.backend.services.*;
 import es.uca.iw.sss.spring.ui.common.MainLayout;
@@ -38,18 +37,16 @@ public class AccountView extends FormLayout {
         H2 DatosSpa = new H2("Spa Details");
         H2 DatosEvent = new H2("Event Details");
         userGrid.setColumns("firstName", "lastName", "dni", "email", "user");
-        restaurantGrid.setColumns("restaurant.name", "price", "date");
+        restaurantGrid.setColumns("restaurant.name", "date");
         spaGrid.setColumns("spa.name","price","date");
         eventGrid.setColumns("event.name","price","date");
-        //restaurantGrid.setItems(restaurantService.findByUser(getUser));
+        restaurantGrid.setItems(restaurantService.findByUser(getUser()));
+        accountGrid.setItems(accountService.findByUser(getUser()));
         spaGrid.setItems(spaService.findByUser(getUser()));
         eventGrid.setItems(eventService.findByUser(getUser()));
 
-
-
         userGrid.setMaxHeight("100px");
         userGrid.setItems(getUser());
-        restaurantGrid.setColumns();
 
         VerticalLayout content = new VerticalLayout();
         HorizontalLayout HL1 = new HorizontalLayout();

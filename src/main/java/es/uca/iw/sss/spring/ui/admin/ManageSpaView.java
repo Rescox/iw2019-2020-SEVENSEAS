@@ -1,6 +1,5 @@
 package es.uca.iw.sss.spring.ui.admin;
 
-
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.icon.VaadinIcon;
@@ -42,7 +41,7 @@ public class ManageSpaView extends VerticalLayout implements HasUrlParameter<Str
     add(actions, spaGrid, spaForm);
 
     spaGrid.setColumns(
-        "id", "name", "description", "aforum", "photo", "phone", "ship.licensePlate");
+        "id", "name", "description", "aforum", "photo", "phone", "price", "ship.licensePlate");
     spaGrid.getColumnByKey("ship.licensePlate").setHeader("Ship License Plate");
     filter.setPlaceholder("Filter by name");
     filter.setValueChangeMode(ValueChangeMode.EAGER);
