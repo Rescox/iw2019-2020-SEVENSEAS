@@ -16,7 +16,7 @@ public class EventReservation {
     private float price;
     @Column(nullable = false)
     private Long persons;
-    @Column(nullable = false)
+    @Column
     private String services;
     @Column(nullable = false)
     private String date;
