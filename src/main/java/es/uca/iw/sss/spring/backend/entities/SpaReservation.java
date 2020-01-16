@@ -15,7 +15,7 @@ public class SpaReservation {
     private String lastName;
     @Column(nullable = false)
     private float price;
-    @Column(nullable = false)
+    @Column
     private String services;
     @Column(nullable = false)
     private Long persons;
