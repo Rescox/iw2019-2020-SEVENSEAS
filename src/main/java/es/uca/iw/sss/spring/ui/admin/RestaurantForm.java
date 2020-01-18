@@ -29,10 +29,10 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
   private TextField licensePlate = new TextField("Ship License Plate");
   private RestaurantService restaurantService;
   private ShipService shipService;
-  Button save = new Button("Save", VaadinIcon.CHECK.create());
-  Button cancel = new Button("Cancel");
-  Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-  HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+  private Button save = new Button("Save", VaadinIcon.CHECK.create());
+  private Button cancel = new Button("Reset");
+  private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+  private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
   private ChangeHandler changeHandler;
 
   @Autowired
@@ -58,13 +58,13 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
     setVisible(false);
   }
 
-  void delete() {
+  private void delete() {
     restaurantRepository.delete(restaurant);
     changeHandler.onChange();
     UI.getCurrent().getPage().reload();
   }
 
-  void save() {
+  private void save() {
     restaurant.setAforum(Long.parseLong(aforum.getValue()));
     restaurant.setPhoto(photo.getValue());
     restaurant.setName(name.getValue());
@@ -119,6 +119,7 @@ public class RestaurantForm extends VerticalLayout implements KeyNotifier {
       phone.setValue("");
     }
     if (restaurant.getShip() != null) {
+      this.licensePlate.setEnabled(false);
       licensePlate.setValue(restaurant.getShip().getLicensePlate());
     } else {
       licensePlate.setValue("");

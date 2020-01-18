@@ -25,10 +25,10 @@ public class AdviceCityForm extends VerticalLayout implements KeyNotifier {
   private TextField cityId = new TextField("City id");
   private AdviceCityService adviceService;
   private CityService cityService;
-  Button save = new Button("Save", VaadinIcon.CHECK.create());
-  Button cancel = new Button("Cancel");
-  Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-  HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+    private Button save = new Button("Save", VaadinIcon.CHECK.create());
+    private Button cancel = new Button("Reset");
+    private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+    private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
   private ChangeHandler changeHandler;
 
   @Autowired
@@ -54,13 +54,13 @@ public class AdviceCityForm extends VerticalLayout implements KeyNotifier {
     setVisible(false);
   }
 
-  void delete() {
+    private void delete() {
     adviceRepository.delete(advices);
     changeHandler.onChange();
     UI.getCurrent().getPage().reload();
   }
 
-  void save() {
+    private void save() {
     advices.setAdvice(advice.getValue());
     advices.setCity(cityService.findById(Long.parseLong(cityId.getValue())).get());
     adviceService.create(advices);
@@ -86,6 +86,7 @@ public class AdviceCityForm extends VerticalLayout implements KeyNotifier {
     cancel.setVisible(persisted);
     advice.setValue(advices.getAdvice());
     if (advices.getCity() != null) {
+        this.cityId.setEnabled(false);
       cityId.setValue(Long.toString(adviceEdit.getCity().getId()));
     } else {
       cityId.setValue("");

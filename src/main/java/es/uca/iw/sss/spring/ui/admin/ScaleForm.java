@@ -1,4 +1,5 @@
 package es.uca.iw.sss.spring.ui.admin;
+
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.UI;
@@ -25,16 +26,16 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
   private Scale scale;
   private City city;
   private TextField date = new TextField("Date");
-  private TextField licensePLate = new TextField("Ship License Plate");
+  private TextField licensePlate = new TextField("Ship License Plate");
   private TextField cityName = new TextField("City Name");
   private BeanValidationBinder<Scale> binder = new BeanValidationBinder<>(Scale.class);
   private CityService cityService;
   private ScaleService scaleService;
   private ShipService shipService;
-  Button save = new Button("Save", VaadinIcon.CHECK.create());
-  Button cancel = new Button("Cancel");
-  Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-  HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+  private Button save = new Button("Save", VaadinIcon.CHECK.create());
+  private Button cancel = new Button("Reset");
+  private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+  private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
   private ChangeHandler changeHandler;
 
   @Autowired
@@ -47,7 +48,7 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
     this.scaleService = scaleService;
     this.shipService = shipService;
     this.cityService = cityService;
-    add(cityName, licensePLate, date, actions);
+    add(cityName, date, licensePlate, actions);
 
     binder.bindInstanceFields(this);
     setSpacing(true);
@@ -63,15 +64,15 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
     setVisible(false);
   }
 
-  void delete() {
+  private void delete() {
     scaleRepository.delete(scale);
     changeHandler.onChange();
     UI.getCurrent().getPage().reload();
   }
 
-  void save() {
+  private void save() {
     scale.setDate(date.getValue());
-    scale.setShip(shipService.findByLicensePlate(licensePLate.getValue()));
+    scale.setShip(shipService.findByLicensePlate(licensePlate.getValue()));
     if (cityService.findByName(cityName.getValue()) != null) {
       scale.setCity(cityService.findByName(cityName.getValue()));
     } else {
@@ -108,9 +109,10 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
       date.setValue("");
     }
     if (scale.getShip() != null) {
-      licensePLate.setValue(scale.getShip().getLicensePlate());
+      this.licensePlate.setEnabled(false);
+      licensePlate.setValue(scale.getShip().getLicensePlate());
     } else {
-      licensePLate.setValue("");
+      licensePlate.setValue("");
     }
     if (scale.getCity() != null) {
       cityName.setValue(scale.getCity().getName());

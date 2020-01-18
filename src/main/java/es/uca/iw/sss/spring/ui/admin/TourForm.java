@@ -28,11 +28,10 @@ public class TourForm extends VerticalLayout implements KeyNotifier {
   private TextField licensePlate = new TextField("Ship License Plate");
   private ShipService shipService;
   private TourService tourService;
-  Button save = new Button("Save", VaadinIcon.CHECK.create());
-  Button cancel = new Button("Cancel");
-  Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-  HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
-
+  private Button save = new Button("Save", VaadinIcon.CHECK.create());
+  private Button cancel = new Button("Reset");
+  private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+  private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
   private ChangeHandler changeHandler;
 
   @Autowired
@@ -55,13 +54,13 @@ public class TourForm extends VerticalLayout implements KeyNotifier {
     setVisible(false);
   }
 
-  void delete() {
+  private void delete() {
     tourRepository.delete(tour);
     changeHandler.onChange();
     UI.getCurrent().getPage().reload();
   }
 
-  void save() {
+  private void save() {
     tour.setName(name.getValue());
     tour.setPrice(Float.parseFloat(price.getValue()));
     tour.setDescription(description.getValue());
@@ -98,6 +97,7 @@ public class TourForm extends VerticalLayout implements KeyNotifier {
     description.setValue(tour.getDescription());
     schedule.setValue(tour.getSchedule());
     if (tour.getShip() != null) {
+      this.licensePlate.setEnabled(false);
       licensePlate.setValue(tour.getShip().getLicensePlate());
     } else {
       licensePlate.setValue("");

@@ -4,13 +4,9 @@ import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.icon.VaadinIcon;
-import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
-import com.vaadin.flow.component.textfield.EmailField;
-import com.vaadin.flow.component.textfield.PasswordField;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import es.uca.iw.sss.spring.backend.entities.City;
@@ -29,10 +25,10 @@ public class CityForm extends VerticalLayout implements KeyNotifier {
   private TextField scale = new TextField("Id Scale");
   private CityService cityService;
   private ScaleService scaleService;
-  Button save = new Button("Save", VaadinIcon.CHECK.create());
-  Button cancel = new Button("Cancel");
-  Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-  HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+  private Button save = new Button("Save", VaadinIcon.CHECK.create());
+  private Button cancel = new Button("Reset");
+  private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+  private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
   private ChangeHandler changeHandler;
 
   @Autowired
@@ -55,12 +51,12 @@ public class CityForm extends VerticalLayout implements KeyNotifier {
     setVisible(false);
   }
 
-  void delete() {
+  private void delete() {
     cityRepository.delete(city);
     changeHandler.onChange();
   }
 
-  void save() {
+  private void save() {
     city.setName(name.getValue());
     city.setPic(pic.getValue());
     city.setScale(scaleService.findById(Long.parseLong(scale.getValue())).get());

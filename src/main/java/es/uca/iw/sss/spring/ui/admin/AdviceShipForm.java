@@ -25,10 +25,10 @@ public class AdviceShipForm extends VerticalLayout implements KeyNotifier {
   private TextField shipLicensePlate = new TextField("Ship License Plate");
   private AdviceShipService adviceService;
   private ShipService shipService;
-  Button save = new Button("Save", VaadinIcon.CHECK.create());
-  Button cancel = new Button("Cancel");
-  Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-  HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+  private Button save = new Button("Save", VaadinIcon.CHECK.create());
+  private Button cancel = new Button("Reset");
+  private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+  private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
   private ChangeHandler changeHandler;
 
   @Autowired
@@ -54,13 +54,13 @@ public class AdviceShipForm extends VerticalLayout implements KeyNotifier {
     setVisible(false);
   }
 
-  void delete() {
+  private void delete() {
     adviceRepository.delete(advices);
     changeHandler.onChange();
     UI.getCurrent().getPage().reload();
   }
 
-  void save() {
+  private void save() {
     advices.setAdvice(advice.getValue());
     advices.setShip(shipService.findByLicensePlate(shipLicensePlate.getValue()));
     adviceService.create(advices);
@@ -88,6 +88,7 @@ public class AdviceShipForm extends VerticalLayout implements KeyNotifier {
     cancel.setVisible(persisted);
     advice.setValue(advices.getAdvice());
     if (advices.getShip() != null) {
+      this.shipLicensePlate.setEnabled(false);
       shipLicensePlate.setValue(advices.getShip().getLicensePlate());
     } else {
       shipLicensePlate.setValue("");

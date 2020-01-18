@@ -26,11 +26,10 @@ public class ShipForm extends VerticalLayout implements KeyNotifier {
     private TextField legend = new TextField("Legend");
     private BeanValidationBinder<Ship> binder = new BeanValidationBinder<>(Ship.class);
     private ShipService shipService;
-    Button save = new Button("Save", VaadinIcon.CHECK.create());
-    Button cancel = new Button("Cancel");
-    Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-    HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
-
+    private Button save = new Button("Save", VaadinIcon.CHECK.create());
+    private Button cancel = new Button("Reset");
+    private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+    private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
     private ChangeHandler changeHandler;
 
     @Autowired
@@ -62,12 +61,12 @@ public class ShipForm extends VerticalLayout implements KeyNotifier {
         setVisible(false);
     }
 
-    void delete() {
+    private void delete() {
         shipRepository.delete(ship);
         changeHandler.onChange();
     }
 
-    void save() {
+    private void save() {
         shipRepository.save(ship);
         changeHandler.onChange();
     }

@@ -3,6 +3,7 @@ package es.uca.iw.sss.spring.ui.admin;
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.button.Button;
+import com.vaadin.flow.component.combobox.ComboBox;
 import com.vaadin.flow.component.icon.VaadinIcon;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
@@ -19,6 +20,9 @@ import es.uca.iw.sss.spring.backend.services.ShipService;
 import es.uca.iw.sss.spring.backend.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @SpringComponent
 @UIScope
 public class RegisterForm extends VerticalLayout implements KeyNotifier {
@@ -29,17 +33,17 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
   private TextField DNI = new TextField("DNI");
   private TextField userName = new TextField("Username");
   private TextField shipLicensePlate = new TextField("Ship license plate");
-  private TextField role = new TextField("Role");
+  private ComboBox<String> role = new ComboBox<>("Role");
   private EmailField email = new EmailField("Email");
   private PasswordField password = new PasswordField("Password");
   private BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
   private UserService userService;
   private ShipService shipService;
   private String pass;
-  Button save = new Button("Save", VaadinIcon.CHECK.create());
-  Button cancel = new Button("Cancel");
-  Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-  HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+  private Button save = new Button("Save", VaadinIcon.CHECK.create());
+  private Button cancel = new Button("Reset");
+  private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+  private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
 
   private ChangeHandler changeHandler;
 
@@ -49,6 +53,14 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
     this.userRepository = userRepository;
     this.userService = userService;
     this.shipService = shipService;
+    //Mejorar
+    List<String> roles = new ArrayList<>();
+    roles.add("admin");
+    roles.add("manager");
+    roles.add("customer");
+
+    role.setItems(roles);
+
     add(firstName, lastName, DNI, userName, email, password, role, shipLicensePlate, actions);
 
     binder.bindInstanceFields(this);
@@ -88,12 +100,12 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
     setVisible(false);
   }
 
-  void delete() {
+  private void delete() {
     userRepository.delete(user);
     changeHandler.onChange();
   }
 
-  void save() {
+  private void save() {
     user.setShip(shipService.findByLicensePlate(shipLicensePlate.getValue()));
     userService.create(user);
     if (!this.pass.isEmpty() && password.getValue().length() == 60) {

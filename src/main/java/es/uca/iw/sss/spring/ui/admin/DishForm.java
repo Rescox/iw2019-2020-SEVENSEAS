@@ -26,10 +26,10 @@ public class DishForm extends VerticalLayout implements KeyNotifier {
   private TextField restaurantId = new TextField("Restaurant Id");
   private DishService dishService;
   private RestaurantService restaurantService;
-  Button save = new Button("Save", VaadinIcon.CHECK.create());
-  Button cancel = new Button("Cancel");
-  Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-  HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+  private Button save = new Button("Save", VaadinIcon.CHECK.create());
+  private Button cancel = new Button("Reset");
+  private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+  private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
   private ChangeHandler changeHandler;
 
   @Autowired
@@ -55,13 +55,13 @@ public class DishForm extends VerticalLayout implements KeyNotifier {
     setVisible(false);
   }
 
-  void delete() {
+  private void delete() {
     dishRepository.delete(dishes);
     changeHandler.onChange();
     UI.getCurrent().getPage().reload();
   }
 
-  void save() {
+  private void save() {
     dishes.setNameDish(name.getValue());
     dishes.setPrice(Float.parseFloat(price.getValue()));
     dishes.setRestaurant(restaurantService.findById(Long.parseLong(restaurantId.getValue())).get());
@@ -90,6 +90,7 @@ public class DishForm extends VerticalLayout implements KeyNotifier {
     name.setValue(dishes.getNameDish());
     price.setValue(Float.toString(dishes.getPrice()));
     if (dishes.getRestaurant() != null) {
+      this.restaurantId.setEnabled(false);
       restaurantId.setValue(Long.toString(dishes.getRestaurant().getId()));
     } else {
       restaurantId.setValue("");

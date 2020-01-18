@@ -32,10 +32,10 @@ public class EventForm extends VerticalLayout implements KeyNotifier {
   private TextField licensePlate = new TextField("Ship License Plate");
   private EventService eventService;
   private ShipService shipService;
-  Button save = new Button("Save", VaadinIcon.CHECK.create());
-  Button cancel = new Button("Cancel");
-  Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-  HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+  private Button save = new Button("Save", VaadinIcon.CHECK.create());
+  private Button cancel = new Button("Reset");
+  private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+  private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
   private ChangeHandler changeHandler;
 
   @Autowired
@@ -59,13 +59,13 @@ public class EventForm extends VerticalLayout implements KeyNotifier {
     setVisible(false);
   }
 
-  void delete() {
+  private void delete() {
     eventRepository.delete(event);
     changeHandler.onChange();
     UI.getCurrent().getPage().reload();
   }
 
-  void save() {
+  private void save() {
     event.setDate(date.getValue());
     event.setPhoto(photo.getValue());
     event.setName(name.getValue());
@@ -133,6 +133,7 @@ public class EventForm extends VerticalLayout implements KeyNotifier {
       end_time.setValue("");
     }
     if (event.getShip() != null) {
+      this.licensePlate.setEnabled(false);
       licensePlate.setValue(event.getShip().getLicensePlate());
     } else {
       licensePlate.setValue("");

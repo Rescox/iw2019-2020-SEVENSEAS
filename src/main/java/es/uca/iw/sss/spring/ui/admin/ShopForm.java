@@ -28,10 +28,10 @@ public class ShopForm extends VerticalLayout implements KeyNotifier {
   private TextField licensePlate = new TextField("Ship License Plate");
   private ShopService shopService;
   private ShipService shipService;
-  Button save = new Button("Save", VaadinIcon.CHECK.create());
-  Button cancel = new Button("Cancel");
-  Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-  HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+  private Button save = new Button("Save", VaadinIcon.CHECK.create());
+  private Button cancel = new Button("Reset");
+  private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+  private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
   private ChangeHandler changeHandler;
 
   @Autowired
@@ -54,13 +54,13 @@ public class ShopForm extends VerticalLayout implements KeyNotifier {
     setVisible(false);
   }
 
-  void delete() {
+  private void delete() {
     shopRepository.delete(shop);
     changeHandler.onChange();
     UI.getCurrent().getPage().reload();
   }
 
-  void save() {
+  private void save() {
     shop.setOpen_time(init_time.getValue());
     shop.setClose_time(close_time.getValue());
     shop.setName(name.getValue());
@@ -109,6 +109,7 @@ public class ShopForm extends VerticalLayout implements KeyNotifier {
       description.setValue("");
     }
     if (shop.getShip() != null) {
+      this.licensePlate.setEnabled(false);
       licensePlate.setValue(shop.getShip().getLicensePlate());
     } else {
       licensePlate.setValue("");

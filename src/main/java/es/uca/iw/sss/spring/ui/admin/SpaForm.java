@@ -29,10 +29,10 @@ public class SpaForm extends VerticalLayout implements KeyNotifier {
   private TextField licensePlate = new TextField("Ship License Plate");
   private SpaService spaService;
   private ShipService shipService;
-  Button save = new Button("Save", VaadinIcon.CHECK.create());
-  Button cancel = new Button("Cancel");
-  Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-  HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+  private Button save = new Button("Save", VaadinIcon.CHECK.create());
+  private Button cancel = new Button("Reset");
+  private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+  private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
   private ChangeHandler changeHandler;
 
   @Autowired
@@ -55,13 +55,13 @@ public class SpaForm extends VerticalLayout implements KeyNotifier {
     setVisible(false);
   }
 
-  void delete() {
+  private void delete() {
     spaRepository.delete(spa);
     changeHandler.onChange();
     UI.getCurrent().getPage().reload();
   }
 
-  void save() {
+  private void save() {
     spa.setAforum(Long.parseLong(aforum.getValue()));
     spa.setPrice(Float.parseFloat(price.getValue()));
     spa.setPhoto(photo.getValue());
@@ -112,6 +112,7 @@ public class SpaForm extends VerticalLayout implements KeyNotifier {
       description.setValue("");
     }
     if (spa.getShip() != null) {
+      this.licensePlate.setEnabled(false);
       licensePlate.setValue(spa.getShip().getLicensePlate());
     } else {
       licensePlate.setValue("");
