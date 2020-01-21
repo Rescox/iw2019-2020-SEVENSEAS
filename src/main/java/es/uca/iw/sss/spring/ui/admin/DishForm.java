@@ -87,8 +87,16 @@ public class DishForm extends VerticalLayout implements KeyNotifier {
     }
     cancel.setVisible(persisted);
 
-    name.setValue(dishes.getNameDish());
-    price.setValue(Float.toString(dishes.getPrice()));
+    if (dishes.getNameDish() != null) {
+      name.setValue(dishes.getNameDish());
+    } else {
+      name.setValue("");
+    }
+    if (dishes.getRestaurant() != null) {
+      price.setValue(Float.toString(dishes.getPrice()));
+    } else {
+      price.setValue("");
+    }
     if (dishes.getRestaurant() != null) {
       this.restaurantId.setEnabled(false);
       restaurantId.setValue(Long.toString(dishes.getRestaurant().getId()));

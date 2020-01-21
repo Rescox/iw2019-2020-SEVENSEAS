@@ -85,8 +85,11 @@ public class AdviceShipForm extends VerticalLayout implements KeyNotifier {
     }
     cancel.setVisible(persisted);
 
-    cancel.setVisible(persisted);
-    advice.setValue(advices.getAdvice());
+    if (advices.getAdvice() != null) {
+      advice.setValue(advices.getAdvice());
+    } else {
+      advice.setValue("");
+    }
     if (advices.getShip() != null) {
       this.shipLicensePlate.setEnabled(false);
       shipLicensePlate.setValue(advices.getShip().getLicensePlate());

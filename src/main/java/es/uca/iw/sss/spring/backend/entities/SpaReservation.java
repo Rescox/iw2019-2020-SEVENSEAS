@@ -40,7 +40,6 @@ public class SpaReservation {
 
     public SpaReservation()
     {
-
     }
 
     public Long getId() {

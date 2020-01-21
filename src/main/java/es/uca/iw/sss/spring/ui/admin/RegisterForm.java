@@ -26,26 +26,27 @@ import java.util.List;
 @SpringComponent
 @UIScope
 public class RegisterForm extends VerticalLayout implements KeyNotifier {
-  private final UserRepository userRepository;
-  private User user;
-  private TextField firstName = new TextField("First name");
-  private TextField lastName = new TextField("Last name");
-  private TextField DNI = new TextField("DNI");
-  private TextField userName = new TextField("Username");
-  private TextField shipLicensePlate = new TextField("Ship license plate");
-  private ComboBox<String> role = new ComboBox<>("Role");
-  private EmailField email = new EmailField("Email");
-  private PasswordField password = new PasswordField("Password");
-  private BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
-  private UserService userService;
-  private ShipService shipService;
-  private String pass;
-  private Button save = new Button("Save", VaadinIcon.CHECK.create());
-  private Button cancel = new Button("Reset");
-  private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
-  private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
+    private final UserRepository userRepository;
+    private User user;
+    private TextField firstName = new TextField("First name");
+    private TextField lastName = new TextField("Last name");
+    private TextField DNI = new TextField("DNI");
+    private TextField userName = new TextField("Username");
+    private TextField shipLicensePlate = new TextField("Ship license plate");
+    private ComboBox<String> role = new ComboBox<>("Role");
+    private EmailField email = new EmailField("Email");
+    private PasswordField password = new PasswordField("Password");
+    private PasswordField password2 = new PasswordField("Confirm Password");
+    private BeanValidationBinder<User> binder = new BeanValidationBinder<>(User.class);
+    private UserService userService;
+    private ShipService shipService;
+    private String pass;
+    private Button save = new Button("Save", VaadinIcon.CHECK.create());
+    private Button cancel = new Button("Reset");
+    private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
+    private HorizontalLayout actions = new HorizontalLayout(save, cancel, delete);
 
-  private ChangeHandler changeHandler;
+    private ChangeHandler changeHandler;
 
   @Autowired
   public RegisterForm(
@@ -61,7 +62,7 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
 
     role.setItems(roles);
 
-    add(firstName, lastName, DNI, userName, email, password, role, shipLicensePlate, actions);
+      add(firstName, lastName, DNI, userName, email, password, password2, role, shipLicensePlate, actions);
 
     binder.bindInstanceFields(this);
     userName.addValueChangeListener(
@@ -88,6 +89,7 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
             }
           }
         });
+
     setSpacing(true);
 
     save.getElement().getThemeList().add("primary");
@@ -106,13 +108,17 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
   }
 
   private void save() {
-    user.setShip(shipService.findByLicensePlate(shipLicensePlate.getValue()));
-    userService.create(user);
-    if (!this.pass.isEmpty() && password.getValue().length() == 60) {
-      user.setPassword(this.pass);
-      userService.saveUser(user);
-    }
-    changeHandler.onChange();
+      user.setShip(shipService.findByLicensePlate(shipLicensePlate.getValue()));
+      if (password.getValue().equals(password2.getValue())) {
+          userService.create(user);
+      } else {
+          Notification.show("Password does not match please try again!!", 2500, Notification.Position.MIDDLE);
+      }
+      if (!this.pass.isEmpty() && password.getValue().length() == 60) {
+          user.setPassword(this.pass);
+          userService.saveUser(user);
+      }
+      changeHandler.onChange();
   }
 
   public interface ChangeHandler {
@@ -124,27 +130,33 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
       setVisible(false);
       return;
     }
-    final boolean persisted = userEdit.getId() != null;
-    if (persisted) {
-      user = userRepository.findById(userEdit.getId()).get();
-    } else {
-      user = userEdit;
-    }
-    cancel.setVisible(persisted);
+      final boolean persisted = userEdit.getId() != null;
+      if (persisted) {
+          user = userRepository.findById(userEdit.getId()).get();
+      } else {
+          user = userEdit;
+      }
+      cancel.setVisible(persisted);
 
-    binder.setBean(user);
+      binder.setBean(user);
 
-    if (user.getShip() != null) {
-      shipLicensePlate.setValue(user.getShip().getLicensePlate());
-    } else {
-      shipLicensePlate.setValue("");
-    }
+      if (user.getShip() != null) {
+          this.shipLicensePlate.setEnabled(false);
+          shipLicensePlate.setValue(user.getShip().getLicensePlate());
+      } else {
+          shipLicensePlate.setValue("");
+      }
+      if (user.getPassword() != null) {
+          password2.setValue(user.getPassword());
+      } else {
+          password2.setValue("");
+      }
 
-    pass = user.getPassword();
+      pass = user.getPassword();
 
-    setVisible(true);
+      setVisible(true);
 
-    firstName.focus();
+      firstName.focus();
   }
 
   public void setChangeHandler(ChangeHandler h) {

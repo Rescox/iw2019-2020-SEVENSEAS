@@ -94,8 +94,16 @@ public class TourForm extends VerticalLayout implements KeyNotifier {
     } else {
       price.setValue("");
     }
-    description.setValue(tour.getDescription());
-    schedule.setValue(tour.getSchedule());
+    if (tour.getDescription() != null) {
+      description.setValue(tour.getDescription());
+    } else {
+      description.setValue("");
+    }
+    if (tour.getSchedule() != null) {
+      schedule.setValue(tour.getSchedule());
+    } else {
+      schedule.setValue("");
+    }
     if (tour.getShip() != null) {
       this.licensePlate.setEnabled(false);
       licensePlate.setValue(tour.getShip().getLicensePlate());

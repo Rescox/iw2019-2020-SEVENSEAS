@@ -8,9 +8,13 @@ public class Tour {
     @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
+    @Column(nullable = false)
     private String name = "";
+    @Column(nullable = false)
     private String description = "";
+    @Column(nullable = false)
     private Float price;
+    @Column(nullable = false)
     private String schedule = "";
     @ManyToOne
     private Ship ship;

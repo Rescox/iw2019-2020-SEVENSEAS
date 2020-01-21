@@ -1,4 +1,5 @@
 package es.uca.iw.sss.spring.ui.admin;
+
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.KeyNotifier;
 import com.vaadin.flow.component.button.Button;
@@ -7,7 +8,6 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
-import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import es.uca.iw.sss.spring.backend.entities.Ship;
@@ -24,7 +24,6 @@ public class ShipForm extends VerticalLayout implements KeyNotifier {
     private TextField plane = new TextField("Plane");
     private TextField licensePlate = new TextField("License Plate");
     private TextField legend = new TextField("Legend");
-    private BeanValidationBinder<Ship> binder = new BeanValidationBinder<>(Ship.class);
     private ShipService shipService;
     private Button save = new Button("Save", VaadinIcon.CHECK.create());
     private Button cancel = new Button("Reset");
@@ -38,7 +37,6 @@ public class ShipForm extends VerticalLayout implements KeyNotifier {
         shipService = ShipService.getInstance(shipRepository);
         add(name,licensePlate,plane,legend,actions);
 
-        binder.bindInstanceFields(this);
         licensePlate.addValueChangeListener(e -> {
             if(shipService.getLicensePlate(licensePlate.getValue()) != null && ship == null) {
                 Notification.show("Ship already registered", 2500, Notification.Position.MIDDLE);
@@ -83,13 +81,32 @@ public class ShipForm extends VerticalLayout implements KeyNotifier {
         final boolean persisted = shipEdit.getId() != null;
         if (persisted) {
             ship = shipRepository.findById(shipEdit.getId()).get();
-        }
-        else {
+        } else {
             ship = shipEdit;
         }
-        cancel.setVisible(persisted);
 
-        binder.setBean(ship);
+        if (ship.getName() != null) {
+            name.setValue(ship.getName());
+        } else {
+            name.setValue("");
+        }
+        if (ship.getLicensePlate() != null) {
+            licensePlate.setValue(ship.getLicensePlate());
+        } else {
+            licensePlate.setValue("");
+        }
+        if (ship.getPlane() != null) {
+            plane.setValue(ship.getPlane());
+        } else {
+            plane.setValue("");
+        }
+        if (ship.getLegend() != null) {
+            legend.setValue(ship.getLegend());
+        } else {
+            legend.setValue("");
+        }
+
+        cancel.setVisible(persisted);
 
         setVisible(true);
 

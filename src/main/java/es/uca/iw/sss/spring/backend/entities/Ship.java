@@ -17,10 +17,10 @@ public class Ship {
   @Column(nullable = false)
   private String name = "";
 
-  @Column(nullable = true)
+  @Column(nullable = false)
   private String plane = "";
 
-  @Column(nullable = true)
+  @Column(nullable = false)
   private String legend = "";
 
   @OneToMany(fetch = FetchType.EAGER, mappedBy = "ship", cascade = CascadeType.REMOVE)

@@ -84,9 +84,13 @@ public class AdviceCityForm extends VerticalLayout implements KeyNotifier {
       advices = adviceEdit;
     }
     cancel.setVisible(persisted);
-    advice.setValue(advices.getAdvice());
+    if (advices.getAdvice() != null) {
+      advice.setValue(advices.getAdvice());
+    } else {
+      advice.setValue("");
+    }
     if (advices.getCity() != null) {
-        this.cityId.setEnabled(false);
+      this.cityId.setEnabled(false);
       cityId.setValue(Long.toString(adviceEdit.getCity().getId()));
     } else {
       cityId.setValue("");

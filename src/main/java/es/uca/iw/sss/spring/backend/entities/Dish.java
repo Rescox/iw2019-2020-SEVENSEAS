@@ -8,12 +8,15 @@ public class Dish {
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", unique = true, nullable = false)
   private Long id;
-
+  @Column(nullable = false)
   private String nameDish = "";
+  @Column(nullable = false)
   private float price;
-  @ManyToOne private Restaurant restaurant;
+  @ManyToOne
+  private Restaurant restaurant;
 
-  public Dish() {}
+  public Dish() {
+  }
 
   public Dish(String nameDish, float price) {
     this.nameDish = nameDish;
