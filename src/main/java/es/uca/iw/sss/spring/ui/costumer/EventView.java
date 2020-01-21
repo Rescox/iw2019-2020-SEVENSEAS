@@ -1,10 +1,11 @@
-package es.uca.iw.sss.spring.ui.costumer;
+package es.uca.iw.sss.spring;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
+import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
@@ -14,30 +15,20 @@ import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.*;
-import es.uca.iw.sss.spring.backend.entities.Event;
-import es.uca.iw.sss.spring.backend.entities.EventReservation;
-import es.uca.iw.sss.spring.backend.repositories.EventRepository;
-import es.uca.iw.sss.spring.backend.repositories.EventReservationRepository;
-import es.uca.iw.sss.spring.backend.repositories.UserRepository;
-import es.uca.iw.sss.spring.backend.services.EventReservationService;
-import es.uca.iw.sss.spring.backend.services.EventService;
-import es.uca.iw.sss.spring.backend.services.UserService;
-import es.uca.iw.sss.spring.ui.common.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.annotation.Secured;
 
+import javax.swing.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
-@Secured("customer")
 @Route(value = "EventView", layout = MainLayout.class)
 @PageTitle("Event")
 public class EventView extends HorizontalLayout implements HasUrlParameter<Long> {
 
-    private TextField firstName = new TextField("First name");
-    private TextField lastName = new TextField("Last name");
+    //private TextField firstName = new TextField("First name");
+    //private TextField lastName = new TextField("Last name");
     private NumberField numberField;
 
     private EventReservationRepository eventReservationRepository;
@@ -76,11 +67,11 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
         img.setHeight("620px");
         img.setWidth("700px");
 
-        binder.bindInstanceFields(this);
+        //binder.bindInstanceFields(this);
         VerticalLayout verticalLayout1 = new VerticalLayout();
         VerticalLayout verticalLayout2 = new VerticalLayout();
-        firstName.setRequiredIndicatorVisible(true);
-        lastName.setRequiredIndicatorVisible(true);
+        //firstName.setRequiredIndicatorVisible(true);
+        //lastName.setRequiredIndicatorVisible(true);
         numberField.setValue(1d);
         numberField.setHasControls(true);
         numberField.setMin(1);
@@ -101,16 +92,16 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
         HorizontalLayout buttons = new HorizontalLayout(register, cancel);
         verticalLayout1.setWidth("40%");
         verticalLayout2.setWidth("60%");
-        verticalLayout1.add(name,description,schenduled,price,firstName,lastName,numberField,buttons);
+        verticalLayout1.add(name,description,schenduled,price,numberField,buttons);
         verticalLayout2.add(img);
         add(verticalLayout1,verticalLayout2);
 
     }
 
     private void registrar() {
-        if(firstName.getValue() != "" && lastName.getValue() != ""){
+
             dialog.open();
-        }
+
     }
 
 
@@ -119,17 +110,17 @@ public class EventView extends HorizontalLayout implements HasUrlParameter<Long>
     }
 
     private void onPublish(ConfirmDialog.ConfirmEvent confirmEvent) {
-        eventReservation.setFirstName(firstName.getValue());
-        eventReservation.setLastName(lastName.getValue());
-        eventReservation.setUser(getUser());
-        eventReservation.setServices("1");
-        eventReservation.setDate(LocalDate.now().toString());
-        eventReservation.setHour(LocalTime.now().toString());
-        eventReservation.setPersons(numberField.getValue().longValue());
-        eventReservation.setPrice(event.getPrice()*eventReservation.getPersons());
-        eventReservationService.create(eventReservation);
-        UI.getCurrent().navigate(WelcomeView.class);
-        UI.getCurrent().getPage().reload();
+            eventReservation.setFirstName(getUser().getFirstName());
+            eventReservation.setLastName(getUser().getLastName());
+            eventReservation.setUser(getUser());
+            eventReservation.setServices("1");
+            eventReservation.setDate(LocalDate.now().toString());
+            eventReservation.setHour(LocalTime.now().toString());
+            eventReservation.setPersons(numberField.getValue().longValue());
+            eventReservation.setPrice(event.getPrice()*eventReservation.getPersons());
+            eventReservationService.create(eventReservation);
+            UI.getCurrent().navigate(WelcomeView.class);
+            UI.getCurrent().getPage().reload();
     }
 
     @Override
