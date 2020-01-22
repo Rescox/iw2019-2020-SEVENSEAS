@@ -51,7 +51,7 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
 
   @Autowired
   public RegisterForm(
-          UserRepository userRepository, UserService userService, ShipService shipService) {
+      UserRepository userRepository, UserService userService, ShipService shipService) {
     this.userRepository = userRepository;
     this.userService = userService;
     this.shipService = shipService;
@@ -64,26 +64,26 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
     role.setItems(roles);
 
     add(
-            firstName,
-            lastName,
-            DNI,
-            userName,
-            email,
-            password,
-            password2,
-            role,
-            shipLicensePlate,
-            actions);
+        firstName,
+        lastName,
+        DNI,
+        userName,
+        email,
+        password,
+        password2,
+        role,
+        shipLicensePlate,
+        actions);
 
     binder.bindInstanceFields(this);
     userName.addValueChangeListener(
-            e -> {
-              if (userService.getUsers(userName.getValue()) != null && user == null) {
-                Notification.show("User already taken", 2500, Notification.Position.MIDDLE);
-              } else {
-                if (userService.getUsers(userName.getValue()) != null
-                        && user != null
-                        && !userService.getUsers(userName.getValue()).getId().equals(user.getId())) {
+        e -> {
+          if (userService.getUsers(userName.getValue()) != null && user == null) {
+            Notification.show("User already taken", 2500, Notification.Position.MIDDLE);
+          } else {
+            if (userService.getUsers(userName.getValue()) != null
+                && user != null
+                && !userService.getUsers(userName.getValue()).getId().equals(user.getId())) {
               Notification.show("User already taken", 2500, Notification.Position.MIDDLE);
             }
           }
@@ -120,33 +120,55 @@ public class RegisterForm extends VerticalLayout implements KeyNotifier {
 
   private void save() {
     user.setShip(shipService.findByLicensePlate(shipLicensePlate.getValue()));
+
     if (password.getValue().equals(password2.getValue())) {
-      userService.create(user);
       if (role.getValue().equals("customer")) {
-        String message =
-                "Welcome to Seven Seas Software!! \n"
-                        + "User Information Account \n"
-                        + "Firsname: "
-                        + firstName.getValue()
-                        + "\n"
-                        + "Lastname: "
-                        + lastName.getValue()
-                        + "\n"
-                        + "User: "
-                        + userName.getValue()
-                        + "\n"
-                        + "Password: "
-                        + password.getValue();
-        EmailService.sendSimpleMessage(email.getValue(), "Registration SevenSeasSoftware", message);
+        if (password.getValue().length() < 60) {
+          String message =
+              "Welcome to Seven Seas Software!! \n\t"
+                  + "User Information Account \n\t"
+                  + "Firsname: "
+                  + firstName.getValue()
+                  + "\n"
+                  + "Lastname: "
+                  + lastName.getValue()
+                  + "DNI:: "
+                  + DNI.getValue()
+                  + "\n"
+                  + "User: "
+                  + userName.getValue()
+                  + "\n"
+                  + "Password: "
+                  + password.getValue();
+          EmailService.sendSimpleMessage(
+              email.getValue(), "SevenSeasSoftware Account Information", message);
+        } else {
+          String message =
+              "Welcome to Seven Seas Software!! \n\t"
+                  + "User Information Account \n\t"
+                  + "Firsname: "
+                  + firstName.getValue()
+                  + "\n"
+                  + "Lastname: "
+                  + lastName.getValue()
+                  + "\n"
+                  + "DNI:: "
+                  + DNI.getValue()
+                  + "\n"
+                  + "User: "
+                  + userName.getValue();
+          EmailService.sendSimpleMessage(
+              email.getValue(), "SevenSeasSoftware Account Modified", message);
+        }
       }
+      userService.create(user);
     } else {
       Notification.show(
-              "Password does not match please try again!!", 2500, Notification.Position.MIDDLE);
+          "Password does not match please try again!!", 2500, Notification.Position.MIDDLE);
     }
     if (!this.pass.isEmpty() && password.getValue().length() == 60) {
       user.setPassword(this.pass);
       userService.saveUser(user);
-
     }
     changeHandler.onChange();
   }
