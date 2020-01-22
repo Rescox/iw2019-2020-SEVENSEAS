@@ -97,12 +97,16 @@ public class AdviceShipForm extends VerticalLayout implements KeyNotifier {
       shipLicensePlate.setValue("");
     }
 
-    setVisible(true);
+      setVisible(true);
 
-    advice.focus();
+      advice.focus();
   }
 
-  public void setChangeHandler(ChangeHandler h) {
-    changeHandler = h;
-  }
+    public void setChangeHandler(ChangeHandler h) {
+        changeHandler = h;
+    }
+
+    public TextField getShipPlate() {
+        return shipLicensePlate;
+    }
 }

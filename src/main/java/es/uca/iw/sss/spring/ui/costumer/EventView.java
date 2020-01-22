@@ -1,23 +1,29 @@
-package es.uca.iw.sss.spring;
+package es.uca.iw.sss.spring.ui.costumer;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
-import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.*;
+import es.uca.iw.sss.spring.backend.entities.Event;
+import es.uca.iw.sss.spring.backend.entities.EventReservation;
+import es.uca.iw.sss.spring.backend.repositories.EventRepository;
+import es.uca.iw.sss.spring.backend.repositories.EventReservationRepository;
+import es.uca.iw.sss.spring.backend.repositories.UserRepository;
+import es.uca.iw.sss.spring.backend.services.EventReservationService;
+import es.uca.iw.sss.spring.backend.services.EventService;
+import es.uca.iw.sss.spring.backend.services.UserService;
+import es.uca.iw.sss.spring.ui.common.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import javax.swing.*;
 import java.time.LocalDate;
 import java.time.LocalTime;
 

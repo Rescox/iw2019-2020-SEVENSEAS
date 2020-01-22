@@ -43,23 +43,26 @@ public class ManageShipAdviceView extends VerticalLayout implements HasUrlParame
 
     adviceGrid.setColumns("id", "advice", "ship.licensePlate");
     adviceGrid.getColumnByKey("ship.licensePlate").setHeader("Ship License Plate");
-    filter.setPlaceholder("Filter by advice");
-    filter.setValueChangeMode(ValueChangeMode.EAGER);
-    filter.addValueChangeListener(e -> listAdvices(e.getValue()));
+      filter.setPlaceholder("Filter by advice");
+      filter.setValueChangeMode(ValueChangeMode.EAGER);
+      filter.addValueChangeListener(e -> listAdvices(e.getValue()));
 
-    adviceGrid
-        .asSingleSelect()
-        .addValueChangeListener(
-            e -> {
-              adviceForm.editAdvice(e.getValue());
-            });
-    addAdvice.addClickListener(e -> adviceForm.editAdvice(new AdviceShip()));
-    adviceForm.setChangeHandler(
-        () -> {
-          adviceForm.setVisible(false);
-          listAdvices(filter.getValue());
-        });
-    listAdvices(null);
+      adviceGrid
+              .asSingleSelect()
+              .addValueChangeListener(
+                      e -> {
+                          adviceForm.editAdvice(e.getValue());
+                      });
+      addAdvice.addClickListener(e -> {
+          adviceForm.getShipPlate().setEnabled(true);
+          adviceForm.editAdvice(new AdviceShip());
+      });
+      adviceForm.setChangeHandler(
+              () -> {
+                  adviceForm.setVisible(false);
+                  listAdvices(filter.getValue());
+              });
+      listAdvices(null);
   }
 
   void listAdvices(String filterText) {

@@ -104,12 +104,16 @@ public class DishForm extends VerticalLayout implements KeyNotifier {
       restaurantId.setValue("");
     }
 
-    setVisible(true);
+      setVisible(true);
 
-    name.focus();
+      name.focus();
   }
 
-  public void setChangeHandler(ChangeHandler h) {
-    changeHandler = h;
-  }
+    public void setChangeHandler(ChangeHandler h) {
+        changeHandler = h;
+    }
+
+    public TextField getRestaurantId() {
+        return restaurantId;
+    }
 }

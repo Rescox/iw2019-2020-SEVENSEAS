@@ -43,17 +43,20 @@ public class ManageUserView extends VerticalLayout {
     filter.addValueChangeListener(e -> listUsers(e.getValue()));
 
     userGrid
-        .asSingleSelect()
-        .addValueChangeListener(
-            e -> {
-              registerForm.editUser(e.getValue());
-            });
-    addUser.addClickListener(e -> registerForm.editUser(new User()));
+            .asSingleSelect()
+            .addValueChangeListener(
+                    e -> {
+                      registerForm.editUser(e.getValue());
+                    });
+    addUser.addClickListener(e -> {
+      registerForm.getShipPlate().setEnabled(true);
+      registerForm.editUser(new User());
+    });
     registerForm.setChangeHandler(
-        () -> {
-          registerForm.setVisible(false);
-          listUsers(filter.getValue());
-        });
+            () -> {
+              registerForm.setVisible(false);
+              listUsers(filter.getValue());
+            });
     listUsers(null);
   }
 

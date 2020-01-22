@@ -47,17 +47,20 @@ public class ManageCityAdviceView extends VerticalLayout implements HasUrlParame
     filter.addValueChangeListener(e -> listAdvices(e.getValue()));
 
     adviceGrid
-        .asSingleSelect()
-        .addValueChangeListener(
-            e -> {
-              adviceForm.editAdvice(e.getValue());
-            });
-    addAdvice.addClickListener(e -> adviceForm.editAdvice(new AdviceCity()));
+            .asSingleSelect()
+            .addValueChangeListener(
+                    e -> {
+                      adviceForm.editAdvice(e.getValue());
+                    });
+    addAdvice.addClickListener(e -> {
+      adviceForm.getCityId().setEnabled(true);
+      adviceForm.editAdvice(new AdviceCity());
+    });
     adviceForm.setChangeHandler(
-        () -> {
-          adviceForm.setVisible(false);
-          listAdvices(filter.getValue());
-        });
+            () -> {
+              adviceForm.setVisible(false);
+              listAdvices(filter.getValue());
+            });
     listAdvices(null);
   }
 

@@ -43,23 +43,26 @@ public class ManageSpaView extends VerticalLayout implements HasUrlParameter<Str
     spaGrid.setColumns(
         "id", "name", "description", "aforum", "photo", "phone", "price", "ship.licensePlate");
     spaGrid.getColumnByKey("ship.licensePlate").setHeader("Ship License Plate");
-    filter.setPlaceholder("Filter by name");
-    filter.setValueChangeMode(ValueChangeMode.EAGER);
-    filter.addValueChangeListener(e -> listSpas(e.getValue()));
+      filter.setPlaceholder("Filter by name");
+      filter.setValueChangeMode(ValueChangeMode.EAGER);
+      filter.addValueChangeListener(e -> listSpas(e.getValue()));
 
-    spaGrid
-        .asSingleSelect()
-        .addValueChangeListener(
-            e -> {
-              spaForm.editSpa(e.getValue());
-            });
-    addSpa.addClickListener(e -> spaForm.editSpa(new Spa()));
-    spaForm.setChangeHandler(
-        () -> {
-          spaForm.setVisible(false);
-          listSpas(filter.getValue());
-        });
-    listSpas(null);
+      spaGrid
+              .asSingleSelect()
+              .addValueChangeListener(
+                      e -> {
+                          spaForm.editSpa(e.getValue());
+                      });
+      addSpa.addClickListener(e -> {
+          spaForm.getShipPlate().setEnabled(true);
+          spaForm.editSpa(new Spa());
+      });
+      spaForm.setChangeHandler(
+              () -> {
+                  spaForm.setVisible(false);
+                  listSpas(filter.getValue());
+              });
+      listSpas(null);
   }
 
   void listSpas(String filterText) {

@@ -128,12 +128,17 @@ public class SpaForm extends VerticalLayout implements KeyNotifier {
       price.setValue("");
     }
 
-    setVisible(true);
+      setVisible(true);
 
-    name.focus();
+      name.focus();
   }
 
-  public void setChangeHandler(ChangeHandler h) {
-    changeHandler = h;
-  }
+    public void setChangeHandler(ChangeHandler h) {
+        changeHandler = h;
+    }
+
+    public TextField getShipPlate() {
+        return licensePlate;
+    }
+
 }

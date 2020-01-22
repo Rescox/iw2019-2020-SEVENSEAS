@@ -44,23 +44,26 @@ public class ManageDishView extends VerticalLayout implements HasUrlParameter<Lo
     dishGrid.setColumns("id", "nameDish", "price", "restaurant.id");
     dishGrid.getColumnByKey("restaurant.id").setHeader("Restaurant Id");
 
-    filter.setPlaceholder("Filter by name");
-    filter.setValueChangeMode(ValueChangeMode.EAGER);
-    filter.addValueChangeListener(e -> listDishes(e.getValue()));
+      filter.setPlaceholder("Filter by name");
+      filter.setValueChangeMode(ValueChangeMode.EAGER);
+      filter.addValueChangeListener(e -> listDishes(e.getValue()));
 
-    dishGrid
-        .asSingleSelect()
-        .addValueChangeListener(
-            e -> {
-              dishForm.editDish(e.getValue());
-            });
-    addScale.addClickListener(e -> dishForm.editDish(new Dish()));
-    dishForm.setChangeHandler(
-        () -> {
-          dishForm.setVisible(false);
-          listDishes(filter.getValue());
-        });
-    listDishes(null);
+      dishGrid
+              .asSingleSelect()
+              .addValueChangeListener(
+                      e -> {
+                          dishForm.editDish(e.getValue());
+                      });
+      addScale.addClickListener(e -> {
+          dishForm.getRestaurantId().setEnabled(true);
+          dishForm.editDish(new Dish());
+      });
+      dishForm.setChangeHandler(
+              () -> {
+                  dishForm.setVisible(false);
+                  listDishes(filter.getValue());
+              });
+      listDishes(null);
   }
 
   void listDishes(String filterText) {

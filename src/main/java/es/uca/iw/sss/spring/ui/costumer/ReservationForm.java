@@ -1,4 +1,4 @@
-package es.uca.iw.sss.spring;
+package es.uca.iw.sss.spring.ui.costumer;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
@@ -6,7 +6,6 @@ import com.vaadin.flow.component.button.Button;
 import com.vaadin.flow.component.button.ButtonVariant;
 import com.vaadin.flow.component.confirmdialog.ConfirmDialog;
 import com.vaadin.flow.component.datepicker.DatePicker;
-import com.vaadin.flow.component.dialog.Dialog;
 import com.vaadin.flow.component.grid.Grid;
 import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.html.Image;
@@ -14,15 +13,28 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.*;
+import es.uca.iw.sss.spring.backend.entities.Dish;
+import es.uca.iw.sss.spring.backend.entities.Reservation;
+import es.uca.iw.sss.spring.backend.entities.Restaurant;
+import es.uca.iw.sss.spring.backend.repositories.DishRepository;
+import es.uca.iw.sss.spring.backend.repositories.ReservationRepository;
+import es.uca.iw.sss.spring.backend.repositories.RestaurantRepository;
+import es.uca.iw.sss.spring.backend.services.DishService;
+import es.uca.iw.sss.spring.backend.services.ReservationService;
+import es.uca.iw.sss.spring.backend.services.RestaurantService;
+import es.uca.iw.sss.spring.ui.common.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.*;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
@@ -39,10 +51,10 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
     private TimePicker timePicker;
     private ReservationRepository reservationRepository;
     private RestaurantRepository restaurantRepository;
-    private DishRepository DishRepository;
+    private es.uca.iw.sss.spring.backend.repositories.DishRepository DishRepository;
     private ReservationService reservationService;
     private RestaurantService restaurantService;
-    private DishService DishService;
+    private DishService dishService;
     private Reservation reservation = new Reservation();
     private BeanValidationBinder<Reservation> binder = new BeanValidationBinder<>(Reservation.class);
     private Restaurant restaurant;
@@ -57,7 +69,7 @@ public class ReservationForm extends HorizontalLayout implements HasUrlParameter
     @Autowired
     public ReservationForm(ReservationService reservationService,
                            RestaurantRepository restaurantRepository, RestaurantService restaurantService,
-                           ReservationRepository reservationRepository, DishService DishService, DishRepository dishRepository)
+                           ReservationRepository reservationRepository, DishService dishService, DishRepository dishRepository)
     {
 
         //Pintar parte de registrar reserva

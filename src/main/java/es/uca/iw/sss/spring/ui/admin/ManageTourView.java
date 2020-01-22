@@ -43,23 +43,26 @@ public class ManageTourView extends VerticalLayout implements HasUrlParameter<St
 
     tourGrid.setColumns("id", "name", "description", "price", "schedule", "ship.licensePlate");
     tourGrid.getColumnByKey("ship.licensePlate").setHeader("Ship License Plate");
-    filter.setPlaceholder("Filter by name");
-    filter.setValueChangeMode(ValueChangeMode.EAGER);
-    filter.addValueChangeListener(e -> listTours(e.getValue()));
+      filter.setPlaceholder("Filter by name");
+      filter.setValueChangeMode(ValueChangeMode.EAGER);
+      filter.addValueChangeListener(e -> listTours(e.getValue()));
 
-    tourGrid
-        .asSingleSelect()
-        .addValueChangeListener(
-            e -> {
-              tourForm.editTour(e.getValue());
-            });
-    addTour.addClickListener(e -> tourForm.editTour(new Tour()));
-    tourForm.setChangeHandler(
-        () -> {
-          tourForm.setVisible(false);
-          listTours(filter.getValue());
-        });
-    listTours(null);
+      tourGrid
+              .asSingleSelect()
+              .addValueChangeListener(
+                      e -> {
+                          tourForm.editTour(e.getValue());
+                      });
+      addTour.addClickListener(e -> {
+          tourForm.getShipPlate().setEnabled(true);
+          tourForm.editTour(new Tour());
+      });
+      tourForm.setChangeHandler(
+              () -> {
+                  tourForm.setVisible(false);
+                  listTours(filter.getValue());
+              });
+      listTours(null);
   }
 
   void listTours(String filterText) {

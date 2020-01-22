@@ -1,4 +1,4 @@
-package es.uca.iw.sss.spring;
+package es.uca.iw.sss.spring.ui.costumer;
 
 import com.vaadin.flow.component.Key;
 import com.vaadin.flow.component.UI;
@@ -12,17 +12,25 @@ import com.vaadin.flow.component.html.Label;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.NumberField;
-import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.component.timepicker.TimePicker;
 import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.router.*;
+import es.uca.iw.sss.spring.backend.entities.Spa;
+import es.uca.iw.sss.spring.backend.entities.SpaReservation;
+import es.uca.iw.sss.spring.backend.repositories.SpaRepository;
+import es.uca.iw.sss.spring.backend.repositories.SpaReservationRepository;
+import es.uca.iw.sss.spring.backend.repositories.UserRepository;
+import es.uca.iw.sss.spring.backend.services.SpaReservationService;
+import es.uca.iw.sss.spring.backend.services.SpaService;
+import es.uca.iw.sss.spring.backend.services.UserService;
+import es.uca.iw.sss.spring.ui.common.MainLayout;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
 import java.util.List;
-
 
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 

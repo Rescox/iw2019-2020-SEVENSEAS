@@ -104,4 +104,8 @@ public class AdviceCityForm extends VerticalLayout implements KeyNotifier {
   public void setChangeHandler(ChangeHandler h) {
     changeHandler = h;
   }
+
+  public TextField getCityId() {
+    return cityId;
+  }
 }

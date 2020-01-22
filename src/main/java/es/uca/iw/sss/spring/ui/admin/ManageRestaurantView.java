@@ -58,23 +58,26 @@ public class ManageRestaurantView extends VerticalLayout implements HasUrlParame
     restaurantGrid
         .asSingleSelect()
         .addValueChangeListener(
-            e -> {
-              restaurantForm.editRestaurant(e.getValue());
-              restaurantSelected[0] = e.getValue();
-              if (dish.isVisible()) {
-                dish.setVisible(false);
-              } else {
-                dish.setVisible(true);
-              }
-            });
+                e -> {
+                    restaurantForm.editRestaurant(e.getValue());
+                    restaurantSelected[0] = e.getValue();
+                    if (dish.isVisible()) {
+                        dish.setVisible(false);
+                    } else {
+                        dish.setVisible(true);
+                    }
+                });
 
-    addRestaurant.addClickListener(e -> restaurantForm.editRestaurant(new Restaurant()));
-    restaurantForm.setChangeHandler(
-        () -> {
-          restaurantForm.setVisible(false);
-          listRestaurants(filter.getValue());
-        });
-    listRestaurants(null);
+      addRestaurant.addClickListener(e -> {
+          restaurantForm.getShipPlate().setEnabled(true);
+          restaurantForm.editRestaurant(new Restaurant());
+      });
+      restaurantForm.setChangeHandler(
+              () -> {
+                  restaurantForm.setVisible(false);
+                  listRestaurants(filter.getValue());
+              });
+      listRestaurants(null);
   }
 
   void listRestaurants(String filterText) {

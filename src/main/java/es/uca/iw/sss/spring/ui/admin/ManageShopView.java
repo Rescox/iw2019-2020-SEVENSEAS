@@ -42,23 +42,26 @@ public class ManageShopView extends VerticalLayout implements HasUrlParameter<St
 
     shopGrid.setColumns("id", "name", "description", "open_time","close_time", "ship.licensePlate");
     shopGrid.getColumnByKey("ship.licensePlate").setHeader("Ship License Plate");
-    filter.setPlaceholder("Filter by name");
-    filter.setValueChangeMode(ValueChangeMode.EAGER);
-    filter.addValueChangeListener(e -> listShop(e.getValue()));
+      filter.setPlaceholder("Filter by name");
+      filter.setValueChangeMode(ValueChangeMode.EAGER);
+      filter.addValueChangeListener(e -> listShop(e.getValue()));
 
-    shopGrid
-        .asSingleSelect()
-        .addValueChangeListener(
-            e -> {
-              shopForm.editShop(e.getValue());
-            });
-    addShop.addClickListener(e -> shopForm.editShop(new Shop()));
-    shopForm.setChangeHandler(
-        () -> {
-          shopForm.setVisible(false);
-          listShop(filter.getValue());
-        });
-    listShop(null);
+      shopGrid
+              .asSingleSelect()
+              .addValueChangeListener(
+                      e -> {
+                          shopForm.editShop(e.getValue());
+                      });
+      addShop.addClickListener(e -> {
+          shopForm.getShipPlate().setEnabled(true);
+          shopForm.editShop(new Shop());
+      });
+      shopForm.setChangeHandler(
+              () -> {
+                  shopForm.setVisible(false);
+                  listShop(filter.getValue());
+              });
+      listShop(null);
   }
 
   void listShop(String filterText) {

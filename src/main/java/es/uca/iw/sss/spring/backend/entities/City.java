@@ -10,9 +10,9 @@ public class City {
     @GeneratedValue(strategy =  GenerationType.AUTO)
     @Column(name = "id", unique = true, nullable = false)
     private Long id;
-    @Column
+    @Column(nullable = false)
     private String name = "";
-    @Column
+    @Column(nullable = false)
     private String pic = "";
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "city")
     private Set<AdviceCity> adviceSet = new HashSet<>();

@@ -52,23 +52,26 @@ public class ManageEventView extends VerticalLayout implements HasUrlParameter<S
         "price",
         "ship.licensePlate");
     eventGrid.getColumnByKey("ship.licensePlate").setHeader("Ship License Plate");
-    filter.setPlaceholder("Filter by name");
-    filter.setValueChangeMode(ValueChangeMode.EAGER);
-    filter.addValueChangeListener(e -> listEvent(e.getValue()));
+      filter.setPlaceholder("Filter by name");
+      filter.setValueChangeMode(ValueChangeMode.EAGER);
+      filter.addValueChangeListener(e -> listEvent(e.getValue()));
 
-    eventGrid
-        .asSingleSelect()
-        .addValueChangeListener(
-            e -> {
-              eventForm.editEvent(e.getValue());
-            });
-    addEvent.addClickListener(e -> eventForm.editEvent(new Event()));
-    eventForm.setChangeHandler(
-        () -> {
-          eventForm.setVisible(false);
-          listEvent(filter.getValue());
-        });
-    listEvent(null);
+      eventGrid
+              .asSingleSelect()
+              .addValueChangeListener(
+                      e -> {
+                          eventForm.editEvent(e.getValue());
+                      });
+      addEvent.addClickListener(e -> {
+          eventForm.getShipPlate().setEnabled(true);
+          eventForm.editEvent(new Event());
+      });
+      eventForm.setChangeHandler(
+              () -> {
+                  eventForm.setVisible(false);
+                  listEvent(filter.getValue());
+              });
+      listEvent(null);
   }
 
   void listEvent(String filterText) {

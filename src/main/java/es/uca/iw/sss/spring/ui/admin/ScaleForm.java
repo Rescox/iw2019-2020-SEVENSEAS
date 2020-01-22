@@ -117,14 +117,18 @@ public class ScaleForm extends VerticalLayout implements KeyNotifier {
     if (scale.getCity() != null) {
       cityName.setValue(scale.getCity().getName());
     } else {
-      cityName.setValue("");
+        cityName.setValue("");
     }
-    setVisible(true);
+      setVisible(true);
 
-    cityName.focus();
+      cityName.focus();
   }
 
-  public void setChangeHandler(ChangeHandler h) {
-    changeHandler = h;
-  }
+    public void setChangeHandler(ChangeHandler h) {
+        changeHandler = h;
+    }
+
+    public TextField getShipPlate() {
+        return licensePlate;
+    }
 }

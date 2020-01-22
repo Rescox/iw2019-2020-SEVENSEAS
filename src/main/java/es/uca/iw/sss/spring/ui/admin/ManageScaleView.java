@@ -45,23 +45,26 @@ public class ManageScaleView extends VerticalLayout implements HasUrlParameter<S
     scaleGrid.getColumnByKey("city.id").setHeader("Id City");
     scaleGrid.getColumnByKey("ship.id").setHeader("Id Ship");
 
-    filter.setPlaceholder("Filter by date");
-    filter.setValueChangeMode(ValueChangeMode.EAGER);
-    filter.addValueChangeListener(e -> listScales(e.getValue()));
+      filter.setPlaceholder("Filter by date");
+      filter.setValueChangeMode(ValueChangeMode.EAGER);
+      filter.addValueChangeListener(e -> listScales(e.getValue()));
 
-    scaleGrid
-        .asSingleSelect()
-        .addValueChangeListener(
-            e -> {
-              scaleForm.editScale(e.getValue());
-            });
-    addScale.addClickListener(e -> scaleForm.editScale(new Scale()));
-    scaleForm.setChangeHandler(
-        () -> {
-          scaleForm.setVisible(false);
-          listScales(filter.getValue());
-        });
-    listScales(null);
+      scaleGrid
+              .asSingleSelect()
+              .addValueChangeListener(
+                      e -> {
+                          scaleForm.editScale(e.getValue());
+                      });
+      addScale.addClickListener(e -> {
+          scaleForm.getShipPlate().setEnabled(true);
+          scaleForm.editScale(new Scale());
+      });
+      scaleForm.setChangeHandler(
+              () -> {
+                  scaleForm.setVisible(false);
+                  listScales(filter.getValue());
+              });
+      listScales(null);
   }
 
   void listScales(String filterText) {

@@ -101,4 +101,5 @@ public class CityForm extends VerticalLayout implements KeyNotifier {
   public void setChangeHandler(ChangeHandler h) {
     changeHandler = h;
   }
+
 }
