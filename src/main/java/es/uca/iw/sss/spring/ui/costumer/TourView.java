@@ -10,11 +10,14 @@ import com.vaadin.flow.component.html.H3;
 import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
+import com.vaadin.flow.component.textfield.NumberField;
 import com.vaadin.flow.component.textfield.TextField;
 import com.vaadin.flow.data.provider.ListDataProvider;
 import com.vaadin.flow.data.renderer.NativeButtonRenderer;
 import com.vaadin.flow.data.renderer.TemplateRenderer;
 import com.vaadin.flow.data.value.ValueChangeMode;
+import com.vaadin.flow.dom.Element;
+import com.vaadin.flow.function.ValueProvider;
 import com.vaadin.flow.router.PageTitle;
 import com.vaadin.flow.router.Route;
 import es.uca.iw.sss.spring.backend.entities.Account;
@@ -32,7 +35,10 @@ import org.apache.commons.lang3.StringUtils;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
+import java.util.Optional;
 import java.util.Set;
+
+import static com.vaadin.flow.component.orderedlayout.FlexComponent.Alignment.CENTER;
 
 //import javax.management.Notification;
 
@@ -106,13 +112,26 @@ public class TourView<dialog> extends VerticalLayout {
                 .setDetailsVisible(item, !tourGrid.isDetailsVisible(item)))).setHeader("More Details");
         ////Hasta aqui es el boton.
 
+        ///Campo numerico del grid
+        //tourGrid.addColumn(item -> createNumberField()).setHeader("Numero de Reservas").setKey("Numero");
+
+
         //Voton de Reservar del Gird.
         tourGrid.addComponentColumn(item -> createReservationButton(tourGrid, item, account, accountService)).setHeader("Haz tu Reserva").setId("Reserve");
-
         tourGrid.addThemeVariants(GridVariant.LUMO_NO_BORDER,
                 GridVariant.LUMO_NO_ROW_BORDERS, GridVariant.LUMO_ROW_STRIPES);
         verticalLayout1.add(tourGrid);
         add(header,filter,verticalLayout1);
+    }
+
+    private NumberField createNumberField(){
+        NumberField numberField = new NumberField();
+        numberField.setValue(1d);
+        numberField.setHasControls(true);
+        numberField.setMin(1);
+        numberField.setMax(10);
+        numberField.getValue();
+        return numberField;
     }
 
     private Component createReservationButton(Grid<Tour> tourGrid, Tour item, Account account, AccountService accountService) {
@@ -134,11 +153,19 @@ public class TourView<dialog> extends VerticalLayout {
             dialog.setCloseOnOutsideClick(false);
             //Opciones del cuadro emergente o dialog.
 
+            //Campo Numerico del número de reservas.
+            NumberField numberField = new NumberField();
+            numberField.setValue(1d);
+            numberField.setHasControls(true);
+            numberField.setMin(1);
+            numberField.setMax(10);
+
             Button confirmButton = new Button("Confirmar", event -> {
                 ListDataProvider<Tour> dataProvider = (ListDataProvider<Tour>) tourGrid
                         .getDataProvider();
                 account.setServiceName(item.getName());
-                account.setPrice(Double.valueOf(item.getPrice()));
+                Double numero = numberField.getValue();
+                account.setPrice(Double.valueOf((numero*(item.getPrice()))));
                 account.setDate(Date.from(LocalDate.now().atStartOfDay(ZoneId.systemDefault()).toInstant()));
                 account.setOwner(SecurityUtils.getUser());
                 accountService.saveAccount(account);
@@ -161,7 +188,15 @@ public class TourView<dialog> extends VerticalLayout {
 
             });
 
-            dialog.add(confirmButton, cancelButton);
+            //Opciones de formateo del cuadro de dialogo
+            HorizontalLayout hor1 = new HorizontalLayout();
+            VerticalLayout ver1 = new VerticalLayout();
+            H3 Pregunta = new H3("¿Para cuantas personas quieres reservar?");
+            ver1.setAlignItems(CENTER);
+            hor1.add(confirmButton,cancelButton);
+            ver1.add(Pregunta,numberField,hor1);
+
+            dialog.add(ver1);
             dialog.open();
 
 
