@@ -1,7 +1,9 @@
 package es.uca.iw.sss.spring.ui.costumer;
 
+import com.vaadin.flow.component.UI;
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.html.Image;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -25,6 +27,7 @@ import java.util.Set;
 public class WelcomeView extends VerticalLayout {
 
   private final WeatherService weatherService;
+  private final VerticalLayout scaleDetail = new VerticalLayout();
 
   public WelcomeView(WeatherService weatherService) {
     this.weatherService = weatherService;
@@ -33,45 +36,29 @@ public class WelcomeView extends VerticalLayout {
       User currentUser = SecurityUtils.getUser();
       Ship currentShip = currentUser.getShip();
       Set<Scale> scaleSet = currentShip.getScaleSet();
-      H2 shipMap = new H2("Map");
-      Grid<Ship> gridShip = new Grid<>(Ship.class);
+      H2 shipName = new H2("Ship name: " + currentShip.getName());
+      H2 shipLicense = new H2("Ship license: " + currentShip.getLicensePlate());
       Grid<Scale> gridScale = new Grid<>(Scale.class);
-      gridShip.setColumns("name", "licensePlate");
       gridScale.setColumns("date", "city.name");
+
+
+
       gridScale
           .asSingleSelect()
           .addValueChangeListener(
-              e -> {
-                this.scaleDetails(e.getValue());
-              });
+              e -> scaleDetails(e.getValue()));
 
       gridScale.setItems(scaleSet);
-      gridShip.setItems(currentShip);
-      verticalLayout1.add(gridShip, gridScale);
-      add(verticalLayout1);
+      verticalLayout1.add(shipName, shipLicense, gridScale);
+      if(getComponentCount() > 2)
+          remove(verticalLayout1);
+      add(verticalLayout1, scaleDetail);
     }
   }
 
   public void scaleDetails(Scale scale) {
-    DecimalFormat df2 = new DecimalFormat("##.##");
-    Weather weather = weatherService.getWeather(scale.getCity().getName());
-    double temp = weather.getTemperature() - 273.15;
-    H2 temperature =
-        new H2("Temperature in " + scale.getCity().getName() + " about " + df2.format(temp) + "ºC");
-    H2 cloud = new H2("Clouds: " + weather.getWeatherDescription());
-    H2 H2gallery = new H2("Gallery");
-    VerticalLayout details = new VerticalLayout();
-    VerticalLayout cityWeather = new VerticalLayout();
-    FormLayout gallery = new FormLayout();
-    gallery.setResponsiveSteps(
-        new FormLayout.ResponsiveStep("0", 2, FormLayout.ResponsiveStep.LabelsPosition.ASIDE));
+    Long id_scale = scale.getId();
+    UI.getCurrent().navigate(ScaleDetails.class, id_scale);
 
-    gallery.add(H2gallery);
-    for (int i = 0; i < 7; i++) {
-      gallery.add(new Image(scale.getCity().getPic() + "/img" + i + ".jpeg", "asdasd"));
-    }
-    cityWeather.add(temperature, cloud);
-    details.add(gallery, cityWeather);
-    add(details);
   }
 }

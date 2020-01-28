@@ -2,6 +2,7 @@ package es.uca.iw.sss.spring.ui.costumer;
 
 import com.vaadin.flow.component.formlayout.FormLayout;
 import com.vaadin.flow.component.grid.Grid;
+import com.vaadin.flow.component.html.H1;
 import com.vaadin.flow.component.html.H2;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
@@ -11,6 +12,9 @@ import es.uca.iw.sss.spring.backend.entities.*;
 import es.uca.iw.sss.spring.backend.services.*;
 import es.uca.iw.sss.spring.ui.common.MainLayout;
 import org.springframework.security.access.annotation.Secured;
+
+import java.util.Iterator;
+import java.util.List;
 
 import static es.uca.iw.sss.spring.utils.SecurityUtils.getUser;
 
@@ -36,6 +40,7 @@ public class AccountView extends FormLayout {
         H2 DatosRestaurante = new H2("Restaurant Details");
         H2 DatosSpa = new H2("Spa Details");
         H2 DatosEvent = new H2("Event Details");
+        accountGrid.setColumns("date", "price", "serviceName");
         userGrid.setColumns("firstName", "lastName", "dni", "email", "user");
         restaurantGrid.setColumns("restaurant.name", "date");
         spaGrid.setColumns("spa.name","price","date");
@@ -44,14 +49,29 @@ public class AccountView extends FormLayout {
         accountGrid.setItems(accountService.findByUser(getUser()));
         spaGrid.setItems(spaService.findByUser(getUser()));
         eventGrid.setItems(eventService.findByUser(getUser()));
+        List<Account> accountList = accountService.findByUser(getUser());
+        List<SpaReservation> spaList = spaService.findByUser(getUser());
+        List<EventReservation> eventReservations = eventService.findByUser(getUser());
+        float totalSpent = 0;
+        Iterator<Account> itAccount = accountList.iterator();
+        Iterator<SpaReservation> itSpa = spaList.iterator();
+        Iterator<EventReservation> itReservation = eventReservations.iterator();
+        while(itAccount.hasNext()) {
+            totalSpent += itAccount.next().getPrice();
+        }
+        while(itReservation.hasNext()) {
+            totalSpent += itReservation.next().getPrice();
+        }
+        while(itSpa.hasNext()) {
+            totalSpent += itSpa.next().getPrice();
+        }
+        H1 totalspent =new H1 ("Dinero Total Gastado: " + totalSpent);
 
         userGrid.setMaxHeight("100px");
         userGrid.setItems(getUser());
 
         VerticalLayout content = new VerticalLayout();
-        HorizontalLayout HL1 = new HorizontalLayout();
-        HL1.add(DatosPersonales);
-        content.add(HL1, userGrid, DatosCuenta, accountGrid, DatosRestaurante, restaurantGrid, DatosSpa, spaGrid, DatosEvent, eventGrid);
+        content.add(DatosCuenta, accountGrid, DatosRestaurante, restaurantGrid, DatosSpa, spaGrid, DatosEvent, eventGrid, totalspent);
         add(content);
     }
 
