@@ -8,6 +8,7 @@ import com.vaadin.flow.component.notification.Notification;
 import com.vaadin.flow.component.orderedlayout.HorizontalLayout;
 import com.vaadin.flow.component.orderedlayout.VerticalLayout;
 import com.vaadin.flow.component.textfield.TextField;
+import com.vaadin.flow.data.binder.BeanValidationBinder;
 import com.vaadin.flow.spring.annotation.SpringComponent;
 import com.vaadin.flow.spring.annotation.UIScope;
 import es.uca.iw.sss.spring.backend.entities.Ship;
@@ -25,6 +26,7 @@ public class ShipForm extends VerticalLayout implements KeyNotifier {
     private TextField licensePlate = new TextField("License Plate");
     private TextField legend = new TextField("Legend");
     private ShipService shipService;
+    private BeanValidationBinder<Ship> binder = new BeanValidationBinder<>(Ship.class);
     private Button save = new Button("Save", VaadinIcon.CHECK.create());
     private Button cancel = new Button("Reset");
     private Button delete = new Button("Delete", VaadinIcon.TRASH.create());
@@ -36,6 +38,8 @@ public class ShipForm extends VerticalLayout implements KeyNotifier {
         this.shipRepository = shipRepository;
         shipService = ShipService.getInstance(shipRepository);
         add(name,licensePlate,plane,legend,actions);
+
+        binder.bindInstanceFields(this);
 
         licensePlate.addValueChangeListener(e -> {
             if(shipService.getLicensePlate(licensePlate.getValue()) != null && ship == null) {
@@ -84,6 +88,8 @@ public class ShipForm extends VerticalLayout implements KeyNotifier {
         } else {
             ship = shipEdit;
         }
+
+        binder.setBean(ship);
 
         if (ship.getName() != null) {
             name.setValue(ship.getName());

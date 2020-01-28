@@ -1,6 +1,7 @@
 package es.uca.iw.sss.spring.backend.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class Scale {
@@ -9,6 +10,7 @@ public class Scale {
   @Column(name = "id", unique = true, nullable = false)
   private Long id;
 
+  @NotEmpty(message = "This field is required")
   @Column(nullable = false)
   private String date = "";
 

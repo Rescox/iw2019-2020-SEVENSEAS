@@ -1,6 +1,7 @@
 package es.uca.iw.sss.spring.backend.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -11,15 +12,19 @@ public class Ship {
   @Column(name = "id", unique = true, nullable = false)
   private Long id;
 
+  @NotEmpty(message = "This field is required")
   @Column(unique = true, nullable = false)
   private String licensePlate = "";
 
+  @NotEmpty(message = "This field is required")
   @Column(nullable = false)
   private String name = "";
 
+  @NotEmpty(message = "This field is required")
   @Column(nullable = false)
   private String plane = "";
 
+  @NotEmpty(message = "This field is required")
   @Column(nullable = false)
   private String legend = "";
 

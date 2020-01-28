@@ -1,6 +1,7 @@
 package es.uca.iw.sss.spring.backend.entities;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 
 @Entity
 public class AdviceCity {
@@ -8,6 +9,7 @@ public class AdviceCity {
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "id", unique = true, nullable = false)
   private Long id;
+
 
   @Column(nullable = false)
   private String advice = "";
