@@ -26,7 +26,7 @@ public class ShipService {
         return repoShip.findAll();
     }
 
-    public Ship findById(int id) {
+    public Ship findById(long id) {
         return repoShip.findById(id);
     }
 
