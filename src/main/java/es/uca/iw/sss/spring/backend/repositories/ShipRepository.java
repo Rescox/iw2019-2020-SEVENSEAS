@@ -5,7 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface ShipRepository extends JpaRepository<Ship, Long> {
-  Ship findById(int id);
+  Ship findById(long id);
 
   Ship findByLicensePlate(String licensePlate);
 
